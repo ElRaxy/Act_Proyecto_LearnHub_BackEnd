@@ -3,13 +3,13 @@ const mongoose = require('mongoose')
 const enrollmentsSchema = new mongoose.Schema({
   courseId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'courses',
+    ref: 'course',
     required: true,
     unique: true,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
+    ref: 'user',
     required: true,
     unique: true,
   },
@@ -28,6 +28,6 @@ const enrollmentsSchema = new mongoose.Schema({
   }
 })
 
-const enrollments = mongoose.model('courses', coursesSchema)
+const enrollments = mongoose.model('enrollment', enrollmentsSchema)
 
 module.exports = enrollments
