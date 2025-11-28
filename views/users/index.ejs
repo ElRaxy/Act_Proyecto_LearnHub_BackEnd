@@ -1,18 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lista de Usuarios</title>
-  </head>
-  <body>
-    <h1>Lista de usuarios</h1>
-    <ul>
-      <% users.forEach(u => { %>
-      <li><%= u.nombre %> - <%= u.email %></li>
-      <% }) %>
-    </ul>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/styles.css">
+  <title>Lista de Usuarios</title>
+</head>
+<body>
+  <h1>Lista de Usuarios</h1>
+  <% if (users.length === 0) { %>
+    <p>No hay usuarios registrados</p>
+  <% } else { %>
+    <% users.forEach(u => { %>
+      <div>
+        <p>Nombre: <%= u.firstName %> <%= u.lastName %></p>
+        <p>Email: <%= u.email %></p>
+        <p>DNI: <%= u.dni %></p>
+        <a href="/users/<%= u._id %>/edit">Editar</a>
+        <form action="/users/<%= u._id %>?_method=DELETE" method="POST" style="display:inline;">
+          <button type="submit">Eliminar</button>
+        </form>
+      </div>
+      <hr />
+    <% }) %>
+  <% } %>
 
-    <a href="/users/new">Nuevo Usuario</a>
-  </body>
+  <a href="/users/new">Nuevo Usuario</a>
+</body>
 </html>
