@@ -1,4 +1,3 @@
-const e = require('cors')
 const courseService = require('../services/course.service')
 
 function formatDate(date) {
