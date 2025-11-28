@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Nuevo Usuario</title>
+</head>
+<body>
+  <div class="bg"></div>
+  <header><%- include('../partials/header') %></header>
+
+  <div class="wrap fadeUp" style="--d: 0.2s">
+    <h1>Nuevo Usuario</h1>
+
+    <form action="<%= baseUrlUsers %>" method="POST" class="user-form">
+      <label for="firstName">Nombre:</label>
+      <input type="text" name="firstName" id="firstName" required />
+
+      <label for="lastName">Apellido:</label>
+      <input type="text" name="lastName" id="lastName" required />
+
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" required />
+
+      <label for="dni">DNI:</label>
+      <input type="text" name="dni" id="dni" required />
+
+      <label for="phone">Teléfono:</label>
+      <input type="text" name="phone" id="phone" required />
+
+      <label for="birthDate">Fecha de Nacimiento:</label>
+      <input type="date" name="birthDate" id="birthDate" required />
+
+      <label for="profile">Perfil:</label>
+      <select name="profile" id="profile" required>
+        <option value="ADMINISTRADOR">Administrador</option>
+        <option value="PROFESOR">Profesor</option>
+        <option value="ALUMNO">Alumno</option>
+      </select>
+
+      <button type="submit" class="btn btn-add">Crear Usuario</button>
+    </form>
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

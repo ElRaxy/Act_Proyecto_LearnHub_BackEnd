@@ -1,59 +1,133 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/styles.css">
-  <title>Lista de Usuarios</title>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title><%= tituloEJS %></title>
+  </head>
+  <body>
+    <div class="bg"></div>
+    <header><%- include('../partials/header') %></header>
 
-<body>
-  <!-- Fondo animado -->
-  <div class="bg"></div>
+    <div class="wrap fadeUp" style="--d: 0.2s">
+      <!-- ALERTA FLOTANTE -->
+      <div id="alert" class="custom-alert" style="display: none"></div>
 
-  <!-- Contenedor general -->
-  <div class="wrap fadeUp" style="--d: .2s">
-    <h1>Gestión de Usuarios</h1>
-
-    <!-- Botón añadir usuario -->
-    <div class="actions">
-      <a href="/users/new" class="btn"><i class="fa-solid fa-plus"></i> Nuevo Usuario</a>
-    </div>
-
-    <% if (users.length === 0) { %>
-
-      <p>No hay usuarios registrados.</p>
-
-    <% } else { %>
-
-      <div class="options">
-        <% users.forEach(u => { %>
-
-        <div class="item fadeUp" style="--d: .3s">
-          <div class="iconFrame">
-            <i class="fa-solid fa-user"></i>
-          </div>
-
-          <div>
-            <p><strong>Nombre:</strong> <%= u.firstName %> <%= u.lastName %></p>
-            <p><strong>Email:</strong> <%= u.email %></p>
-            <p><strong>DNI:</strong> <%= u.dni %></p>
-          </div>
-
-          <div>
-            <a href="/users/<%= u._id %>/edit" class="btn">Editar</a>
-
-            <form action="/users/<%= u._id %>?_method=DELETE" method="POST" style="display:inline;">
-              <button type="submit" class="btn">Eliminar</button>
-            </form>
-          </div>
-        </div>
-
-        <% }) %>
+      <!-- BOTÓN CREAR NUEVO -->
+      <div class="actions">
+        <a href="<%= baseUrlUsers %>/new" class="btn btn-add"
+          >Crear Nuevo Usuario</a
+        >
       </div>
 
-    <% } %>
+      <!-- TABLA DE USUARIOS -->
+      <div class="table-container">
+        <table class="courses-table">
+          <thead>
+            <tr>
+              <th>DNI</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Perfil</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(user => { %>
+            <tr>
+              <td><%= user.dni %></td>
+              <td><%= user.firstName %></td>
+              <td><%= user.lastName %></td>
+              <td><%= user.email %></td>
+              <td><%= user.phone %></td>
+              <td><%= user.profile %></td>
+              <td>
+                <a
+                  href="<%= baseUrlUsers %>/show/<%= user._id %>"
+                  class="btn btn-show"
+                  >Ver</a
+                >
+                <a
+                  href="<%= baseUrlUsers %>/edit/<%= user._id %>"
+                  class="btn btn-edit"
+                  >Editar</a
+                >
+                <form
+                  action="<%= baseUrlUsers %>/<%= user._id %>?_method=DELETE"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <input type="hidden" name="_method" value="DELETE" />
+                  <button type="submit" class="btn btn-delete">Borrar</button>
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-  </div>
-</body>
+    <%- include('../partials/footer') %>
+
+    <!-- SCRIPT ALERTA BORRADO
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Solo forms de borrar
+        const deleteForms = document.querySelectorAll(
+          'form input[name="_method"][value="DELETE"]'
+        )
+
+        deleteForms.forEach(hiddenInput => {
+          const form = hiddenInput.closest('form')
+          form.addEventListener('submit', async e => {
+            e.preventDefault()
+
+            if (!confirm('¿Seguro que quieres borrar este usuario?')) return
+
+            const action = form.action
+            const method = hiddenInput.value || 'POST'
+
+            console.log(
+              'Intentando borrar usuario en:',
+              action,
+              'con método:',
+              method
+            )
+
+            try {
+              const res = await fetch(action, { method })
+
+              console.log('Respuesta del servidor:', res.status)
+
+              if (res.ok) {
+                // Mostrar alerta tipo toast
+                const alertBox = document.getElementById('alert')
+                alertBox.textContent = 'Usuario borrado correctamente'
+                alertBox.classList.add('show')
+
+                // Quitar fila de la tabla
+                form.closest('tr').remove()
+                console.log('Usuario borrado y fila eliminada de la tabla')
+
+                // Ocultar después de 3s
+                setTimeout(() => {
+                  alertBox.classList.remove('show')
+                }, 3000)
+              } else {
+                console.log('Error al borrar usuario en el servidor')
+                alert('Error al borrar usuario')
+              }
+            } catch (err) {
+              console.error('Error en la petición:', err)
+              alert('Error en la petición')
+            }
+          })
+        })
+      })
+    </script> -->
+  </body>
 </html>
