@@ -2,16 +2,15 @@ const express = require('express')
 const router = express.Router()
 const courseController = require('../controllers/course.controller')
 
-// Rutas
-//GET /courses
-router.get('/', courseController.getAllCourses)
+// Vistas
+router.get('/new', courseController.showCreateForm)
+router.get('/:id/edit', courseController.showEditForm)
 router.get('/:id', courseController.getCourseById)
 
-//POST y PATCH /courses
+// CRUD reales
+router.get('/', courseController.getAllCourses)
 router.post('/', courseController.createCourse)
 router.patch('/:id', courseController.updateCourse)
-
-//DELETE /courses
 router.delete('/:id', courseController.deleteCourse)
 
 module.exports = router

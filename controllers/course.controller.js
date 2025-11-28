@@ -1,79 +1,85 @@
-const courseService = require('../services/course.service')
+const Course = require('../models/courses.model')
+const baseUrlCourses = `/api/${process.env.API_VERSION}/courses`
 
-function formatDate(date) {
-  return new Date(date).toLocaleDateString('es-ES')
-}
-
+// GET ALL COURSES (vista)
 exports.getAllCourses = async (req, res) => {
-  const courses = await courseService.getAllCourses()
-  res.render('courses/index', { courses, formatDate })
+    try {
+        const courses = await Course.find()
+
+        res.render('courses/index', {
+            title: 'Cursos disponibles',
+            courses,
+            baseApi: baseUrlCourses
+        })
+    } catch (error) {
+        res.status(500).send('Error obteniendo cursos: ' + error)
+    }
 }
 
+// GET BY ID (vista)
 exports.getCourseById = async (req, res) => {
-  try {
-    const course = await courseService.getCourseById(req.params.id)
-    res.status(200).json(course)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener el curso' })
-  }
+    try {
+        const course = await Course.findById(req.params.id)
+
+        res.render('courses/show', {
+            title: course.name,
+            course,
+            baseApi: baseUrlCourses
+        })
+    } catch (error) {
+        res.status(500).send('Error obteniendo curso: ' + error)
+    }
 }
 
-exports.showNewCourse = async (req, res) => {
-  res.locals.tituloEJS = 'Nuevo Curso'
-  res.render('courses/new')
+// FORM NEW (vista)
+exports.showCreateForm = (req, res) => {
+    res.render('courses/new', {
+        title: 'Nuevo curso',
+        baseApi: baseUrlCourses
+    })
 }
 
+// CREATE (acción)
 exports.createCourse = async (req, res) => {
-  try {
-    const course = await courseService.createCourse(req.body)
-    res.status(201).json(course)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al crear el curso' })
-  }
+    try {
+        await Course.create(req.body)
+        res.redirect(baseUrlCourses)
+    } catch (error) {
+        res.status(500).send('Error creando curso: ' + error)
+    }
 }
 
-exports.showEditCourse = async (req, res) => {
-  try {
-    const course = await courseService.getCourseById(req.params.id)
-    res.locals.tituloEJS = 'Editar Curso'
-    res.render('courses/edit', { course })
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener el curso' })
-  }
+// FORM EDIT (vista)
+exports.showEditForm = async (req, res) => {
+    try {
+        const course = await Course.findById(req.params.id)
+
+        res.render('courses/edit', {
+            title: 'Editar curso',
+            course,
+            baseApi: baseUrlCourses
+        })
+    } catch (error) {
+        res.status(500).send('Error obteniendo datos: ' + error)
+    }
 }
 
+// UPDATE (acción)
 exports.updateCourse = async (req, res) => {
-  try {
-    const course = await courseService.updateCourse(req.params.id, req.body)
-    res.status(200).json(course)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar el curso' })
-  }
+    try {
+        await Course.findByIdAndUpdate(req.params.id, req.body)
+        res.redirect(`${baseUrlCourses}/${req.params.id}`)
+    } catch (error) {
+        res.status(500).send('Error actualizando curso: ' + error)
+    }
 }
 
+// DELETE (acción)
 exports.deleteCourse = async (req, res) => {
-  try {
-    const course = await courseService.deleteCourse(req.params.id)
-    res.status(200).json(course)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al eliminar el curso' })
-  }
-}
-
-exports.findByUser = async (req, res) => {
-  try {
-    const courses = await courseService.getAllCoursesByUser(req.params.id)
-    res.status(200).json(courses)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener todos los cursos' })
-  }
-}
-
-exports.findByEnrollment = async (req, res) => {
-  try {
-    const courses = await courseService.getAllCoursesByEnrollment(req.params.id)
-    res.status(200).json(courses)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener todos los cursos' })
-  }
+    try {
+        await Course.findByIdAndDelete(req.params.id)
+        res.redirect(baseUrlCourses)
+    } catch (error) {
+        res.status(500).send('Error eliminando curso: ' + error)
+    }
 }
