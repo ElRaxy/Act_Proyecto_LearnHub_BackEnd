@@ -1,0 +1,79 @@
+/* users.css */
+
+/* Contenedor general de la lista */
+.wrap h1 {
+  font-size: 3.5rem;
+  color: #dbe9ff;
+  margin-bottom: 4rem;
+  text-shadow: 0 0 10px rgba(100,160,255,0.3);
+}
+
+/* Párrafo cuando no hay usuarios */
+.wrap p {
+  font-size: 1.4rem;
+  color: #aabbee;
+}
+
+/* Botones dentro de las tarjetas */
+.btn,
+.item form button {
+  background: rgba(120,160,255,0.15);
+  border: 1px solid rgba(120,160,255,0.3);
+  color: #e2ebff;
+  padding: 0.6rem 1.6rem;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  margin: 0 0.4rem;
+}
+
+/* Hover para botones */
+.btn:hover,
+.item form button:hover {
+  background: rgba(100,150,255,0.25);
+  border-color: #5c8bff;
+  box-shadow: 0 0 16px rgba(100,150,255,0.35);
+}
+
+/* Sección de datos del usuario dentro de la tarjeta */
+.item div p {
+  margin: 0.4rem 0;
+  font-size: 1.3rem;
+  color: #e8edff;
+}
+
+/* Botón 'Nuevo Usuario' */
+a.item i {
+  color: #8fb9ff;
+}
+
+a.item:hover i {
+  color: #a9d0ff;
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+  .item {
+    width: 300px;
+    height: auto;
+    padding: 1.5rem 1rem;
+  }
+
+  .iconFrame {
+    width: 140px;
+    height: 140px;
+  }
+
+  .item p {
+    font-size: 1rem;
+  }
+
+  .btn,
+  .item form button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1.2rem;
+  }
+}
