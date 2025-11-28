@@ -2,15 +2,19 @@ const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/user.controller')
 
-router.get('/users', userController.getAllUsers)
-router.get('/users/new', userController.showNewUser)
-router.post('/users', userController.createUser)
-
-router.get('/users/:id', userController.getById)
-router.get('/users/:id/edit', userController.showEditUser)
-router.put('/users/:id', userController.editUser)
-router.delete('/users/:id', userController.deleteUser)
-
-router.get('/users/dni/:dni', userController.findByDni)
+// Listar usuarios
+router.get('/', userController.getAllUsers)
+// Formulario nuevo usuario
+router.get('/new', userController.showNewUser)
+// Crear usuario
+router.post('/', userController.createUser)
+// Editar usuario
+router.get('/:id/edit', userController.showEditUser)
+// Actualizar usuario
+router.put('/:id', userController.editUser)
+// Borrar usuario
+router.delete('/:id', userController.deleteUser)
+// Buscar por DNI
+router.get('/dni/:dni', userController.findByDni)
 
 module.exports = router
