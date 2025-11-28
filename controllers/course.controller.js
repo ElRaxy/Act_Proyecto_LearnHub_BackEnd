@@ -1,13 +1,13 @@
 const e = require('cors')
 const courseService = require('../services/course.service')
 
+function formatDate(date) {
+  return new Date(date).toLocaleDateString('es-ES')
+}
+
 exports.getAllCourses = async (req, res) => {
-  try {
-    const courses = await courseService.getAllCourses()
-    res.status(200).json(courses)
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener todos los cursos' })
-  }
+  const courses = await courseService.getAllCourses()
+  res.render('courses/index', { courses, formatDate })
 }
 
 exports.getCourseById = async (req, res) => {
