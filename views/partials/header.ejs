@@ -1,9 +1,23 @@
-<header>
-  <a href="/" style="text-decoration: none;"><h2>LearnHub</h2></a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <nav>
-    <a href="/">Inicio</a>
-    <a href="/api/v1/courses">Cursos</a>
-    <a href="/api/v1/users">Usuarios</a>
-  </nav>
-</header>
+  <title><%= tituloEJS %></title>
+
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" type="image/svg+xml" href="/image/favicon.svg" />
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header>
+    <h2><%= tituloEJS %></h2>
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="/api/v1/courses">Cursos</a>
+      <a href="/api/v1/enrollments">Inscripciones</a>
+      <a href="/api/v1/users">Usuarios</a>
+    </nav>
+  </header>

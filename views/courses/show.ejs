@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+
+<div class="wrap">
+  <div class="course-detail-card">
+    <h1><%= course.name %></h1>
+
+    <p class="description"><%= course.description %></p>
+
+    <ul class="detail-list">
+      <li><strong>Categoría:</strong> <%= course.category %></li>
+      <li><strong>ID:</strong> <%= course._id %></li>
+    </ul>
+
+    <div class="actions">
+      <a href="<%= baseApi %>" class="btn btn-back">⬅ Volver</a>
+      <a href="<%= baseApi %>/<%= course._id %>/edit" class="btn btn-edit">Editar</a>
+
+      <form action="<%= baseApi %>/<%= course._id %>?_method=DELETE" method="POST">
+        <button class="btn btn-delete">Eliminar</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
