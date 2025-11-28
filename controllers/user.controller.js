@@ -4,7 +4,7 @@ const userService = require('../services/user.service')
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await userService.getAllUsers()
-    console.log(users) // para verificar que llegan
+    res.locals.tituloEJS = 'Listado de Usuarios'
     res.render('users/index', { users })
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener usuarios' })
