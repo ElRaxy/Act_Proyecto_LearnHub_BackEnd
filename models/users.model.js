@@ -51,7 +51,7 @@ const usersSchema = new mongoose.Schema({
   },
 })
 
-const usersModel = mongoose.model('user', usersSchema)
-
+// Usa exactamente la colección "usuarios"
+const usersModel = mongoose.model('user', usersSchema, 'usuarios')
 
 module.exports = usersModel

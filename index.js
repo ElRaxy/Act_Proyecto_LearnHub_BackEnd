@@ -6,9 +6,14 @@ const app = express()
 const path = require('path') //npm i path
 const methodOverride = require('method-override') //npm i method-override
 const cors = require('cors') //npm i cors
+const courseRoutes = require('./routes/course.routes')
+const enrollmentRoutes = require('./routes/enrollement.routes')
+const userRoutes = require('./routes/user.routes')
+const baseUrlCourses = `/api/${process.env.API_VERSION}/courses`
+const baseUrlEnrollments = `/api/${process.env.API_VERSION}/enrollments`
+const baseUrlUsers = `/api/${process.env.API_VERSION}/users`
 
 const mongodbConfig = require('./utils/mongodb.config')
-
 
 //SETUP - MIDDLEWARES
 app.use(cors())
@@ -41,6 +46,16 @@ app.get('/', (req, res) => {
     res.send(data)
   })
 })
+app.use(baseUrlCourses, courseRoutes)
+app.use(baseUrlEnrollments, enrollmentRoutes)
+app.use(baseUrlUsers, userRoutes)
+
+//Rutas por defecto
+//Si no se especifica ninguna ruta, redirigir a el index.html
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
+
 
 //LEVANTAR EL SERVER
 app.listen(port, async () => {
