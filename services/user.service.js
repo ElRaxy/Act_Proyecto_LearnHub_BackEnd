@@ -1,18 +1,18 @@
-const usersModel = require('../models/users.model')
+const User = require('../models/user.model')
 
-exports.getAllUsers = async() => await usersModel.find()
+exports.getAllUsers = async () => await User.find()
 
-exports.getById = async(id) => await usersModel.findById(id)
+exports.getById = async (id) => await User.findById(id)
 
 exports.create = async (data) => {
-    const newUser = new usersModel(data)
-    return await newUser.save()
+  const newUser = new User(data)
+  return await newUser.save()
 }
 
 exports.update = async (id, data) => {
-    return await usersModel.findByIdAndUpdate(id, data,{new:true})
+  return await User.findByIdAndUpdate(id, data, { new: true })
 }
 
 exports.delete = async (id) => {
-    return await usersModel.findByIdAndDelete(id)
+  return await User.findByIdAndDelete(id)
 }
