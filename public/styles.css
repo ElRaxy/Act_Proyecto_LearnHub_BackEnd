@@ -1,79 +1,236 @@
-/* users.css */
-
-/* Contenedor general de la lista */
-.wrap h1 {
-  font-size: 3.5rem;
-  color: #dbe9ff;
-  margin-bottom: 4rem;
-  text-shadow: 0 0 10px rgba(100,160,255,0.3);
+/* ============ RESET ============ */
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
 }
 
-/* Párrafo cuando no hay usuarios */
-.wrap p {
-  font-size: 1.4rem;
-  color: #aabbee;
+/* ============ BACKGROUND GLOBAL ============ */
+body {
+ font-family: Arial, sans-serif;
+ min-height: 100vh;
+ color: white;
+
+ /* Layout en columna para header - contenido - footer */
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+
+ background: none;
+ overflow-x: hidden;
 }
 
-/* Botones dentro de las tarjetas */
-.btn,
-.item form button {
-  background: rgba(120,160,255,0.15);
-  border: 1px solid rgba(120,160,255,0.3);
-  color: #e2ebff;
-  padding: 0.6rem 1.6rem;
-  border-radius: 14px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  margin: 0 0.4rem;
+.bg {
+ position: fixed;
+ inset: 0;
+ background: linear-gradient(120deg, #0d0d0d, #111827, #0d0d0d);
+ background-size: 400% 400%;
+ animation: gradientMove 15s ease infinite;
+ z-index: -1;
 }
 
-/* Hover para botones */
-.btn:hover,
-.item form button:hover {
-  background: rgba(100,150,255,0.25);
-  border-color: #5c8bff;
-  box-shadow: 0 0 16px rgba(100,150,255,0.35);
+@keyframes gradientMove {
+ 0% {background-position: 0% 50%;}
+ 50% {background-position: 100% 50%;}
+ 100% {background-position: 0% 50%;}
 }
 
-/* Sección de datos del usuario dentro de la tarjeta */
-.item div p {
-  margin: 0.4rem 0;
-  font-size: 1.3rem;
-  color: #e8edff;
+/* ============ HEADER ============ */
+header {
+ width: 100%;
+ background: rgba(20, 25, 40, 0.85);
+ backdrop-filter: blur(12px);
+ padding: 1rem 2rem;
+
+ border-bottom: 1px solid rgba(120,160,255,0.25);
+
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+
+ position: fixed;
+ top: 0;
+ left: 0;
+ z-index: 100;
+
+ /* Se ve mejor */
+ box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
-/* Botón 'Nuevo Usuario' */
-a.item i {
-  color: #8fb9ff;
+header h2 {
+ margin: 0;
+ color: #dbe9ff;
+ font-weight: 700;
+ letter-spacing: 1px;
 }
 
-a.item:hover i {
-  color: #a9d0ff;
+header nav {
+ display: flex;
+ gap: 2rem;
 }
 
-/* Ajuste responsivo */
+header nav a {
+ color: #7ab4ff;
+ font-weight: 600;
+ text-decoration: none;
+ transition: 0.3s ease;
+}
+
+header nav a:hover {
+ color: #a8c9ff;
+}
+
+/* Evitar que el header tape el contenido */
+body {
+ padding-top: 110px;
+}
+
+/* ============ FOOTER ============ */
+footer {
+ width: 100%;
+ background: rgba(20,25,40,0.75);
+ backdrop-filter: blur(10px);
+ padding: 1.2rem;
+ text-align: center;
+ color: #b8cbff;
+
+ border-top: 1px solid rgba(120,160,255,0.25);
+
+ position: fixed;
+ bottom: 0;
+ left: 0;
+
+ box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+}
+
+/* ============ CONTENIDO PRINCIPAL ============ */
+.wrap {
+ width: 95%;
+ max-width: 1400px;
+ margin-bottom: 140px;
+}
+
+h1 {
+ font-size: 3.5rem;
+ color: #dbe9ff;
+ text-align: center;
+ margin-bottom: 3rem;
+}
+
+/* ============ BOTÓN AÑADIR ============ */
+.actions {
+ display: flex;
+ justify-content: flex-end;
+ margin-bottom: 2rem;
+}
+
+.btn {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+
+ padding: 0.7rem 1.2rem;
+ border-radius: 12px;
+ border: none;
+
+ font-size: 1rem;
+ font-weight: 600;
+ cursor: pointer;
+ text-decoration: none;
+
+ transition: all 0.3s ease;
+}
+
+.btn-add {
+ background-color: #4d8fff;
+ color: white;
+ box-shadow: 0 4px 20px rgba(70,120,255,0.3);
+}
+
+.btn-add:hover {
+ background-color: #6ba0ff;
+ transform: translateY(-3px);
+}
+
+/* Botones coherentes con la estética */
+.btn-edit {
+ background: rgba(120,160,255,0.25);
+ color: #bcd5ff;
+}
+
+.btn-edit:hover {
+ background: rgba(120,160,255,0.4);
+}
+
+.btn-delete {
+ background: rgba(255,80,80,0.25);
+ color: #ffb6b6;
+}
+
+.btn-delete:hover {
+ background: rgba(255,80,80,0.45);
+}
+
+/* ============ TABLA ============ */
+.table-container {
+ width: 100%;
+ overflow-x: auto;
+ padding-bottom: 2rem;
+}
+
+.courses-table {
+ width: 100%;
+ border-collapse: collapse;
+
+ background: rgba(255,255,255,0.05);
+ backdrop-filter: blur(12px);
+ border-radius: 18px;
+
+ overflow: hidden;
+ box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.courses-table th {
+ background: rgba(40,60,100,0.6);
+ color: #9bc5ff;
+ padding: 1.2rem;
+ font-size: 1.1rem;
+}
+
+.courses-table td {
+ padding: 1rem;
+ color: #e5efff;
+ border-bottom: 1px solid rgba(120,160,255,0.12);
+}
+
+.courses-table tr:hover {
+ background: rgba(120,160,255,0.12);
+}
+
+/* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
-  .item {
-    width: 300px;
-    height: auto;
-    padding: 1.5rem 1rem;
-  }
+ h1 {
+  font-size: 2.2rem;
+ }
 
-  .iconFrame {
-    width: 140px;
-    height: 140px;
-  }
+ header {
+  flex-direction: column;
+  text-align: center;
+  gap: 0.7rem;
+ }
 
-  .item p {
-    font-size: 1rem;
-  }
+ header nav {
+  gap: 1rem;
+ }
 
-  .btn,
-  .item form button {
-    font-size: 0.9rem;
-    padding: 0.5rem 1.2rem;
-  }
+ .courses-table {
+  font-size: 0.85rem;
+ }
+}
+
+@media (max-width: 480px) {
+ .btn {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+ }
 }
