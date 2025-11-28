@@ -36,7 +36,11 @@ app.use((req, res, next) => {
 // //Rutas por defecto
 // app.get(/.*/, (req, res) => res.redirect(baseUrlComentarios))
 
-app.get('/', (req, res) => res.send('Hola desde el servidor!'))
+app.get('/', (req, res) => {
+  fs.readFile('./public/index.html', 'utf8', (err, data) => {
+    res.send(data)
+  })
+})
 
 //LEVANTAR EL SERVER
 app.listen(port, async () => {
