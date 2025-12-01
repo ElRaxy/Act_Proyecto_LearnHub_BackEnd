@@ -1,0 +1,45 @@
+<%- include('../partials/header', { title: "Matriculas" }) %>
+<div class="wrap fadeUp" style="--d: 0.2s">
+  <h1>Matriculas</h1>
+
+  <div class="actions">
+    <a href="<%= baseApi %>/new" class="btn btn-add">Crear nueva matricula</a>
+  </div>
+
+  <div class="table-container">
+    <table class="courses-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Curso</th>
+          <th>Fecha de matrícula</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% enrollments.forEach(enrollment => { %>
+          <tr>
+            <td data-label="Nombre">
+              <%= enrollment.userId ? enrollment.userId.firstName + ' ' + enrollment.userId.lastName : 'Usuario eliminado' %>
+            </td>
+            <td data-label="Curso">
+              <%= enrollment.courseId ? enrollment.courseId.title : 'Curso eliminado' %>
+            </td>
+            <td data-label="Fecha de matrícula">
+              <%= enrollment.enrollmentsDate ? enrollment.enrollmentsDate.toISOString().split('T')[0] : '-' %>
+            </td>
+            <td data-label="Acciones">
+              <a href="<%= baseApi %>/<%= enrollment._id %>" class="btn btn-edit">Ver</a>
+              <a href="<%= baseApi %>/<%= enrollment._id %>/edit" class="btn btn-edit">Editar</a>
+              <form action="<%= baseApi %>/<%= enrollment._id %>?_method=DELETE" method="POST" style="display:inline">
+                <button class="btn btn-delete">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%- include('../partials/footer') %>

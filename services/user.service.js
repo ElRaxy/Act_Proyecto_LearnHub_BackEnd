@@ -1,10 +1,10 @@
 const User = require('../models/user.model')
 
 // Traer todos los usuarios
-exports.getAllUsers = async () => await User.find()
+exports.getAllUsers = async () => await User.find().lean()
 
 // Traer usuario por ID
-exports.getById = async (id) => await User.findById(id)
+exports.getById = async (id) => await User.findById(id).lean()
 
 // Crear usuario
 exports.create = async (data) => {

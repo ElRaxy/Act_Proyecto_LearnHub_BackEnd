@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const coursesSchema = new mongoose.Schema({
+const courseSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   category: { type: String, required: true },
@@ -11,4 +11,6 @@ const coursesSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 })
 
-module.exports = mongoose.model('Course', coursesSchema, 'courses')
+// Usa exactamente la colección "courses"
+module.exports =
+  mongoose.models.Course || mongoose.model('Course', courseSchema, 'courses')

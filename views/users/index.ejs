@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/public/styles.css" />
     <title><%= tituloEJS %></title>
   </head>
   <body>
@@ -11,9 +11,6 @@
     <header><%- include('../partials/header') %></header>
 
     <div class="wrap fadeUp" style="--d: 0.2s">
-      <!-- ALERTA FLOTANTE -->
-      <div id="alert" class="custom-alert" style="display: none"></div>
-
       <!-- BOTÓN CREAR NUEVO -->
       <div class="actions">
         <a href="<%= baseUrlUsers %>/new" class="btn btn-add"
@@ -29,22 +26,19 @@
               <th>DNI</th>
               <th>Nombre</th>
               <th>Apellido</th>
-              <th>Email</th>
-              <th>Teléfono</th>
               <th>Perfil</th>
               <th>Acciones</th>
             </tr>
           </thead>
+
           <tbody>
             <% users.forEach(user => { %>
             <tr>
-              <td><%= user.dni %></td>
-              <td><%= user.firstName %></td>
-              <td><%= user.lastName %></td>
-              <td><%= user.email %></td>
-              <td><%= user.phone %></td>
-              <td><%= user.profile %></td>
-              <td>
+              <td data-label="DNI"><%= user.dni %></td>
+              <td data-label="Nombre"><%= user.firstName %></td>
+              <td data-label="Apellido"><%= user.lastName %></td>
+              <td data-label="Perfil"><%= user.profile %></td>
+              <td data-label="Acciones">
                 <a
                   href="<%= baseUrlUsers %>/show/<%= user._id %>"
                   class="btn btn-show"
@@ -55,13 +49,13 @@
                   class="btn btn-edit"
                   >Editar</a
                 >
+
                 <form
                   action="<%= baseUrlUsers %>/<%= user._id %>?_method=DELETE"
                   method="POST"
                   style="display: inline"
                 >
-                  <input type="hidden" name="_method" value="DELETE" />
-                  <button type="submit" class="btn btn-delete">Borrar</button>
+                  <button class="btn btn-delete">Borrar</button>
                 </form>
               </td>
             </tr>
@@ -69,65 +63,9 @@
           </tbody>
         </table>
       </div>
+
+      <div id="alert" class="custom-alert" style="display: none"></div>
     </div>
-
     <%- include('../partials/footer') %>
-
-    <!-- SCRIPT ALERTA BORRADO
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        // Solo forms de borrar
-        const deleteForms = document.querySelectorAll(
-          'form input[name="_method"][value="DELETE"]'
-        )
-
-        deleteForms.forEach(hiddenInput => {
-          const form = hiddenInput.closest('form')
-          form.addEventListener('submit', async e => {
-            e.preventDefault()
-
-            if (!confirm('¿Seguro que quieres borrar este usuario?')) return
-
-            const action = form.action
-            const method = hiddenInput.value || 'POST'
-
-            console.log(
-              'Intentando borrar usuario en:',
-              action,
-              'con método:',
-              method
-            )
-
-            try {
-              const res = await fetch(action, { method })
-
-              console.log('Respuesta del servidor:', res.status)
-
-              if (res.ok) {
-                // Mostrar alerta tipo toast
-                const alertBox = document.getElementById('alert')
-                alertBox.textContent = 'Usuario borrado correctamente'
-                alertBox.classList.add('show')
-
-                // Quitar fila de la tabla
-                form.closest('tr').remove()
-                console.log('Usuario borrado y fila eliminada de la tabla')
-
-                // Ocultar después de 3s
-                setTimeout(() => {
-                  alertBox.classList.remove('show')
-                }, 3000)
-              } else {
-                console.log('Error al borrar usuario en el servidor')
-                alert('Error al borrar usuario')
-              }
-            } catch (err) {
-              console.error('Error en la petición:', err)
-              alert('Error en la petición')
-            }
-          })
-        })
-      })
-    </script> -->
   </body>
 </html>

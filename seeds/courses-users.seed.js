@@ -1,23 +1,19 @@
-const mongodbConfig = require('../utils/mongodb.config')
+require('dotenv').config({ path: '../.env' })
+const mongoose = require('mongoose')
 const coursesModel = require('../models/courses.model')
-const usersModel = require('../models/users.model')
+const userModel = require('../models/user.model')
+
+// conectar MongoDB (sin opciones deprecated)
+const conectarMongoDB = async () => {
+  return mongoose.connect(process.env.MONGODB_CONSTRING)
+}
 
 const ejecutar = async () => {
   try {
-    await mongodbConfig
-      .conectarMongoDB()
-      .then(() => {
-        console.log('Conectado con MongoDB!!!')
-      })
-      .catch(err => {
-        //Si no conectamos con MongoDB, debemos tumbar el server
-        console.log(`Error al conectar con MongoDB. Desc: ${err}`)
-        //Tumbar el server
-        process.exit(0)
-      })
-  } catch (error) {
-    console.log(`Error al conectar con MongoDB. Desc: ${error}`)
-    //Tumbar el server
+    await conectarMongoDB()
+    console.log('Conectado con MongoDB!!!')
+  } catch (err) {
+    console.log(`Error al conectar con MongoDB. Desc: ${err}`)
     process.exit(0)
   }
 
@@ -167,26 +163,21 @@ const ejecutar = async () => {
     },
   ]
 
-  await usersModel
-    .insertMany(users)
-    .then(() => {
-      console.log('Usuarios insertados con éxito')
-    })
-    .catch(err => {
-      console.log(`Error al insertar usuarios. Desc: ${err}`)
-    })
+  try {
+    await userModel.insertMany(users)
+    console.log('Usuarios insertados con éxito')
+  } catch (err) {
+    console.log(`Error al insertar usuarios. Desc: ${err}`)
+  }
 
-  await coursesModel
-    .insertMany(courses)
-    .then(() => {
-      console.log('Cursos insertados con éxito')
-    })
-    .catch(err => {
-      console.log(`Error al insertar cursos. Desc: ${err}`)
-    })
-    .finally(() => {
-      process.exit(0)
-    })
+  try {
+    await coursesModel.insertMany(courses)
+    console.log('Cursos insertados con éxito')
+  } catch (err) {
+    console.log(`Error al insertar cursos. Desc: ${err}`)
+  } finally {
+    process.exit(0)
+  }
 }
 
 ejecutar()
