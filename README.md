@@ -2,12 +2,10 @@
 
 ## 🧑‍🤝‍🧑 Integrantes del grupo
 
-| Nombre completo | Rol asumido en el grupo (opcional)  |
-| --------------- | ----------------------------------- |
-| Miguel López    | Coordinador del repositorio         |
-| Jero Martínez   | Desarrollo del backend              |
-| Miriam Sánchez  | Vistas EJS y estilos                |
-| Daniel Ruiz     | Conexión con MongoDB y validaciones |
+| Nombre completo  | Rol asumido en el grupo (opcional)  |
+| ---------------  | ----------------------------------- |
+| Alejandro Puente | Desarrollador Full Stack            |
+| Alex Mico        | Desarrollador Full Stack            |
 
 ---
 
