@@ -9,8 +9,34 @@
     <div class="table-container">
       <table class="courses-table">
         <tbody>
-          <tr><th>Categoría</th><td><%= course.category %></td></tr>
-          <tr><th>ID</th><td><%= course._id %></td></tr>
+          <tr>
+            <th>Categoría</th>
+            <td><%= course.category %></td>
+          </tr>
+          <tr>
+            <th>ID</th>
+            <td><%= course._id %></td>
+          </tr>
+          <tr>
+            <th>Ubicación</th>
+            <td><%= course.location %></td>
+          </tr>
+          <tr>
+            <th>Fecha de inicio</th>
+            <td><%= new Date(course.startDate).toLocaleDateString() %></td>
+          </tr>
+          <tr>
+            <th>Fecha de fin</th>
+            <td><%= new Date(course.endDate).toLocaleDateString() %></td>
+          </tr>
+          <tr>
+            <th>Creado</th>
+            <td><%= new Date(course.createdAt).toLocaleString() %></td>
+          </tr>
+          <tr>
+            <th>Última actualización</th>
+            <td><%= new Date(course.updatedAt).toLocaleString() %></td>
+          </tr>
         </tbody>
       </table>
     </div>
