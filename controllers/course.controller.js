@@ -6,8 +6,8 @@ exports.getAllCourses = async (req, res) => {
     try {
         const courses = await Course.find()
 
+        res.locals.tituloEJS = 'Cursos disponibles'
         res.render('courses/index', {
-            title: 'Cursos disponibles',
             courses,
             baseApi: baseUrlCourses
         })
@@ -21,8 +21,8 @@ exports.getCourseById = async (req, res) => {
     try {
         const course = await Course.findById(req.params.id)
 
+        res.locals.tituloEJS = course.title
         res.render('courses/show', {
-            title: course.name,
             course,
             baseApi: baseUrlCourses
         })
@@ -33,8 +33,8 @@ exports.getCourseById = async (req, res) => {
 
 // FORM NEW (vista)
 exports.showCreateForm = (req, res) => {
+    res.locals.tituloEJS = 'Nuevo curso'
     res.render('courses/new', {
-        title: 'Nuevo curso',
         baseApi: baseUrlCourses
     })
 }
@@ -54,8 +54,8 @@ exports.showEditForm = async (req, res) => {
     try {
         const course = await Course.findById(req.params.id)
 
+        res.locals.tituloEJS = 'Editar curso'
         res.render('courses/edit', {
-            title: 'Editar curso',
             course,
             baseApi: baseUrlCourses
         })

@@ -13,7 +13,7 @@ exports.getAllUsers = async (req, res) => {
 
 // Mostrar formulario de nuevo usuario
 exports.showNewUser = (req, res) => {
-
+  res.locals.tituloEJS = 'Nuevo Usuario'
   res.render('users/new', { baseUrlUsers: '/api/v1/users' })
 }
 

@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/styles.css">
-  <title>Detalle Usuario</title>
-</head>
-<body>
-  <div class="bg"></div>
-  <header><%- include('../partials/header') %></header>
+<%- include('../partials/header') %>
 
-  <div class="wrap fadeUp" style="--d: 0.2s">
+<div class="wrap">
+  <div class="detail-card">
     <h1>Detalle del Usuario</h1>
 
     <div class="table-container">
@@ -28,11 +19,13 @@
     </div>
 
     <div class="actions">
-      <a href="<%= baseUrlUsers %>" class="btn btn-add">Volver al listado</a>
-      <a href="<%= baseUrlUsers %>/edit/<%= user._id %>" class="btn btn-edit">Editar Usuario</a>
+      <a href="<%= baseUrlUsers %>" class="btn btn-back">⬅ Volver</a>
+      <a href="<%= baseUrlUsers %>/edit/<%= user._id %>" class="btn btn-edit">Editar</a>
+      <form action="<%= baseUrlUsers %>/<%= user._id %>?_method=DELETE" method="POST" style="display: inline;">
+        <button class="btn btn-delete">Eliminar</button>
+      </form>
     </div>
   </div>
+</div>
 
-  <%- include('../partials/footer') %>
-</body>
-</html>
+<%- include('../partials/footer') %>

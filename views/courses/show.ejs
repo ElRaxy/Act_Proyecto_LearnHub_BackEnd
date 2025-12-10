@@ -1,21 +1,24 @@
 <%- include('../partials/header') %>
 
 <div class="wrap">
-  <div class="course-detail-card">
-    <h1><%= course.name %></h1>
+  <div class="detail-card">
+    <h1><%= course.title %></h1>
 
     <p class="description"><%= course.description %></p>
 
-    <ul class="detail-list">
-      <li><strong>Categoría:</strong> <%= course.category %></li>
-      <li><strong>ID:</strong> <%= course._id %></li>
-    </ul>
+    <div class="table-container">
+      <table class="courses-table">
+        <tbody>
+          <tr><th>Categoría</th><td><%= course.category %></td></tr>
+          <tr><th>ID</th><td><%= course._id %></td></tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="actions">
       <a href="<%= baseApi %>" class="btn btn-back">⬅ Volver</a>
       <a href="<%= baseApi %>/<%= course._id %>/edit" class="btn btn-edit">Editar</a>
-
-      <form action="<%= baseApi %>/<%= course._id %>?_method=DELETE" method="POST">
+      <form action="<%= baseApi %>/<%= course._id %>?_method=DELETE" method="POST" style="display: inline;">
         <button class="btn btn-delete">Eliminar</button>
       </form>
     </div>
