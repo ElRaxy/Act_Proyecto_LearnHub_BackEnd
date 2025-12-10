@@ -1,48 +1,52 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/styles.css">
-  <title>Editar Usuario</title>
-</head>
-<body>
-  <div class="bg"></div>
-  <header><%- include('../partials/header') %></header>
+<%- include('../partials/header') %>
 
-  <div class="wrap fadeUp" style="--d: 0.2s">
-    <h1>Editar Usuario</h1>
+<div class="wrap">
+  <h1>Editar Usuario</h1>
 
-    <form action="<%= baseUrlUsers %>/<%= user._id %>?_method=PUT" method="POST" class="user-form">
-      <label for="firstName">Nombre:</label>
+  <form action="<%= baseUrlUsers %>/<%= user._id %>?_method=PUT" method="POST" class="form-card">
+    <div class="form-group">
+      <label for="firstName">Nombre</label>
       <input type="text" name="firstName" id="firstName" value="<%= user.firstName %>" required />
+    </div>
 
-      <label for="lastName">Apellido:</label>
+    <div class="form-group">
+      <label for="lastName">Apellido</label>
       <input type="text" name="lastName" id="lastName" value="<%= user.lastName %>" required />
+    </div>
 
-      <label for="email">Email:</label>
+    <div class="form-group">
+      <label for="email">Email</label>
       <input type="email" name="email" id="email" value="<%= user.email %>" required />
+    </div>
 
-      <label for="dni">DNI:</label>
+    <div class="form-group">
+      <label for="dni">DNI</label>
       <input type="text" name="dni" id="dni" value="<%= user.dni %>" required />
+    </div>
 
-      <label for="phone">Teléfono:</label>
+    <div class="form-group">
+      <label for="phone">Teléfono</label>
       <input type="text" name="phone" id="phone" value="<%= user.phone %>" required />
+    </div>
 
-      <label for="birthDate">Fecha de Nacimiento:</label>
+    <div class="form-group">
+      <label for="birthDate">Fecha de Nacimiento</label>
       <input type="date" name="birthDate" id="birthDate" value="<%= user.birthDate.toISOString().split('T')[0] %>" required />
+    </div>
 
-      <label for="profile">Perfil:</label>
+    <div class="form-group">
+      <label for="profile">Perfil</label>
       <select name="profile" id="profile" required>
         <option value="ADMINISTRADOR" <%= user.profile === 'ADMINISTRADOR' ? 'selected' : '' %>>Administrador</option>
         <option value="PROFESOR" <%= user.profile === 'PROFESOR' ? 'selected' : '' %>>Profesor</option>
         <option value="ALUMNO" <%= user.profile === 'ALUMNO' ? 'selected' : '' %>>Alumno</option>
       </select>
+    </div>
 
-      <button type="submit" class="btn btn-edit">Actualizar Usuario</button>
-    </form>
-  </div>
+    <button type="submit" class="btn btn-edit" style="margin-top: 1.5rem;">
+      <i class="fa-solid fa-save"></i> Guardar Cambios
+    </button>
+  </form>
+</div>
 
-  <%- include('../partials/footer') %>
-</body>
-</html>
+<%- include('../partials/footer') %>
