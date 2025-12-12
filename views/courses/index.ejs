@@ -21,9 +21,10 @@
 
       <tbody>
         <% courses.forEach(c => { %>
+          
           <tr>
             <td data-label="ID"><%= c._id %></td>
-            <td data-label="Nombre"><%= c.name %></td>
+            <td data-label="Nombre"><%= c.title %></td>
             <td data-label="Descripción"><%= c.description %></td>
             <td data-label="Categoría"><%= c.category %></td>
 

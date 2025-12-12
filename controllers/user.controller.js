@@ -13,20 +13,13 @@ exports.getAllUsers = async (req, res) => {
 
 // Mostrar formulario de nuevo usuario
 exports.showNewUser = (req, res) => {
-
   res.render('users/new', { baseUrlUsers: '/api/v1/users' })
 }
 
 // Crear usuario
 exports.createUser = async (req, res) => {
-  try {
-    await userService.create(req.body)
-    res.redirect('/api/v1/users')
-  } catch (error) {
-    res.status(500).json({ error: 'Error al crear usuario' })
-  }
+  
 }
-
 // Mostrar formulario de edición
 exports.showEditUser = async (req, res) => {
   try {
@@ -44,7 +37,8 @@ exports.showEditUser = async (req, res) => {
 exports.editUser = async (req, res) => {
   try {
     const updatedUser = await userService.update(req.params.id, req.body)
-    if (!updatedUser) return res.status(404).json({ error: 'Usuario no encontrado' })
+    if (!updatedUser)
+      return res.status(404).json({ error: 'Usuario no encontrado' })
 
     res.redirect('/api/v1/users')
   } catch (error) {
@@ -56,7 +50,8 @@ exports.editUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     const deletedUser = await userService.delete(req.params.id)
-    if (!deletedUser) return res.status(404).json({ error: 'Usuario no encontrado' })
+    if (!deletedUser)
+      return res.status(404).json({ error: 'Usuario no encontrado' })
 
     res.redirect('/api/v1/users')
   } catch (error) {

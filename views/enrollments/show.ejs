@@ -1,5 +1,4 @@
 <%- include('../partials/header', { title: "Detalle de la Matrícula" }) %>
-
 <div class="wrap">
   <h1>Detalle de la Matrícula</h1>
 
@@ -13,10 +12,6 @@
         <tr>
           <th>Alumno</th>
           <td><%= enrollment.userId ? enrollment.userId.firstName + ' ' + enrollment.userId.lastName : 'Usuario eliminado' %></td>
-        </tr>
-        <tr>
-          <th>Email</th>
-          <td><%= enrollment.userId ? enrollment.userId.email : '-' %></td>
         </tr>
         <tr>
           <th>Curso</th>
@@ -47,5 +42,4 @@
     <a href="<%= baseApi %>/<%= enrollment._id %>/edit" class="btn btn-edit">Editar Matrícula</a>
   </div>
 </div>
-
 <%- include('../partials/footer') %>
