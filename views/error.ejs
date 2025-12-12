@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+<div class="error-view">
+  <h1>Algo ha fallado</h1>
+
+  <div class="error-box">
+    <h1>Error <%= status %></h1>
+    <p><strong>Mensaje:</strong> <%= message %></p>
+    <p><strong>Origen:</strong> <%= source %></p>
+  </div>
+
+  <a href="/api/v1/users" class="btn btn-back">Volver a usuarios</a>
+</div>
+
+<script>
+  setTimeout(function() {
+      window.location.href = "/"
+  }, 7000) // Redirigir de nuevo al index.html a los 7 segundos
+</script>
+<%- include('partials/footer') %>
