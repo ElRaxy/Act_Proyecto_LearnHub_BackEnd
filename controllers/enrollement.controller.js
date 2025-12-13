@@ -56,8 +56,17 @@ exports.showNewEnrollment = async (req, res) => {
 }
 
 // Crear nueva matrícula
-exports.createEnrollment = async (req, res) => {
+exports.createEnrollment = async (req, res, next) => {
   try {
+    // Verificamos si el usuario ya tiene matrícula
+    const existingEnrollment = await enrollmentService.getEnrollmentByUserId(req.body.userId)
+    if (existingEnrollment) {
+      const error = new Error(`El usuario ya tiene una matrícula activa`)
+      error.status = 400
+      error.source = 'Crear matrícula'
+      return next(error)
+    }
+
     await enrollmentService.createEnrollment({
       userId: req.body.userId,
       courseId: req.body.courseId,
@@ -68,14 +77,7 @@ exports.createEnrollment = async (req, res) => {
 
     res.redirect(baseUrlEnrollments)
   } catch (error) {
-    console.error('Error en createEnrollment:', error)
-    // Manejo de duplicados
-    if (error.code === 11000) {
-      return res
-        .status(400)
-        .send('Ya existe una matrícula para este usuario y curso')
-    }
-    res.status(500).send('Error al crear la matricula')
+    next(error)
   }
 }
 
@@ -87,8 +89,8 @@ exports.showEditEnrollment = async (req, res) => {
       return res.status(404).send('No se encontró la matricula')
     }
 
-    const users = await userService.getAllUsers() 
-    const courses = await courseService.getAllCourses() 
+    const users = await userService.getAllUsers()
+    const courses = await courseService.getAllCourses()
 
     res.locals.tituloEJS = 'Editar Matricula'
     res.render('enrollments/edit', {
@@ -104,13 +106,21 @@ exports.showEditEnrollment = async (req, res) => {
 }
 
 // Actualizar matrícula
-exports.updateEnrollment = async (req, res) => {
+exports.updateEnrollment = async (req, res, next) => {
   try {
+    // Verificamos si el usuario ya tiene otra matrícula distinta a la que estamos editando
+    const existingEnrollment = await enrollmentService.getEnrollmentByUserId(req.body.userId)
+    if (existingEnrollment && existingEnrollment._id.toString() !== req.params.id) {
+      const error = new Error(`El usuario ya tiene una matrícula activa`)
+      error.status = 400
+      error.source = 'Actualizar matrícula'
+      return next(error)
+    }
+
     await enrollmentService.updateEnrollment(req.params.id, req.body)
-    res.redirect(`${baseUrlEnrollments}/${req.params.id}`)
+    res.redirect(baseUrlEnrollments)
   } catch (error) {
-    console.error('Error en updateEnrollment:', error)
-    res.status(500).send('Error al actualizar la matricula')
+    next(error)
   }
 }
 
@@ -124,22 +134,3 @@ exports.deleteEnrollment = async (req, res) => {
     res.status(500).send('Error al eliminar la matricula')
   }
 }
-
-// // Opcionales: buscar matrículas por usuario o curso
-// exports.findByUser = async (req, res) => {
-//   try {
-//     const enrollments = await enrollmentService.getAllEnrollmentsByUser(req.params.id)
-//     res.status(200).json(enrollments)
-//   } catch (error) {
-//     res.status(500).json({ error: 'Error al obtener todos las matriculas' })
-//   }
-// }
-
-// exports.findByCourse = async (req, res) => {
-//   try {
-//     const enrollments = await enrollmentService.getAllEnrollmentsByCourse(req.params.id)
-//     res.status(200).json(enrollments)
-//   } catch (error) {
-//     res.status(500).json({ error: 'Error al obtener todas las matriculas' })
-//   }
-// }
