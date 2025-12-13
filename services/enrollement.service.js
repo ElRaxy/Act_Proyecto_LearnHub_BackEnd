@@ -24,7 +24,7 @@ exports.deleteEnrollment = async id =>
   await enrollmentsModel.findByIdAndDelete(id, { new: true })
 
 exports.getEnrollmentByUserId = async userId => {
-  return Enrollment.findOne({ userId })
+  return await enrollmentsModel.findOne({ userId }).lean()
 }
 
 exports.getAllEnrollmentsByCourse = async id =>

@@ -118,7 +118,7 @@ exports.updateEnrollment = async (req, res, next) => {
     }
 
     await enrollmentService.updateEnrollment(req.params.id, req.body)
-    res.redirect(`${baseUrlEnrollments}/${req.params.id}`)
+    res.redirect(baseUrlEnrollments)
   } catch (error) {
     next(error)
   }
