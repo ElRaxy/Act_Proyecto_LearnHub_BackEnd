@@ -33,26 +33,6 @@ Resultado de `git shortlog --summary --numbered --all`:
 27  blanck-2024
 ---
 
-## ✅ Tareas realizadas por cada miembro
-
-- **Alex**:
-  - Creó la estructura base del proyecto.
-  - Hizo los Models-Services-Controllers de Courses y Enrollments.
-  - Hizo las vistas de Courses y Enrollments.
-  - Realizó el archivo .env
-
-- **Alejandro**:
-  - Creó la hoja de estilos CSS.
-  - Creo los Models-Services-Controllers de Users.
-  - Hizo las vistas de Users.
-  - Desplego la maquina Linux Mint con la base de datos MongoDB.
-
-- **Ambos**:
-  - Hacer el index JS.
-  - Crear los partials de header y footer.
-  - Crear el seeds.
-
----
 
 ## 🧪 Testeo y pruebas
 
