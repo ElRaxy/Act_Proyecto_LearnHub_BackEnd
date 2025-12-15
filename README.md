@@ -30,7 +30,7 @@ Resultado de `git shortlog --summary --numbered --all`:
 
 ```
 38  Alex Mico
-27 Alejandro Puente
+27  Alejandro Puente
 ```
 
 ---
