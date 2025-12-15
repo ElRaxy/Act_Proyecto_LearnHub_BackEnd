@@ -29,12 +29,8 @@
 Resultado de `git shortlog --summary --numbered --all`:
 
 ```
-27  Alex Mico
-16  blanck-2024
-9  Alejandro Puente
-1  Alex
-```
-
+38  Alex Mico
+27  blanck-2024
 ---
 
 ## ✅ Tareas realizadas por cada miembro
