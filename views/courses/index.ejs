@@ -11,7 +11,6 @@
     <table class="courses-table">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nombre</th>
           <th>Descripción</th>
           <th>Categoría</th>
@@ -21,22 +20,27 @@
 
       <tbody>
         <% courses.forEach(c => { %>
-          
-          <tr>
-            <td data-label="ID"><%= c._id %></td>
-            <td data-label="Nombre"><%= c.title %></td>
-            <td data-label="Descripción"><%= c.description %></td>
-            <td data-label="Categoría"><%= c.category %></td>
+        <tr>
+          <td data-label="Nombre"><%= c.title %></td>
+          <td data-label="Descripción"><%= c.description %></td>
+          <td data-label="Categoría"><%= c.category %></td>
 
-            <td data-label="Acciones">
-              <a href="<%= baseApi %>/<%= c._id %>" class="btn btn-edit">Ver</a>
-              <a href="<%= baseApi %>/<%= c._id %>/edit" class="btn btn-edit">Editar</a>
+          <td data-label="Acciones">
+            <a href="<%= baseApi %>/<%= c._id %>" class="btn btn-edit">Ver</a>
+            <a href="<%= baseApi %>/<%= c._id %>/edit" class="btn btn-edit"
+              >Editar</a
+            >
 
-              <form action="<%= baseApi %>/<%= c._id %>?_method=DELETE" method="POST">
-                <button class="btn btn-delete">Eliminar</button>
-              </form>
-            </td>
-          </tr>
+            <form
+              action="<%= baseApi %>/<%= c._id %>?_method=DELETE"
+              method="POST"
+              class="delete-form"
+            >
+              <button class="btn btn-delete">Eliminar</button>
+            </form>
+
+          </td>
+        </tr>
         <% }) %>
       </tbody>
     </table>

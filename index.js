@@ -25,21 +25,16 @@ app.use(express.urlencoded({ extended: true }))
 //Leer datos JSON en request body POST
 app.use(express.json())
 app.use(methodOverride('_method'))
+
 //MIDDLEWARE para configurar VARIABLES GLOBALES en vistas EJS
 app.use((req, res, next) => {
   res.locals.tituloEJS = 'LearnHub'
   next()
 })
 
+
 //DEFINIR RUTAS
 //Raíz
-// app.get('/', (req, res) => res.redirect(baseUrlComentarios))
-// //Propias del REST
-// app.use(baseUrlComentarios, commentRoutes)
-// app.use(baseUrlTV, tvRoutes)
-// app.use(baseUrlCategorias, categoriaRoutes)
-// //Rutas por defecto
-// app.get(/.*/, (req, res) => res.redirect(baseUrlComentarios))
 
 app.get('/', (req, res) => {
   fs.readFile('./public/index.html', 'utf8', (err, data) => {
@@ -56,6 +51,16 @@ app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
+// Middleware global de errores
+app.use((err, req, res, next) => {
+  const status = err.status || 500
+
+  res.status(status).render('error', {
+    status,
+    message: err.message || 'Fallo interno',
+    source: err.source || 'Sistema'
+  })
+})
 
 //LEVANTAR EL SERVER
 app.listen(port, async () => {

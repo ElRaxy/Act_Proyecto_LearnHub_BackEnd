@@ -1,11 +1,11 @@
-<%- include('../partials/header', { title: "Editar Matrícula" }) %>
+<%- include('../partials/header') %>
 
-<div class="wrap fadeUp" style="--d:0.2s">
+<div class="wrap">
   <h1>Editar Matrícula</h1>
 
-  <form action="<%= baseApi %>/<%= enrollment._id %>?_method=PATCH" method="POST">
+  <form action="<%= baseApi %>/<%= enrollment._id %>?_method=PATCH" method="POST" class="form-card">
     <div class="form-group">
-      <label for="userId">Alumno:</label>
+      <label for="userId">Alumno</label>
       <select name="userId" id="userId" required>
         <% users.forEach(user => { %>
           <option value="<%= user._id %>" <%= enrollment.userId && enrollment.userId._id.toString() === user._id.toString() ? 'selected' : '' %>>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="form-group">
-      <label for="courseId">Curso:</label>
+      <label for="courseId">Curso</label>
       <select name="courseId" id="courseId" required>
         <% courses.forEach(course => { %>
           <option value="<%= course._id %>" <%= enrollment.courseId && enrollment.courseId._id.toString() === course._id.toString() ? 'selected' : '' %>>
@@ -27,12 +27,12 @@
     </div>
 
     <div class="form-group">
-      <label for="enrollmentsDate">Fecha de matrícula:</label>
+      <label for="enrollmentsDate">Fecha de matrícula</label>
       <input type="date" name="enrollmentsDate" id="enrollmentsDate" value="<%= enrollment.enrollmentsDate ? enrollment.enrollmentsDate.toISOString().split('T')[0] : '' %>" required>
     </div>
 
     <div class="form-group">
-      <label for="status">Estado:</label>
+      <label for="status">Estado</label>
       <select name="status" id="status" required>
         <option value="pendiente" <%= enrollment.status === 'pendiente' ? 'selected' : '' %>>Pendiente</option>
         <option value="aprobado" <%= enrollment.status === 'aprobado' ? 'selected' : '' %>>Aprobado</option>
@@ -41,14 +41,13 @@
     </div>
 
     <div class="form-group">
-      <label for="notes">Notas:</label>
-      <input type="text" name="notes" id="notes" value="<%= enrollment.notes ? enrollment.notes : '' %>">
+      <label for="notes">Notas</label>
+      <textarea name="notes" id="notes"><%= enrollment.notes ? enrollment.notes : '' %></textarea>
     </div>
 
-    <div class="actions">
-      <button type="submit" class="btn btn-edit">Actualizar Matrícula</button>
-      <a href="<%= baseApi %>" class="btn btn-add">Cancelar</a>
-    </div>
+    <button type="submit" class="btn btn-edit" style="margin-top: 1.5rem;">
+      <i class="fa-solid fa-save"></i> Guardar Cambios
+    </button>
   </form>
 </div>
 

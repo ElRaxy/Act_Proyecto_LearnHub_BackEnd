@@ -6,14 +6,14 @@ exports.getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find()
 
-    res.render('courses/index', {
-      title: 'Cursos disponibles',
-      courses,
-      baseApi: baseUrlCourses,
-    })
-  } catch (error) {
-    res.status(500).send('Error obteniendo cursos: ' + error)
-  }
+        res.locals.tituloEJS = 'Cursos disponibles'
+        res.render('courses/index', {
+            courses,
+            baseApi: baseUrlCourses
+        })
+    } catch (error) {
+        res.status(500).send('Error obteniendo cursos: ' + error)
+    }
 }
 
 // GET BY ID (vista)
@@ -21,22 +21,22 @@ exports.getCourseById = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id)
 
-    res.render('courses/show', {
-      title: course.name,
-      course,
-      baseApi: baseUrlCourses,
-    })
-  } catch (error) {
-    res.status(500).send('Error obteniendo curso: ' + error)
-  }
+        res.locals.tituloEJS = course.title
+        res.render('courses/show', {
+            course,
+            baseApi: baseUrlCourses
+        })
+    } catch (error) {
+        res.status(500).send('Error obteniendo curso: ' + error)
+    }
 }
 
 // FORM NEW (vista)
 exports.showCreateForm = (req, res) => {
-  res.render('courses/new', {
-    title: 'Nuevo curso',
-    baseApi: baseUrlCourses,
-  })
+    res.locals.tituloEJS = 'Nuevo curso'
+    res.render('courses/new', {
+        baseApi: baseUrlCourses
+    })
 }
 
 // CREATE (acción)
@@ -54,14 +54,14 @@ exports.showEditForm = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id)
 
-    res.render('courses/edit', {
-      title: 'Editar curso',
-      course,
-      baseApi: baseUrlCourses,
-    })
-  } catch (error) {
-    res.status(500).send('Error obteniendo datos: ' + error)
-  }
+        res.locals.tituloEJS = 'Editar curso'
+        res.render('courses/edit', {
+            course,
+            baseApi: baseUrlCourses
+        })
+    } catch (error) {
+        res.status(500).send('Error obteniendo datos: ' + error)
+    }
 }
 
 // UPDATE (acción)

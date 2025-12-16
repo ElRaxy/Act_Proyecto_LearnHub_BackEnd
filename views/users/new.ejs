@@ -1,48 +1,52 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/styles.css">
-  <title>Nuevo Usuario</title>
-</head>
-<body>
-  <div class="bg"></div>
-  <header><%- include('../partials/header') %></header>
+<%- include('../partials/header') %>
 
-  <div class="wrap fadeUp" style="--d: 0.2s">
-    <h1>Nuevo Usuario</h1>
+<div class="wrap">
+  <h1>Nuevo Usuario</h1>
 
-    <form action="<%= baseUrlUsers %>" method="POST" class="user-form">
-      <label for="firstName">Nombre:</label>
+  <form action="<%= baseUrlUsers %>" method="POST" class="form-card">
+    <div class="form-group">
+      <label for="firstName">Nombre</label>
       <input type="text" name="firstName" id="firstName" required />
+    </div>
 
-      <label for="lastName">Apellido:</label>
+    <div class="form-group">
+      <label for="lastName">Apellido</label>
       <input type="text" name="lastName" id="lastName" required />
+    </div>
 
-      <label for="email">Email:</label>
+    <div class="form-group">
+      <label for="email">Email</label>
       <input type="email" name="email" id="email" required />
+    </div>
 
-      <label for="dni">DNI:</label>
+    <div class="form-group">
+      <label for="dni">DNI</label>
       <input type="text" name="dni" id="dni" required />
+    </div>
 
-      <label for="phone">Teléfono:</label>
+    <div class="form-group">
+      <label for="phone">Teléfono</label>
       <input type="text" name="phone" id="phone" required />
+    </div>
 
-      <label for="birthDate">Fecha de Nacimiento:</label>
+    <div class="form-group">
+      <label for="birthDate">Fecha de Nacimiento</label>
       <input type="date" name="birthDate" id="birthDate" required />
+    </div>
 
-      <label for="profile">Perfil:</label>
+    <div class="form-group">
+      <label for="profile">Perfil</label>
       <select name="profile" id="profile" required>
         <option value="ADMINISTRADOR">Administrador</option>
         <option value="PROFESOR">Profesor</option>
         <option value="ALUMNO">Alumno</option>
       </select>
+    </div>
 
-      <button type="submit" class="btn btn-add">Crear Usuario</button>
-    </form>
-  </div>
+    <button type="submit" class="btn btn-add" style="margin-top: 1.5rem;">
+      <i class="fa-solid fa-check"></i> Crear Usuario
+    </button>
+  </form>
+</div>
 
-  <%- include('../partials/footer') %>
-</body>
-</html>
+<%- include('../partials/footer') %>

@@ -13,12 +13,24 @@ exports.getAllUsers = async (req, res) => {
 
 // Mostrar formulario de nuevo usuario
 exports.showNewUser = (req, res) => {
+  res.locals.tituloEJS = 'Nuevo Usuario'
   res.render('users/new', { baseUrlUsers: '/api/v1/users' })
 }
 
 // Crear usuario
-exports.createUser = async (req, res) => {
-  
+exports.createUser = async (req, res, next) => {
+  try {
+    await userService.create(req.body)
+    res.redirect('/api/v1/users')
+  } catch (error) {
+    if (error.code === 11000) {
+      error.status = 400
+      error.message = `El DNI '${req.body.dni}' ya está registrado`
+      error.source = 'Crear usuario'
+    }
+
+    next(error)
+  }
 }
 // Mostrar formulario de edición
 exports.showEditUser = async (req, res) => {
@@ -34,15 +46,29 @@ exports.showEditUser = async (req, res) => {
 }
 
 // Actualizar usuario
-exports.editUser = async (req, res) => {
+exports.editUser = async (req, res, next) => {
   try {
     const updatedUser = await userService.update(req.params.id, req.body)
-    if (!updatedUser)
-      return res.status(404).json({ error: 'Usuario no encontrado' })
+
+    if (!updatedUser) {
+      const err = new Error(`Usuario con ID '${req.params.id}' no encontrado`)
+      err.status = 404
+      err.source = 'Actualizar usuario'
+      return next(err)
+    }
 
     res.redirect('/api/v1/users')
   } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar usuario' })
+    if (error.code === 11000) {
+      error.status = 400
+      error.message = `El DNI '${req.body.dni}' ya está registrado`
+      error.source = 'Actualizar usuario'
+    } else {
+      error.status = 500
+      error.source = 'Actualizar usuario'
+    }
+
+    next(error)
   }
 }
 

@@ -32,9 +32,9 @@ exports.createEnrollment = async ({ courseId, userId, enrollmentsDate, status, n
   })
 }
 
-// Actualizar matrícula
-exports.updateEnrollment = async (id, enrollment) =>
-  await enrollmentsModel.findByIdAndUpdate(id, enrollment, { new: true })
+exports.getEnrollmentByUserId = async userId => {
+  return await enrollmentsModel.findOne({ userId }).lean()
+}
 
 // Eliminar matrícula
 exports.deleteEnrollment = async (id) =>
