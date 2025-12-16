@@ -10,7 +10,7 @@
     <table class="courses-table">
       <thead>
         <tr>
-          <th>Nombre</th>
+          <th>Alumno</th>
           <th>Curso</th>
           <th>Fecha de matrícula</th>
           <th></th>
@@ -18,25 +18,25 @@
       </thead>
 
       <tbody>
-        <% enrollments.forEach(enrollment => { %>
-          <tr>
-            <td data-label="Nombre">
-              <%= enrollment.userId ? enrollment.userId.firstName + ' ' + enrollment.userId.lastName : 'Usuario eliminado' %>
-            </td>
-            <td data-label="Curso">
-              <%= enrollment.courseId ? enrollment.courseId.title : 'Curso eliminado' %>
-            </td>
-            <td data-label="Fecha de matrícula">
-              <%= enrollment.enrollmentsDate ? enrollment.enrollmentsDate.toISOString().split('T')[0] : '-' %>
-            </td>
-            <td data-label="Acciones">
-              <a href="<%= baseApi %>/<%= enrollment._id %>" class="btn btn-edit">Ver</a>
-              <a href="<%= baseApi %>/<%= enrollment._id %>/edit" class="btn btn-edit">Editar</a>
-              <form action="<%= baseApi %>/<%= enrollment._id %>?_method=DELETE" method="POST" style="display:inline">
-                <button class="btn btn-delete">Eliminar</button>
-              </form>
-            </td>
-          </tr>
+        <% enrollments.forEach(function(enrollment){ %>
+        <tr>
+          <td data-label="Alumno">
+            <%= enrollment.userId ? enrollment.userId.firstName + ' ' + enrollment.userId.lastName : 'Usuario eliminado' %>
+          </td>
+          <td data-label="Curso">
+            <%= enrollment.courseId ? enrollment.courseId.title : 'Curso eliminado' %>
+          </td>
+          <td data-label="Fecha de matrícula">
+            <%= enrollment.enrollmentsDate ? enrollment.enrollmentsDate.toISOString().split('T')[0] : '-' %>
+          </td>
+          <td data-label="Acciones">
+            <a href="<%= baseApi %>/<%= enrollment._id %>" class="btn btn-edit">Ver</a>
+            <a href="<%= baseApi %>/<%= enrollment._id %>/edit" class="btn btn-edit">Editar</a>
+            <form action="<%= baseApi %>/<%= enrollment._id %>?_method=DELETE" method="POST" style="display: inline">
+              <button class="btn btn-delete">Eliminar</button>
+            </form>
+          </td>
+        </tr>
         <% }) %>
       </tbody>
     </table>

@@ -32,7 +32,6 @@ exports.createUser = async (req, res, next) => {
     next(error)
   }
 }
-
 // Mostrar formulario de edición
 exports.showEditUser = async (req, res) => {
   try {
