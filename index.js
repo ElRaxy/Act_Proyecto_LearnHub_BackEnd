@@ -10,8 +10,8 @@ const COLORS = {
   reset: '\x1b[0m',
   fgWhite: '\x1b[37m',
   fgBrightWhite: '\x1b[97m',
-  bgBlue: '\x1b[44m',
-  bgBrightBlue: '\x1b[104m',
+  fgBlue: '\x1b[34m',
+  fgBrightBlue: '\x1b[94m',
   fgGreen: '\x1b[32m',
   fgBrightGreen: '\x1b[92m',
   fgRed: '\x1b[31m',
@@ -20,7 +20,7 @@ const COLORS = {
   fgBrightCyan: '\x1b[96m'
 }
 
-const colorBannerLine = line => `${COLORS.bgBlue}${COLORS.fgBrightWhite}${line}${COLORS.reset}`
+const colorBannerLine = line => `${COLORS.fgBrightBlue}${line}${COLORS.reset}`
 const colorSuccess = text => `${COLORS.fgBrightGreen}${text}${COLORS.reset}`
 const colorError = text => `${COLORS.fgBrightRed}${text}${COLORS.reset}`
 const colorInfo = text => `${COLORS.fgBrightCyan}${text}${COLORS.reset}`
@@ -96,31 +96,32 @@ app.listen(port, async () => {
   const innerWidth = topLine.length - 2 // ancho sin las barras verticales
   const title = 'LearnHub'
   const titlePadding = Math.floor((innerWidth - title.length) / 2)
+  const titleRightPadding = innerWidth - titlePadding - title.length
   
   const banner = [
     topLine,
-    `│${' '.repeat(titlePadding)}${title}${' '.repeat(innerWidth - titlePadding - title.length)}│`,
-    '│' + '─'.repeat(innerWidth) + '│',
-    `│  Servidor: http://localhost:${port}`.padEnd(innerWidth, ' ') + '│',
-    `│  Swagger : http://localhost:${port}${process.env.SWAGGER_DOCS}`.padEnd(innerWidth, ' ') + '│',
+    `│${' '.repeat(titlePadding)}${title}${' '.repeat(titleRightPadding)}│`,
+    `│${'─'.repeat(innerWidth)}│`,
+    `│  Servidor: http://localhost:${port}${' '.repeat(innerWidth - 0 - `  Servidor: http://localhost:${port}`.length)}│`,
+    `│  Swagger : http://localhost:${port}${process.env.SWAGGER_DOCS}${' '.repeat(innerWidth - 0 - `  Swagger : http://localhost:${port}${process.env.SWAGGER_DOCS}`.length)}│`,
     '└─────────────────────────────────────────────────────┘'
   ]
   console.log('\n' + banner.map(colorBannerLine).join('\n'))
-  console.log(`\n  ${colorSuccess('✓')} ${colorSuccess('Servidor iniciado correctamente')}`)
+  console.log(`\n${colorSuccess('✓')} ${colorSuccess('Servidor iniciado correctamente')}`)
   
   try {
     // Conexión a MongoDB (crítica: sin BD la app no funciona)
     await mongodbConfig
       .conectarMongoDB()
       .then(() => {
-        console.log(`  ${colorSuccess('✓')} ${colorSuccess('Conectado con MongoDB')}`)
+        console.log(`${colorSuccess('✓')} ${colorSuccess('Conectado con MongoDB')}`)
       })
       .catch(err => {
-        console.log(`  ${colorError('✗')} ${colorError(`Error al conectar con MongoDB: ${err}`)}`)
+        console.log(`${colorError('✗')} ${colorError(`Error al conectar con MongoDB: ${err}`)}`)
         process.exit(0) // Cerrar servidor si no hay conexión a BD
       })
   } catch (error) {
-    console.log(`  ${colorError('✗')} ${colorError(`Error al conectar con MongoDB: ${error}`)}`)
+    console.log(`${colorError('✗')} ${colorError(`Error al conectar con MongoDB: ${error}`)}`)
     process.exit(0)
   }
 })
@@ -133,14 +134,19 @@ setInterval(() => {
   const infoWidth = infoTop.length - 2
   const title = 'Consola Actualizada'
   const titlePadding = Math.floor((infoWidth - title.length) / 2)
+  const titleRightPadding = infoWidth - titlePadding - title.length
+  
+  const horaText = `  Hora: ${now}`
+  const servidorText = `  Servidor: http://localhost:${port}`
+  const swaggerText = `  Swagger : http://localhost:${port}${process.env.SWAGGER_DOCS}`
   
   const info = [
     infoTop,
-    `║${' '.repeat(titlePadding)}${title}${' '.repeat(infoWidth - titlePadding - title.length)}║`,
-    '║' + '─'.repeat(infoWidth) + '║',
-    `║  Hora: ${now}`.padEnd(infoWidth, ' ') + '║',
-    `║  Servidor: http://localhost:${port}`.padEnd(infoWidth, ' ') + '║',
-    `║  Swagger : http://localhost:${port}${process.env.SWAGGER_DOCS}`.padEnd(infoWidth, ' ') + '║',
+    `║${' '.repeat(titlePadding)}${title}${' '.repeat(titleRightPadding)}║`,
+    `║${'─'.repeat(infoWidth)}║`,
+    `║${horaText}${' '.repeat(infoWidth - horaText.length)}║`,
+    `║${servidorText}${' '.repeat(infoWidth - servidorText.length)}║`,
+    `║${swaggerText}${' '.repeat(infoWidth - swaggerText.length)}║`,
     '╚═══════════════════════════════════════════════════╝'
   ]
   console.log('\n' + info.map(colorBannerLine).join('\n') + '\n')
