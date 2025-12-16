@@ -1,5 +1,9 @@
 //REQUIRES / IMPORTS
 require('dotenv').config() //npm i dotenv
+
+const swaggerUI = require('swagger-ui-express') //npm i swagger-ui-express
+const swaggerSpec = require('./swagger/swagger')
+
 const port = process.env.PORT || process.env.PUERTO
 const express = require('express')
 const app = express()
@@ -65,6 +69,8 @@ app.use((err, req, res, next) => {
 //LEVANTAR EL SERVER
 app.listen(port, async () => {
   console.log(`Servidor levantado en http://localhost:${port}`)
+  console.log("--------------------------------------------------------------------------------")
+  console.log(`Swagger en http://localhost:${port}${process.env.SWAGGER_DOCS}`)
   try {
     //Una vez levantado el servidor, intentamos conectar con MongoDB
     await mongodbConfig
