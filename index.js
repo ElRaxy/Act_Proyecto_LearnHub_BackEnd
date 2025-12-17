@@ -1,7 +1,7 @@
 //REQUIRES / IMPORTS
-require('dotenv').config() //npm i dotenv
+require('dotenv').config()
 
-const swaggerUI = require('swagger-ui-express') //npm i swagger-ui-express
+const swaggerUI = require('swagger-ui-express')
 const swaggerSpec = require('./swagger/swagger.js')
 const fs = require('fs')
 
@@ -23,14 +23,15 @@ const COLORS = {
 const colorBannerLine = line => `${COLORS.fgBrightBlue}${line}${COLORS.reset}`
 const colorSuccess = text => `${COLORS.fgBrightGreen}${text}${COLORS.reset}`
 const colorError = text => `${COLORS.fgBrightRed}${text}${COLORS.reset}`
-const colorInfo = text => `${COLORS.fgBrightCyan}${text}${COLORS.reset}`
 
 const port = process.env.PORT || process.env.PUERTO
 const express = require('express')
 const app = express()
-const path = require('path') //npm i path
-const methodOverride = require('method-override') //npm i method-override
-const cors = require('cors') //npm i cors
+const path = require('path')
+const methodOverride = require('method-override')
+const cors = require('cors')
+
+// ROUTES
 const courseRssRoutes = require('./routes/course.routes')
 const enrollmentRssRoutes = require('./routes/enrollement.routes')
 const userRssRoutes = require('./routes/user.routes')
@@ -39,21 +40,24 @@ const courseApiRoutes = require('./routes/api/course.api.routes.js')
 const enrollmentApiRoutes = require('./routes/api/enrollement.api.routes.js')
 const userApiRoutes = require('./routes/api/user.api.routes.js')
 
-const baseUrlCourses = `/api/${process.env.API_VERSION}/courses`
-const baseUrlEnrollments = `/api/${process.env.API_VERSION}/enrollments`
-const baseUrlUsers = `/api/${process.env.API_VERSION}/users`
 
+// BASE URLS
+const baseUrlAPICourses = `/api/${process.env.API_VERSION}/courses`
+const baseUrlAPIEnrollments = `/api/${process.env.API_VERSION}/enrollments`
+const baseUrlAPIUsers = `/api/${process.env.API_VERSION}/users`
 
 const baseUrlUsersRSS = `/users/rss`
 const baseUrlCoursesRSS = `/courses/rss`
 const baseUrlEnrollmentsRSS = `/enrollments/rss`
 
+
+//CONFIGURACIÓN - MONGODB
 const mongodbConfig = require('./utils/mongodb.config')
 
 //SETUP - MIDDLEWARES
 app.use(cors())
 app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs') //npm i ejs (SSR)
+app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 //Para poder leer datos (request body) en métodos POST
 app.use(express.urlencoded({ extended: true }))
@@ -80,12 +84,12 @@ app.get('/', (req, res) => {
 })
 
 // API
-app.use(baseUrlUsers, userApiRoutes)   // devuelve JSON
-app.use(baseUrlCourses, courseApiRoutes)
-app.use(baseUrlEnrollments, enrollmentApiRoutes)
+app.use(baseUrlAPIUsers, userApiRoutes)   // devuelven JSON
+app.use(baseUrlAPICourses, courseApiRoutes)
+app.use(baseUrlAPIEnrollments, enrollmentApiRoutes)
 
 // VISTAS
-app.use(baseUrlUsersRSS, userRssRoutes)     // renderiza EJS
+app.use(baseUrlUsersRSS, userRssRoutes)     // renderiza Vistas EJS
 app.use(baseUrlCoursesRSS, courseRssRoutes)
 app.use(baseUrlEnrollmentsRSS, enrollmentRssRoutes)
 
@@ -114,7 +118,7 @@ app.listen(port, async () => {
   const title = 'LearnHub'
   const titlePadding = Math.floor((innerWidth - title.length) / 2)
   const titleRightPadding = innerWidth - titlePadding - title.length
-  
+
   const banner = [
     topLine,
     `│${' '.repeat(titlePadding)}${title}${' '.repeat(titleRightPadding)}│`,
@@ -125,9 +129,9 @@ app.listen(port, async () => {
   ]
   console.log('\n' + banner.map(colorBannerLine).join('\n'))
   console.log(`\n${colorSuccess('✓')} ${colorSuccess('Servidor iniciado correctamente')}`)
-  
+
   try {
-    // Conexión a MongoDB (crítica: sin BD la app no funciona)
+    // Conexión a MongoDB
     await mongodbConfig
       .conectarMongoDB()
       .then(() => {
@@ -152,11 +156,11 @@ setInterval(() => {
   const title = 'Consola Actualizada'
   const titlePadding = Math.floor((infoWidth - title.length) / 2)
   const titleRightPadding = infoWidth - titlePadding - title.length
-  
+
   const horaText = `  Hora: ${now}`
   const servidorText = `  Servidor: http://localhost:${port}`
   const swaggerText = `  Swagger : http://localhost:${port}${process.env.SWAGGER_DOCS}`
-  
+
   const info = [
     infoTop,
     `║${' '.repeat(titlePadding)}${title}${' '.repeat(titleRightPadding)}║`,
