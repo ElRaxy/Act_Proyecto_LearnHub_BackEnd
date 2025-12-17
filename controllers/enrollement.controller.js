@@ -1,4 +1,4 @@
-const enrollmentService = require('../services/enrollment.service')
+const enrollmentService = require('../services/enrollement.service')
 const userService = require('../services/user.service')
 const courseService = require('../services/course.service')
 const baseUrlEnrollments = `/api/${process.env.API_VERSION}/enrollments`
@@ -66,10 +66,35 @@ exports.showEditEnrollment = async (req, res) => {
     const courses = await courseService.getAllCourses()
 
     res.locals.tituloEJS = 'Editar Matricula'
-    res.render('enrollments/edit', { enrollment, baseApi: baseUrlEnrollments, users, courses })
+    res.render('enrollments/edit', {
+      enrollment,
+      baseApi: baseUrlEnrollments,
+      users,
+      courses
+    })
   } catch (error) {
     console.error(error)
     res.status(500).send('Error al cargar la vista de edición')
+  }
+}
+
+// Detalle matrícula
+exports.getEnrollmentById = async (req, res) => {
+  try {
+    const enrollment = await enrollmentService.getEnrollmentById(req.params.id)
+
+    if (!enrollment) {
+      return res.status(404).send('No se encontró la matricula')
+    }
+
+    res.locals.tituloEJS = 'Detalle de la Matricula'
+    res.render('enrollments/show', {
+      enrollment,
+      baseApi: baseUrlEnrollments
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Error al obtener la matricula')
   }
 }
 
