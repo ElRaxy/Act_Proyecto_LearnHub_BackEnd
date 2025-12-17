@@ -1,5 +1,5 @@
 const Course = require('../models/courses.model')
-const baseUrlCourses = `/api/${process.env.API_VERSION}/courses`
+const baseUrlCourses = `/courses/rss`
 
 // GET ALL COURSES (vista)
 exports.getAllCourses = async (req, res) => {

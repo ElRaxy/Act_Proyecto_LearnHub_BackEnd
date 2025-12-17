@@ -1,11 +1,12 @@
 const userService = require('../services/user.service')
+const baseUrlUsers = '/users/rss'
 
 // Listar todos los usuarios
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await userService.getAllUsers()
     res.locals.tituloEJS = 'Listado de Usuarios'
-    res.render('users/index', { users, baseUrlUsers: '/api/v1/users' })
+    res.render('users/index', { users, baseUrlUsers })
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener usuarios' })
   }
@@ -14,14 +15,14 @@ exports.getAllUsers = async (req, res) => {
 // Mostrar formulario de nuevo usuario
 exports.showNewUser = (req, res) => {
   res.locals.tituloEJS = 'Nuevo Usuario'
-  res.render('users/new', { baseUrlUsers: '/api/v1/users' })
+  res.render('users/rss/new', { baseUrlUsers })
 }
 
 // Crear usuario
 exports.createUser = async (req, res, next) => {
   try {
     await userService.create(req.body)
-    res.redirect('/api/v1/users')
+    res.redirect(baseUrlUsers)
   } catch (error) {
     if (error.code === 11000) {
       error.status = 400
@@ -39,7 +40,7 @@ exports.showEditUser = async (req, res) => {
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
 
     res.locals.tituloEJS = 'Editar Usuario'
-    res.render('users/edit', { user, baseUrlUsers: '/api/v1/users' })
+    res.render('users/rss/edit', { user, baseUrlUsers })
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener usuario para edición' })
   }
@@ -57,7 +58,7 @@ exports.editUser = async (req, res, next) => {
       return next(err)
     }
 
-    res.redirect('/api/v1/users')
+    res.redirect(baseUrlUsers)
   } catch (error) {
     if (error.code === 11000) {
       error.status = 400
@@ -79,7 +80,7 @@ exports.deleteUser = async (req, res) => {
     if (!deletedUser)
       return res.status(404).json({ error: 'Usuario no encontrado' })
 
-    res.redirect('/api/v1/users')
+    res.redirect(baseUrlUsers)
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar usuario' })
   }
@@ -92,7 +93,7 @@ exports.getById = async (req, res) => {
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
 
     res.locals.tituloEJS = 'Detalle Usuario'
-    res.render('users/show', { user, baseUrlUsers: '/api/v1/users' })
+    res.render('users/rss/show', { user, baseUrlUsers })
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener usuario' })
   }
