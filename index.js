@@ -38,6 +38,8 @@ const baseUrlCourses = `/api/${process.env.API_VERSION}/courses`
 const baseUrlEnrollments = `/api/${process.env.API_VERSION}/enrollments`
 const baseUrlUsers = `/api/${process.env.API_VERSION}/users`
 
+const baseUrlUsersRSS = `/api/${process.env.API_VERSION}/users/rss`
+
 const mongodbConfig = require('./utils/mongodb.config')
 
 //SETUP - MIDDLEWARES
@@ -71,6 +73,9 @@ app.get('/', (req, res) => {
 app.use(baseUrlCourses, courseRoutes)
 app.use(baseUrlEnrollments, enrollmentRoutes)
 app.use(baseUrlUsers, userRoutes)
+
+// Rutas RSS (VISTAS)
+app.use(baseUrlUsersRSS, userRoutes)
 
 //Rutas por defecto
 //Si no se especifica ninguna ruta, redirigir a el index.html

@@ -1,6 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/user.controller')
+const userApiController = require('../controllers/api/user.api.controller')
+
+// Rutas API
+router.get('/', userApiController.getAllUsers)
+router.post('/', userApiController.createUser)
+router.get('/show/:id', userApiController.getById)
+router.put('/:id', userApiController.editUser)
+router.delete('/:id', userApiController.deleteUser)
 
 /**
  * @swagger
