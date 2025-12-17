@@ -10,16 +10,16 @@ const usersSchema = new mongoose.Schema({
     minlength: 9,
     maxlength: 9,
   },
-  firstName: { 
-    type: String, 
+  firstName: {
+    type: String,
     required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
   email: { type: String, required: true, unique: true, lowercase: true },
-  phone: { 
-    type: String, 
-    required: true, 
-    unique: true, 
-    trim: true 
+  phone: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true
   },
   birthDate: { type: Date, required: true },
   profile: {
@@ -31,6 +31,6 @@ const usersSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 })
 
-// Usa exactamente la colección "users"
+// Usa exactamente "users"
 module.exports =
   mongoose.models.User || mongoose.model('User', usersSchema, 'users')

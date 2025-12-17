@@ -11,6 +11,6 @@ const courseSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 })
 
-// Usa exactamente la colección "courses"
+// Usa exactamente "courses"
 module.exports =
   mongoose.models.Course || mongoose.model('Course', courseSchema, 'courses')
