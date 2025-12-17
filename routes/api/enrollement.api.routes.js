@@ -7,7 +7,7 @@ const enrollementApiController = require('../../controllers/api/enrollement.api.
 router.get('/', enrollementApiController.getAllEnrollments)
 router.post('/', enrollementApiController.createEnrollment)
 router.get('/show/:id', enrollementApiController.getEnrollmentById)
-router.put('/:id', enrollementApiController.showEditEnrollment)
+router.put('/:id', enrollementApiController.updateEnrollment)
 router.delete('/:id', enrollementApiController.deleteEnrollment)
 
 module.exports = router
