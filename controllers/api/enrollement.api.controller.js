@@ -14,44 +14,44 @@ exports.getAllEnrollments = async (req, res) => {
   }
 }
 
-// Formulario nueva matrícula
-exports.showNewEnrollment = async (req, res) => {
-  try {
-    const users = await userService.getAllUsers()
-    const courses = await courseService.getAllCourses()
-    res.locals.tituloEJS = 'Nueva Matricula'
-    res.status(200).json(enrollment)
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({error: 'Error al cargar la vista de nueva matrícula'})
-  }
-}
+// // Formulario nueva matrícula
+// exports.showNewEnrollment = async (req, res) => {
+//   try {
+//     const users = await userService.getAllUsers()
+//     const courses = await courseService.getAllCourses()
+//     res.locals.tituloEJS = 'Nueva Matricula'
+//     res.status(200).json(enrollment)
+//   } catch (error) {
+//     console.error(error)
+//     res.status(500).json({error: 'Error al cargar la vista de nueva matrícula'})
+//   }
+// }
 
 // Crear matrícula
 exports.createEnrollment = async (req, res) => {
   try {
     await enrollmentService.createEnrollment(req.body)
-    res.status(201).json(enrollment)
+    res.status(201).json(req.body)
   } catch (error) {
     console.error(error)
     res.status(500).json({error: 'Error al crear usuario'})
   }
 }
 
-// Formulario editar matrícula
-exports.showEditEnrollment = async (req, res) => {
-  try {
-    const enrollment = await enrollmentService.getEnrollmentById(req.params.id)
-    if (!enrollment) return res.status(404).json({error:'No se encontró la matricula'})
-    const users = await userService.getAllUsers()
-    const courses = await courseService.getAllCourses()
-    res.locals.tituloEJS = 'Editar Matricula'
-    res.render('enrollments/edit', { enrollment, baseApi: baseUrlEnrollments, users, courses })
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({error: 'Error al cargar la vista de edición' })
-  }
-}
+// // Formulario editar matrícula
+// exports.showEditEnrollment = async (req, res) => {
+//   try {
+//     const enrollment = await enrollmentService.getEnrollmentById(req.params.id)
+//     if (!enrollment) return res.status(404).json({error:'No se encontró la matricula'})
+//     const users = await userService.getAllUsers()
+//     const courses = await courseService.getAllCourses()
+//     res.locals.tituloEJS = 'Editar Matricula'
+//     res.render('enrollments/edit', { enrollment, baseApi: baseUrlEnrollments, users, courses })
+//   } catch (error) {
+//     console.error(error)
+//     res.status(500).json({error: 'Error al cargar la vista de edición' })
+//   }
+// }
 
 // Actualizar matrícula
 exports.updateEnrollment = async (req, res) => {
@@ -80,11 +80,11 @@ exports.deleteEnrollment = async (req, res) => {
 // Detalle matrícula
 exports.getEnrollmentById = async (req, res) => {
   try {
-    const enrollment = await enrollmentService.getEnrollmentById(req.params.id)
-    if (!enrollment) return res.status(404).json({error: 'No se encontró la matricula'})
+    const enrollmentDeleted = await enrollmentService.getEnrollmentById(req.params.id)
+    if (!enrollmentDeleted) return res.status(404).json({error: 'No se encontró la matricula'})
     res.locals.tituloEJS = 'Detalle de la Matricula'
     //res.render('enrollments/show', { enrollment, baseApi: baseUrlEnrollments })
-    res.status(200).json(enrollment)
+    res.status(200).json(enrollmentDeleted)
   } catch (error) {
     console.error(error)
     res.status(500).json({error: 'Error al obtener la matricula'})
