@@ -3,12 +3,15 @@
 <div class="wrap">
   <h1>Editar Matrícula</h1>
 
-  <form action="<%= baseApi %>/<%= enrollment._id %>?_method=PATCH" method="POST" class="form-card">
+  <form action="<%= baseApi %>/<%= enrollment._id %>?_method=PUT" method="POST" class="form-card">
     <div class="form-group">
       <label for="userId">Alumno</label>
       <select name="userId" id="userId" required>
+        <% 
+          const currentUserId = enrollment.userId ? (enrollment.userId._id ? enrollment.userId._id.toString() : enrollment.userId.toString()) : '';
+        %>
         <% users.forEach(user => { %>
-          <option value="<%= user._id %>" <%= enrollment.userId && enrollment.userId._id.toString() === user._id.toString() ? 'selected' : '' %>>
+          <option value="<%= user._id %>" <%= currentUserId === user._id.toString() ? 'selected' : '' %>>
             <%= user.firstName %> <%= user.lastName %>
           </option>
         <% }) %>
@@ -18,8 +21,11 @@
     <div class="form-group">
       <label for="courseId">Curso</label>
       <select name="courseId" id="courseId" required>
+        <% 
+          const currentCourseId = enrollment.courseId ? (enrollment.courseId._id ? enrollment.courseId._id.toString() : enrollment.courseId.toString()) : '';
+        %>
         <% courses.forEach(course => { %>
-          <option value="<%= course._id %>" <%= enrollment.courseId && enrollment.courseId._id.toString() === course._id.toString() ? 'selected' : '' %>>
+          <option value="<%= course._id %>" <%= currentCourseId === course._id.toString() ? 'selected' : '' %>>
             <%= course.title %> - <%= course.category %>
           </option>
         <% }) %>

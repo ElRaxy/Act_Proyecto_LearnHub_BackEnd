@@ -17,15 +17,13 @@ exports.getEnrollmentById = async (id) =>
 
 // Crear matrícula
 exports.createEnrollment = async ({ courseId, userId, enrollmentsDate, status, notes }) => {
-  const courseObjectId = mongoose.Types.ObjectId(courseId)
-  const userObjectId = mongoose.Types.ObjectId(userId)
-
-  const conflict = await enrollmentsModel.findOne({ userId: userObjectId }).lean()
+  // Mongoose convierte automáticamente los strings a ObjectId
+  const conflict = await enrollmentsModel.findOne({ userId }).lean()
   if (conflict) throw new Error('El usuario ya está matriculado en otro curso')
 
   return await enrollmentsModel.create({
-    courseId: courseObjectId,
-    userId: userObjectId,
+    courseId,
+    userId,
     enrollmentsDate,
     status,
     notes
@@ -34,6 +32,26 @@ exports.createEnrollment = async ({ courseId, userId, enrollmentsDate, status, n
 
 exports.getEnrollmentByUserId = async userId => {
   return await enrollmentsModel.findOne({ userId }).lean()
+}
+
+// Actualizar matrícula
+exports.updateEnrollment = async (id, { courseId, userId, enrollmentsDate, status, notes }) => {
+  const updateData = {
+    enrollmentsDate,
+    status,
+    updatedAt: new Date()
+  }
+  
+  // Solo incluir los campos que se proporcionan
+  if (courseId) updateData.courseId = courseId
+  if (userId) updateData.userId = userId
+  if (notes !== undefined) updateData.notes = notes
+  
+  return await enrollmentsModel.findByIdAndUpdate(
+    id,
+    updateData,
+    { new: true, runValidators: true }
+  )
 }
 
 // Eliminar matrícula

@@ -103,6 +103,10 @@ router.get('/', userController.getAllUsers)
  */
 router.post('/', userController.createUser)
 
+// Vistas (rutas específicas deben ir ANTES de las dinámicas)
+router.get('/new', userController.showNewUser)
+router.get('/edit/:id', userController.showEditUser)
+
 /**
  * @swagger
  * /users/show/{id}:
@@ -258,10 +262,6 @@ router.put('/:id', userController.editUser)
  *               $ref: '#/components/schemas/Error'
  */
 router.delete('/:id', userController.deleteUser)
-
-// Vistas (no documentadas en Swagger ya que son para renderizado de vistas)
-router.get('/new', userController.showNewUser)
-router.get('/edit/:id', userController.showEditUser)
 
 
 

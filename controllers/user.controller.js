@@ -15,7 +15,7 @@ exports.getAllUsers = async (req, res) => {
 // Mostrar formulario de nuevo usuario
 exports.showNewUser = (req, res) => {
   res.locals.tituloEJS = 'Nuevo Usuario'
-  res.render('users/rss/new', { baseUrlUsers })
+  res.render('users/new', { baseUrlUsers })
 }
 
 // Crear usuario
@@ -40,7 +40,7 @@ exports.showEditUser = async (req, res) => {
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
 
     res.locals.tituloEJS = 'Editar Usuario'
-    res.render('users/rss/edit', { user, baseUrlUsers })
+    res.render('users/edit', { user, baseUrlUsers })
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener usuario para edición' })
   }
@@ -93,7 +93,7 @@ exports.getById = async (req, res) => {
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
 
     res.locals.tituloEJS = 'Detalle Usuario'
-    res.render('users/rss/show', { user, baseUrlUsers })
+    res.render('users/show', { user, baseUrlUsers })
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener usuario' })
   }

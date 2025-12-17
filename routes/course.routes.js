@@ -88,6 +88,9 @@ router.get('/', courseController.getAllCourses)
  */
 router.post('/', courseController.createCourse)
 
+// Vistas (rutas específicas deben ir ANTES de las dinámicas)
+router.get('/new', courseController.showCreateForm)
+
 /**
  * @swagger
  * /courses/{id}:
@@ -233,8 +236,7 @@ router.patch('/:id', courseController.updateCourse)
  */
 router.delete('/:id', courseController.deleteCourse)
 
-// Vistas (no documentadas en Swagger ya que son para renderizado de vistas)
-router.get('/new', courseController.showCreateForm)
+// Vistas (rutas específicas deben ir ANTES de las dinámicas)
 router.get('/:id/edit', courseController.showEditForm)
 
 module.exports = router

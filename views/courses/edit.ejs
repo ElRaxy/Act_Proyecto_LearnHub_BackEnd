@@ -3,7 +3,7 @@
 <div class="wrap">
   <h1>Editar Curso</h1>
 
-  <form action="/api/v1/courses/<%= course._id %>?_method=PATCH" method="POST" class="form-card">
+  <form action="<%= baseApi %>/<%= course._id %>?_method=PATCH" method="POST" class="form-card">
     <div class="form-group">
       <label>Título</label>
       <input type="text" name="title" value="<%= course.title %>" required>
