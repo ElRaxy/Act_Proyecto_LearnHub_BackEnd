@@ -262,4 +262,6 @@ router.delete('/:id', userController.deleteUser)
 router.get('/new', userController.showNewUser)
 router.get('/edit/:id', userController.showEditUser)
 
+
+
 module.exports = router

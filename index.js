@@ -23,7 +23,6 @@ const COLORS = {
 const colorBannerLine = line => `${COLORS.fgBrightBlue}${line}${COLORS.reset}`
 const colorSuccess = text => `${COLORS.fgBrightGreen}${text}${COLORS.reset}`
 const colorError = text => `${COLORS.fgBrightRed}${text}${COLORS.reset}`
-const colorInfo = text => `${COLORS.fgBrightCyan}${text}${COLORS.reset}`
 
 const port = process.env.PORT || process.env.PUERTO
 const express = require('express')
@@ -97,7 +96,7 @@ app.listen(port, async () => {
   const title = 'LearnHub'
   const titlePadding = Math.floor((innerWidth - title.length) / 2)
   const titleRightPadding = innerWidth - titlePadding - title.length
-  
+
   const banner = [
     topLine,
     `│${' '.repeat(titlePadding)}${title}${' '.repeat(titleRightPadding)}│`,
@@ -108,7 +107,7 @@ app.listen(port, async () => {
   ]
   console.log('\n' + banner.map(colorBannerLine).join('\n'))
   console.log(`\n${colorSuccess('✓')} ${colorSuccess('Servidor iniciado correctamente')}`)
-  
+
   try {
     // Conexión a MongoDB (crítica: sin BD la app no funciona)
     await mongodbConfig
@@ -135,11 +134,11 @@ setInterval(() => {
   const title = 'Consola Actualizada'
   const titlePadding = Math.floor((infoWidth - title.length) / 2)
   const titleRightPadding = infoWidth - titlePadding - title.length
-  
+
   const horaText = `  Hora: ${now}`
   const servidorText = `  Servidor: http://localhost:${port}`
   const swaggerText = `  Swagger : http://localhost:${port}${process.env.SWAGGER_DOCS}`
-  
+
   const info = [
     infoTop,
     `║${' '.repeat(titlePadding)}${title}${' '.repeat(titleRightPadding)}║`,
