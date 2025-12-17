@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const enrollementApiController = require('../../controllers/api/enrollement.api.controller')
+const courseApiController = require('../../controllers/api/course.api.controller')
+
 
 
 module.exports = router

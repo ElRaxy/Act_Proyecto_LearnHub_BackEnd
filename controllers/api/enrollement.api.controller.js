@@ -8,10 +8,9 @@ exports.getAllEnrollments = async (req, res) => {
   try {
     const enrollments = await enrollmentService.getAllEnrollments()
     res.locals.tituloEJS = 'Matriculas'
-    res.render('enrollments/index', { enrollments, baseApi: baseUrlEnrollments })
+    res.status(200).json(enrollments)
   } catch (error) {
-    console.error(error)
-    res.status(500).send('No se pudieron listar las matriculas')
+    res.status(500).json({error:'No se pudieron listar las matriculas'})
   }
 }
 
@@ -21,10 +20,10 @@ exports.showNewEnrollment = async (req, res) => {
     const users = await userService.getAllUsers()
     const courses = await courseService.getAllCourses()
     res.locals.tituloEJS = 'Nueva Matricula'
-    res.render('enrollments/new', { baseApi: baseUrlEnrollments, users, courses })
+    res.status(200).json(enrollment)
   } catch (error) {
     console.error(error)
-    res.status(500).send('Error al cargar la vista de nueva matrícula')
+    res.status(500).json({error: 'Error al cargar la vista de nueva matrícula'})
   }
 }
 
@@ -32,10 +31,10 @@ exports.showNewEnrollment = async (req, res) => {
 exports.createEnrollment = async (req, res) => {
   try {
     await enrollmentService.createEnrollment(req.body)
-    res.redirect(baseUrlEnrollments)
+    res.status(201).json(enrollment)
   } catch (error) {
     console.error(error)
-    res.status(400).send(error.message)
+    res.status(500).json({error: 'Error al crear usuario'})
   }
 }
 
@@ -43,36 +42,38 @@ exports.createEnrollment = async (req, res) => {
 exports.showEditEnrollment = async (req, res) => {
   try {
     const enrollment = await enrollmentService.getEnrollmentById(req.params.id)
-    if (!enrollment) return res.status(404).send('No se encontró la matricula')
+    if (!enrollment) return res.status(404).json({error:'No se encontró la matricula'})
     const users = await userService.getAllUsers()
     const courses = await courseService.getAllCourses()
     res.locals.tituloEJS = 'Editar Matricula'
     res.render('enrollments/edit', { enrollment, baseApi: baseUrlEnrollments, users, courses })
   } catch (error) {
     console.error(error)
-    res.status(500).send('Error al cargar la vista de edición')
+    res.status(500).json({error: 'Error al cargar la vista de edición' })
   }
 }
 
 // Actualizar matrícula
 exports.updateEnrollment = async (req, res) => {
   try {
-    await enrollmentService.updateEnrollment(req.params.id, req.body)
-    res.redirect(`${baseUrlEnrollments}/${req.params.id}`)
+    const updatedEnrollment = await enrollmentService.updateEnrollment(req.params.id, req.body)
+    //res.redirect(`${baseUrlEnrollments}/${req.params.id}`)
+    res.status(200).json(updatedEnrollment)
   } catch (error) {
     console.error(error)
-    res.status(400).send(error.message)
+    res.status(500).json({error: 'Error al actualizar matrícula'})
   }
 }
 
 // Eliminar matrícula
 exports.deleteEnrollment = async (req, res) => {
   try {
-    await enrollmentService.deleteEnrollment(req.params.id)
-    res.redirect(baseUrlEnrollments)
+    const deletedEnrollment = await enrollmentService.delete(req.params.id)
+    //res.redirect(baseUrlEnrollments)
+    res.status(200).json(deletedEnrollment)
   } catch (error) {
     console.error(error)
-    res.status(500).send('Error al eliminar la matricula')
+    res.status(500).json({error: 'Error al eliminar la matricula'})
   }
 }
 
@@ -80,11 +81,12 @@ exports.deleteEnrollment = async (req, res) => {
 exports.getEnrollmentById = async (req, res) => {
   try {
     const enrollment = await enrollmentService.getEnrollmentById(req.params.id)
-    if (!enrollment) return res.status(404).send('No se encontró la matricula')
+    if (!enrollment) return res.status(404).json({error: 'No se encontró la matricula'})
     res.locals.tituloEJS = 'Detalle de la Matricula'
-    res.render('enrollments/show', { enrollment, baseApi: baseUrlEnrollments })
+    //res.render('enrollments/show', { enrollment, baseApi: baseUrlEnrollments })
+    res.status(200).json(enrollment)
   } catch (error) {
     console.error(error)
-    res.status(500).send('Error al obtener la matricula')
+    res.status(500).json({error: 'Error al obtener la matricula'})
   }
 }
