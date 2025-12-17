@@ -31,12 +31,22 @@ const app = express()
 const path = require('path') //npm i path
 const methodOverride = require('method-override') //npm i method-override
 const cors = require('cors') //npm i cors
-const courseRoutes = require('./routes/course.routes')
-const enrollmentRoutes = require('./routes/enrollement.routes')
-const userRoutes = require('./routes/user.routes')
+const courseRssRoutes = require('./routes/course.routes')
+const enrollmentRssRoutes = require('./routes/enrollement.routes')
+const userRssRoutes = require('./routes/user.routes')
+
+const courseApiRoutes = require('./routes/api/course.api.routes.js')
+const enrollmentApiRoutes = require('./routes/api/enrollement.api.routes.js')
+const userApiRoutes = require('./routes/api/user.api.routes.js')
+
 const baseUrlCourses = `/api/${process.env.API_VERSION}/courses`
 const baseUrlEnrollments = `/api/${process.env.API_VERSION}/enrollments`
 const baseUrlUsers = `/api/${process.env.API_VERSION}/users`
+
+
+const baseUrlUsersRSS = `/users/rss`
+const baseUrlCoursesRSS = `/courses/rss`
+const baseUrlEnrollmentsRSS = `/enrollments/rss`
 
 const mongodbConfig = require('./utils/mongodb.config')
 
@@ -68,9 +78,16 @@ app.get('/', (req, res) => {
     res.send(data)
   })
 })
-app.use(baseUrlCourses, courseRoutes)
-app.use(baseUrlEnrollments, enrollmentRoutes)
-app.use(baseUrlUsers, userRoutes)
+
+// API
+app.use(baseUrlUsers, userApiRoutes)   // devuelve JSON
+app.use(baseUrlCourses, courseApiRoutes)
+app.use(baseUrlEnrollments, enrollmentApiRoutes)
+
+// VISTAS
+app.use(baseUrlUsersRSS, userRssRoutes)     // renderiza EJS
+app.use(baseUrlCoursesRSS, courseRssRoutes)
+app.use(baseUrlEnrollmentsRSS, enrollmentRssRoutes)
 
 //Rutas por defecto
 //Si no se especifica ninguna ruta, redirigir a el index.html
