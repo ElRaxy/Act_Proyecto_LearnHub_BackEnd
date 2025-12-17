@@ -1,4 +1,4 @@
-const Course = require('../models/courses.model')
+const Course = require('../../models/courses.model')
 const baseUrlCourses = `/api/${process.env.API_VERSION}/courses`
 
 // GET ALL COURSES (vista)
