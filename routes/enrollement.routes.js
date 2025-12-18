@@ -88,6 +88,9 @@ router.get('/', enrollmentController.getAllEnrollments)
  */
 router.post('/', enrollmentController.createEnrollment)
 
+// Vistas (rutas específicas deben ir ANTES de las dinámicas)
+router.get('/new', enrollmentController.showNewEnrollment)
+
 /**
  * @swagger
  * /enrollments/{id}:
@@ -235,8 +238,7 @@ router.put('/:id', enrollmentController.updateEnrollment)
  */
 router.delete('/:id', enrollmentController.deleteEnrollment)
 
-// Vistas (no documentadas en Swagger ya que son para renderizado de vistas)
-router.get('/new', enrollmentController.showNewEnrollment)
+// Vistas (rutas específicas deben ir ANTES de las dinámicas)
 router.get('/:id/edit', enrollmentController.showEditEnrollment)
 
 module.exports = router

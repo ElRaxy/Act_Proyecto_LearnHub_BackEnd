@@ -101,6 +101,15 @@ exports.getEnrollmentById = async (req, res) => {
 // Actualizar matrícula
 exports.updateEnrollment = async (req, res, next) => {
   try {
+    // Verificar que la matrícula existe
+    const enrollment = await enrollmentService.getEnrollmentById(req.params.id)
+    if (!enrollment) {
+      const error = new Error(`Matrícula con ID '${req.params.id}' no encontrada`)
+      error.status = 404
+      error.source = 'Actualizar matrícula'
+      return next(error)
+    }
+
     // Verificamos si el usuario ya tiene otra matrícula distinta a la que estamos editando
     const existingEnrollment = await enrollmentService.getEnrollmentByUserId(req.body.userId)
     if (existingEnrollment && existingEnrollment._id.toString() !== req.params.id) {
@@ -110,7 +119,14 @@ exports.updateEnrollment = async (req, res, next) => {
       return next(error)
     }
 
-    await enrollmentService.updateEnrollment(req.params.id, req.body)
+    const updatedEnrollment = await enrollmentService.updateEnrollment(req.params.id, req.body)
+    if (!updatedEnrollment) {
+      const error = new Error(`Error al actualizar la matrícula`)
+      error.status = 500
+      error.source = 'Actualizar matrícula'
+      return next(error)
+    }
+
     res.redirect(baseUrlEnrollments)
   } catch (error) {
     next(error)
