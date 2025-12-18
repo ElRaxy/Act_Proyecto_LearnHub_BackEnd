@@ -33,11 +33,11 @@ const cors = require('cors')
 
 // ROUTES
 const courseRssRoutes = require('./routes/course.routes')
-const enrollmentRssRoutes = require('./routes/enrollement.routes')
+const enrollmentRssRoutes = require('./routes/enrollment.routes')
 const userRssRoutes = require('./routes/user.routes')
 
 const courseApiRoutes = require('./routes/api/course.api.routes.js')
-const enrollmentApiRoutes = require('./routes/api/enrollement.api.routes.js')
+const enrollmentApiRoutes = require('./routes/api/enrollment.api.routes.js')
 const userApiRoutes = require('./routes/api/user.api.routes.js')
 
 
