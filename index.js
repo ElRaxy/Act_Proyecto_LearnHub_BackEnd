@@ -96,7 +96,8 @@ app.use(baseUrlEnrollmentsRSS, enrollmentRssRoutes)
 //Rutas por defecto
 //Si no se especifica ninguna ruta, redirigir a el index.html
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+  // res.sendFile(path.join(__dirname, 'public', 'index.html'))
+  res.status(404).json("Ruta no encontrada")
 })
 
 // Middleware global de errores
