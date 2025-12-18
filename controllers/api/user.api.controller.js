@@ -16,15 +16,15 @@ exports.showNewUser = (req, res) => {
   res.render('users/new', { baseUrlUsers: '/api/v1/users' })
 }
 
-// Crear usuario
 exports.createUser = async (req, res) => {
-  try{
+  try {
     const user = await userService.create(req.body)
     res.status(201).json(user)
   } catch (error) {
-    res.status(500).json({ error: 'Error al crear usuario' })
+    res.status(500).json({ error: error.message })
   }
 }
+
 // Mostrar formulario de edición
 exports.showEditUser = async (req, res) => {
   try {
