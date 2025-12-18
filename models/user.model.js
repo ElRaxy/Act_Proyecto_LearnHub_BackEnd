@@ -32,5 +32,4 @@ const usersSchema = new mongoose.Schema({
 })
 
 // Usa exactamente "users"
-module.exports =
-  mongoose.models.User || mongoose.model('User', usersSchema, 'users')
+module.exports = mongoose.models.User || mongoose.model('User', usersSchema, 'users')
