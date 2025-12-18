@@ -68,7 +68,7 @@ exports.showEditForm = async (req, res) => {
 exports.updateCourse = async (req, res) => {
   try {
     await Course.findByIdAndUpdate(req.params.id, req.body)
-    res.redirect(`${baseUrlCourses}/${req.params.id}`)
+    res.redirect(`${baseUrlCourses}`)
   } catch (error) {
     res.status(500).send('Error actualizando curso: ' + error)
   }
