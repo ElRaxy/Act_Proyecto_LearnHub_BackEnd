@@ -12,5 +12,4 @@ const courseSchema = new mongoose.Schema({
 })
 
 // Usa exactamente "courses"
-module.exports =
-  mongoose.models.Course || mongoose.model('Course', courseSchema, 'courses')
+module.exports = mongoose.models.Course || mongoose.model('Course', courseSchema, 'courses')
