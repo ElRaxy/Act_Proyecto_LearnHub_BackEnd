@@ -1,4 +1,4 @@
-const enrollmentService = require('../services/enrollement.service')
+const enrollmentService = require('../services/enrollment.service')
 const userService = require('../services/user.service')
 const courseService = require('../services/course.service')
 const baseUrlEnrollments = `/enrollments/rss`
