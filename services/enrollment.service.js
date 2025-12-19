@@ -21,13 +21,14 @@ exports.createEnrollment = async ({ courseId, userId, enrollmentsDate, status, n
   const conflict = await enrollmentsModel.findOne({ userId }).lean()
   if (conflict) throw new Error('El usuario ya está matriculado en otro curso')
 
-  return await enrollmentsModel.create({
+  const enrollment = await enrollmentsModel.create({
     courseId,
     userId,
     enrollmentsDate,
     status,
     notes
   })
+  return enrollment.toObject()
 }
 
 exports.getEnrollmentByUserId = async userId => {
@@ -47,13 +48,22 @@ exports.updateEnrollment = async (id, { courseId, userId, enrollmentsDate, statu
   if (userId) updateData.userId = userId
   if (notes !== undefined) updateData.notes = notes
   
-  return await enrollmentsModel.findByIdAndUpdate(
+  const enrollment = await enrollmentsModel.findByIdAndUpdate(
     id,
     updateData,
     { new: true, runValidators: true }
   )
+  if (!enrollment) {
+    throw new Error(`Matrícula con ID '${id}' no encontrada`)
+  }
+  return enrollment.toObject()
 }
 
 // Eliminar matrícula
-exports.deleteEnrollment = async (id) =>
-  await enrollmentsModel.findByIdAndDelete(id)
+exports.deleteEnrollment = async (id) => {
+  const enrollment = await enrollmentsModel.findByIdAndDelete(id)
+  if (!enrollment) {
+    throw new Error(`Matrícula con ID '${id}' no encontrada`)
+  }
+  return enrollment.toObject()
+}

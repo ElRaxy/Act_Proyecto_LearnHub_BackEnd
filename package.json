@@ -1,13 +1,13 @@
 {
-  "name": "act_proyecto_i_alexmico_alejandropuente",
+  "name": "act_proyecto_ii_alexmico_alejandropuente_jacob_sergio",
   "version": "1.0.0",
-  "description": "",
+  "description": "Proyecto II de la asignatura de Desarrollo Web en Entorno Servidor",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Alex Mico, Alejandro Puente, Jacob Armenta, Sergio Pérez",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
@@ -16,11 +16,13 @@
     "express": "^5.1.0",
     "method-override": "^3.0.0",
     "mongoose": "^9.0.0",
-    "path": "^0.12.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
+  },
+  "overrides": {
+    "glob": "^10.3.10"
   }
 }
