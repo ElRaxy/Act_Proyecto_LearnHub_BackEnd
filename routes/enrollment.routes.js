@@ -4,241 +4,72 @@ const enrollmentController = require('../controllers/enrollment.controller')
 
 /**
  * @swagger
- * /enrollments:
+ * /enrollments/rss:
  *   get:
- *     summary: Obtener todas las inscripciones
- *     tags: [Enrollments]
- *     responses:
- *       200:
- *         description: Lista de inscripciones obtenida exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Enrollment'
- *       500:
- *         description: Error del servidor
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *     summary: Renderiza la vista con el listado de matrículas (HTML)
+ *     description: Ruta que renderiza una vista EJS con todas las matrículas
+ *     tags: [Vistas - Enrollments]
  */
 router.get('/', enrollmentController.getAllEnrollments)
 
 /**
  * @swagger
- * /enrollments:
+ * /enrollments/rss:
  *   post:
- *     summary: Crear una nueva inscripción
- *     tags: [Enrollments]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - userId
- *               - courseId
- *               - enrollmentsDate
- *               - status
- *             properties:
- *               userId:
- *                 type: string
- *                 description: ID del usuario
- *                 example: '507f1f77bcf86cd799439011'
- *               courseId:
- *                 type: string
- *                 description: ID del curso
- *                 example: '507f1f77bcf86cd799439012'
- *               enrollmentsDate:
- *                 type: string
- *                 format: date-time
- *                 description: Fecha de inscripción
- *                 example: '2024-01-10T10:00:00.000Z'
- *               status:
- *                 type: string
- *                 enum: [pendiente, aprobado, rechazado]
- *                 description: Estado de la inscripción
- *                 example: pendiente
- *               notes:
- *                 type: string
- *                 description: Notas adicionales
- *                 example: Estudiante interesado en el curso
- *     responses:
- *       201:
- *         description: Inscripción creada exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Enrollment'
- *       400:
- *         description: Datos inválidos
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       500:
- *         description: Error del servidor
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *     summary: Crea una nueva matrícula y redirige a la vista de listado (HTML)
+ *     description: Ruta que procesa el formulario de creación y redirige
+ *     tags: [Vistas - Enrollments]
  */
 router.post('/', enrollmentController.createEnrollment)
 
-// Vistas (rutas específicas deben ir ANTES de las dinámicas)
+/**
+ * @swagger
+ * /enrollments/rss/new:
+ *   get:
+ *     summary: Renderiza el formulario de creación de matrícula (HTML)
+ *     description: Ruta que renderiza una vista EJS con el formulario para crear una nueva matrícula
+ *     tags: [Vistas - Enrollments]
+ */
 router.get('/new', enrollmentController.showNewEnrollment)
 
 /**
  * @swagger
- * /enrollments/{id}:
+ * /enrollments/rss/{id}:
  *   get:
- *     summary: Obtener una inscripción por ID
- *     tags: [Enrollments]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID de la inscripción
- *         example: '507f1f77bcf86cd799439011'
- *     responses:
- *       200:
- *         description: Inscripción obtenida exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Enrollment'
- *       404:
- *         description: Inscripción no encontrada
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       500:
- *         description: Error del servidor
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *     summary: Renderiza la vista de detalle de una matrícula (HTML)
+ *     description: Ruta que renderiza una vista EJS con los detalles de una matrícula específica
+ *     tags: [Vistas - Enrollments]
  */
 router.get('/:id', enrollmentController.getEnrollmentById)
 
 /**
  * @swagger
- * /enrollments/{id}:
+ * /enrollments/rss/{id}:
  *   put:
- *     summary: Actualizar una inscripción existente
- *     tags: [Enrollments]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID de la inscripción
- *         example: '507f1f77bcf86cd799439011'
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               userId:
- *                 type: string
- *                 description: ID del usuario
- *                 example: '507f1f77bcf86cd799439011'
- *               courseId:
- *                 type: string
- *                 description: ID del curso
- *                 example: '507f1f77bcf86cd799439012'
- *               enrollmentsDate:
- *                 type: string
- *                 format: date-time
- *                 description: Fecha de inscripción
- *                 example: '2024-01-10T10:00:00.000Z'
- *               status:
- *                 type: string
- *                 enum: [pendiente, aprobado, rechazado]
- *                 description: Estado de la inscripción
- *                 example: aprobado
- *               notes:
- *                 type: string
- *                 description: Notas adicionales
- *                 example: Inscripción aprobada por el administrador
- *     responses:
- *       200:
- *         description: Inscripción actualizada exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Enrollment'
- *       404:
- *         description: Inscripción no encontrada
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       400:
- *         description: Datos inválidos
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       500:
- *         description: Error del servidor
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *     summary: Actualiza una matrícula y redirige a la vista de listado (HTML)
+ *     description: Ruta que procesa el formulario de edición y redirige
+ *     tags: [Vistas - Enrollments]
  */
 router.put('/:id', enrollmentController.updateEnrollment)
 
 /**
  * @swagger
- * /enrollments/{id}:
+ * /enrollments/rss/{id}:
  *   delete:
- *     summary: Eliminar una inscripción
- *     tags: [Enrollments]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID de la inscripción
- *         example: '507f1f77bcf86cd799439011'
- *     responses:
- *       200:
- *         description: Inscripción eliminada exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Inscripción eliminada exitosamente
- *       404:
- *         description: Inscripción no encontrada
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       500:
- *         description: Error del servidor
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *     summary: Elimina una matrícula y redirige a la vista de listado (HTML)
+ *     description: Ruta que procesa la eliminación de una matrícula y redirige
+ *     tags: [Vistas - Enrollments]
  */
 router.delete('/:id', enrollmentController.deleteEnrollment)
 
-// Vistas (rutas específicas deben ir ANTES de las dinámicas)
+/**
+ * @swagger
+ * /enrollments/rss/{id}/edit:
+ *   get:
+ *     summary: Renderiza el formulario de edición de matrícula (HTML)
+ *     description: Ruta que renderiza una vista EJS con el formulario para editar una matrícula existente
+ *     tags: [Vistas - Enrollments]
+ */
 router.get('/:id/edit', enrollmentController.showEditEnrollment)
 
 module.exports = router
