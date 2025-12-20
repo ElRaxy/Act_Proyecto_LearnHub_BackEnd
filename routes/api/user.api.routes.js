@@ -4,16 +4,11 @@ const userApiController = require('../../controllers/api/user.api.controller')
 
 /**
  * @openapi
- * /api/{version}/users:
+ * /users:
  *   get:
  *     summary: Obtener todos los usuarios
  *     tags: [API - Users]
- *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *     responses:
  *       200:
  *         description: Lista de usuarios obtenida exitosamente
@@ -34,16 +29,11 @@ router.get('/', userApiController.getAllUsers)
 
 /**
  * @openapi
- * /api/{version}/users:
+ * /users:
  *   post:
  *     summary: Crear un nuevo usuario
  *     tags: [API - Users]
- *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *     requestBody:
  *       required: true
  *       content:
@@ -68,23 +58,19 @@ router.post('/', userApiController.createUser)
 
 /**
  * @openapi
- * /api/{version}/users/{id}:
+ * /users/show/{id}:
  *   get:
  *     summary: Obtener un usuario por ID
  *     tags: [API - Users]
  *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
  *         description: ID del usuario
- *         example: '507f1f77bcf86cd799439011'
+ *         example: '507f1f77bcf86cd799439021'
  *     responses:
  *       200:
  *         description: Usuario obtenido exitosamente
@@ -109,23 +95,19 @@ router.get('/show/:id', userApiController.getById)
 
 /**
  * @openapi
- * /api/{version}/users/{id}:
+ * /users/{id}:
  *   put:
  *     summary: Actualizar un usuario existente
  *     tags: [API - Users]
  *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
  *         description: ID del usuario
- *         example: '507f1f77bcf86cd799439011'
+ *         example: '507f1f77bcf86cd799439021'
  *     requestBody:
  *       required: true
  *       content:
@@ -156,23 +138,19 @@ router.put('/:id', userApiController.editUser)
 
 /**
  * @openapi
- * /api/{version}/users/{id}:
+ * /users/{id}:
  *   delete:
  *     summary: Eliminar un usuario
  *     tags: [API - Users]
  *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
  *         description: ID del usuario
- *         example: '507f1f77bcf86cd799439011'
+ *         example: '507f1f77bcf86cd799439021'
  *     responses:
  *       200:
  *         description: Usuario eliminado exitosamente

@@ -4,16 +4,11 @@ const courseApiController = require('../../controllers/api/course.api.controller
 
 /**
  * @openapi
- * /api/{version}/courses:
+ * /courses:
  *   get:
  *     summary: Obtener todos los cursos
  *     tags: [API - Courses]
- *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *     responses:
  *       200:
  *         description: Lista de cursos obtenida exitosamente
@@ -34,16 +29,11 @@ router.get('/', courseApiController.getAllCourses)
 
 /**
  * @openapi
- * /api/{version}/courses:
+ * /courses:
  *   post:
  *     summary: Crear un nuevo curso
  *     tags: [API - Courses]
- *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *     requestBody:
  *       required: true
  *       content:
@@ -68,16 +58,12 @@ router.post('/', courseApiController.createCourse)
 
 /**
  * @openapi
- * /api/{version}/courses/{id}:
+ * /courses/show/{id}:
  *   get:
  *     summary: Obtener un curso por ID
  *     tags: [API - Courses]
  *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *       - in: path
  *         name: id
  *         required: true
@@ -109,16 +95,12 @@ router.get('/show/:id', courseApiController.getCourseById)
 
 /**
  * @openapi
- * /api/{version}/courses/{id}:
+ * /courses/{id}:
  *   put:
  *     summary: Actualizar un curso existente
  *     tags: [API - Courses]
  *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *       - in: path
  *         name: id
  *         required: true
@@ -156,16 +138,12 @@ router.put('/:id', courseApiController.updateCourse)
 
 /**
  * @openapi
- * /api/{version}/courses/{id}:
+ * /courses/{id}:
  *   delete:
  *     summary: Eliminar un curso
  *     tags: [API - Courses]
  *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *       - in: path
  *         name: id
  *         required: true

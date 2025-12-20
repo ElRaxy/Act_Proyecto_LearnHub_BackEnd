@@ -20,7 +20,7 @@ const options = {
         description: 'Servidor local de desarrollo',
         variables: {
           version: {
-            default: process.env.API_VERSION || 'v1',
+            default: process.env.API_VERSION || 'v2',
             description: 'Versión de la API'
           }
         }
@@ -47,7 +47,7 @@ const options = {
           type: 'object',
           required: ['dni', 'firstName', 'lastName', 'email', 'phone', 'birthDate', 'profile'],
           properties: {
-            _id: { type: 'string', description: 'ID único del usuario', example: '507f1f77bcf86cd799439011' },
+            _id: { type: 'string', description: 'ID único del usuario', example: '507f1f77bcf86cd799439021' },
             dni: { type: 'string', description: 'DNI del usuario (9 caracteres)', example: '12345678a', minLength: 9, maxLength: 9 },
             firstName: { type: 'string', description: 'Nombre del usuario', example: 'Juan' },
             lastName: { type: 'string', description: 'Apellido del usuario', example: 'Pérez' },
@@ -63,8 +63,8 @@ const options = {
           type: 'object',
           required: ['userId', 'courseId', 'enrollmentsDate', 'status'],
           properties: {
-            _id: { type: 'string', description: 'ID único de la inscripción', example: '507f1f77bcf86cd799439011' },
-            userId: { type: 'string', description: 'ID del usuario', example: '507f1f77bcf86cd799439011' },
+            _id: { type: 'string', description: 'ID único de la inscripción', example: '507f1f77bcf86cd799439031' },
+            userId: { type: 'string', description: 'ID del usuario', example: '507f1f77bcf86cd799439021' },
             courseId: { type: 'string', description: 'ID del curso', example: '507f1f77bcf86cd799439012' },
             enrollmentsDate: { type: 'string', format: 'date-time', description: 'Fecha de inscripción', example: '2024-01-10T10:00:00.000Z' },
             status: { type: 'string', enum: ['pendiente', 'aprobado', 'rechazado'], description: 'Estado de la inscripción', example: 'pendiente' },

@@ -4,16 +4,11 @@ const enrollmentApiController = require('../../controllers/api/enrollment.api.co
 
 /**
  * @openapi
- * /api/{version}/enrollments:
+ * /enrollments:
  *   get:
  *     summary: Obtener todas las matrículas
  *     tags: [API - Enrollments]
- *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *     responses:
  *       200:
  *         description: Lista de matrículas obtenida exitosamente
@@ -34,16 +29,11 @@ router.get('/', enrollmentApiController.getAllEnrollments)
 
 /**
  * @openapi
- * /api/{version}/enrollments:
+ * /enrollments:
  *   post:
  *     summary: Crear una nueva matrícula
  *     tags: [API - Enrollments]
- *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *     requestBody:
  *       required: true
  *       content:
@@ -74,23 +64,19 @@ router.post('/', enrollmentApiController.createEnrollment)
 
 /**
  * @openapi
- * /api/{version}/enrollments/{id}:
+ * /enrollments/show/{id}:
  *   get:
  *     summary: Obtener una matrícula por ID
  *     tags: [API - Enrollments]
  *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
  *         description: ID de la matrícula
- *         example: '507f1f77bcf86cd799439011'
+ *         example: '507f1f77bcf86cd799439031'
  *     responses:
  *       200:
  *         description: Matrícula obtenida exitosamente
@@ -115,23 +101,19 @@ router.get('/show/:id', enrollmentApiController.getEnrollmentById)
 
 /**
  * @openapi
- * /api/{version}/enrollments/{id}:
+ * /enrollments/{id}:
  *   put:
  *     summary: Actualizar una matrícula existente
  *     tags: [API - Enrollments]
  *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
  *         description: ID de la matrícula
- *         example: '507f1f77bcf86cd799439011'
+ *         example: '507f1f77bcf86cd799439031'
  *     requestBody:
  *       required: true
  *       content:
@@ -168,23 +150,19 @@ router.put('/:id', enrollmentApiController.updateEnrollment)
 
 /**
  * @openapi
- * /api/{version}/enrollments/{id}:
+ * /enrollments/{id}:
  *   delete:
  *     summary: Eliminar una matrícula
  *     tags: [API - Enrollments]
  *     parameters:
- *       - in: path
- *         name: version
- *         required: true
- *         schema:
- *           type: string
+
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
  *         description: ID de la matrícula
- *         example: '507f1f77bcf86cd799439011'
+ *         example: '507f1f77bcf86cd799439031'
  *     responses:
  *       200:
  *         description: Matrícula eliminada exitosamente
