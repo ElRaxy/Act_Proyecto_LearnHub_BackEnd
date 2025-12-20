@@ -1,4 +1,3 @@
-const mongoose = require('mongoose')
 const enrollmentsModel = require('../models/enrollments.model')
 
 // Obtener todas las matrículas
