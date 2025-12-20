@@ -46,7 +46,6 @@ Resultado de `git shortlog --summary --numbered --all`:
 ## ✅ Tareas realizadas por cada miembro
 
 - **Alex**:
-
   - Creó la estructura base del proyecto.
   - Hizo los Models-Services-Controllers de Courses y Enrollments.
   - Hizo las vistas de Courses y Enrollments.
@@ -54,7 +53,6 @@ Resultado de `git shortlog --summary --numbered --all`:
   - Hizo el archivo swagger.js
 
 - **Alejandro**:
-
   - Creó la hoja de estilos CSS.
   - Creo los Models-Services-Controllers de Users.
   - Hizo las vistas de Users.
@@ -62,15 +60,12 @@ Resultado de `git shortlog --summary --numbered --all`:
   - Hizo user.api.controller.js y pruebas con un REST Client de users.
  
 - **Sergio**:
-
   - Hizo courses.api.controller.js y pruebas con un REST Client de courses.
  
--  **Jacob**:
-
+- **Jacob**:
   - Hizo enrollments.api.controller.js y pruebas con un REST Client de enrollments.
 
 - **Todos**:
-
   - Hacer el index JS.
   - Crear los partials de header y footer.
   - Crear el seeds.
