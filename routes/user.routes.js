@@ -5,71 +5,261 @@ const userController = require('../controllers/user.controller')
 
 /**
  * @swagger
- * /users/rss:
+ * /users:
  *   get:
- *     summary: Renderiza la vista con el listado de usuarios (HTML)
- *     description: Ruta que renderiza una vista EJS con todos los usuarios
- *     tags: [Vistas - Users]
+ *     summary: Obtener todos los usuarios
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios obtenida exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get('/', userController.getAllUsers)
 
 /**
  * @swagger
- * /users/rss:
+ * /users:
  *   post:
- *     summary: Crea un nuevo usuario y redirige a la vista de listado (HTML)
- *     description: Ruta que procesa el formulario de creación y redirige
- *     tags: [Vistas - Users]
+ *     summary: Crear un nuevo usuario
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - dni
+ *               - firstName
+ *               - lastName
+ *               - email
+ *               - phone
+ *               - birthDate
+ *               - profile
+ *             properties:
+ *               dni:
+ *                 type: string
+ *                 description: DNI del usuario (9 caracteres)
+ *                 example: '12345678a'
+ *                 minLength: 9
+ *                 maxLength: 9
+ *               firstName:
+ *                 type: string
+ *                 description: Nombre del usuario
+ *                 example: 'Juan'
+ *               lastName:
+ *                 type: string
+ *                 description: Apellido del usuario
+ *                 example: 'Pérez'
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Email del usuario
+ *                 example: 'juan.perez@example.com'
+ *               phone:
+ *                 type: string
+ *                 description: Teléfono del usuario
+ *                 example: '612345678'
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *                 description: Fecha de nacimiento
+ *                 example: '1990-05-15'
+ *               profile:
+ *                 type: string
+ *                 enum: [ADMINISTRADOR, PROFESOR, ALUMNO]
+ *                 description: Perfil del usuario
+ *                 example: 'ALUMNO'
+ *     responses:
+ *       201:
+ *         description: Usuario creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Datos inválidos o usuario ya existe
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.post('/', userController.createUser)
 
-/**
- * @swagger
- * /users/rss/new:
- *   get:
- *     summary: Renderiza el formulario de creación de usuario (HTML)
- *     description: Ruta que renderiza una vista EJS con el formulario para crear un nuevo usuario
- *     tags: [Vistas - Users]
- */
+// Vistas (rutas específicas deben ir ANTES de las dinámicas)
 router.get('/new', userController.showNewUser)
-
-/**
- * @swagger
- * /users/rss/edit/{id}:
- *   get:
- *     summary: Renderiza el formulario de edición de usuario (HTML)
- *     description: Ruta que renderiza una vista EJS con el formulario para editar un usuario existente
- *     tags: [Vistas - Users]
- */
 router.get('/edit/:id', userController.showEditUser)
 
 /**
  * @swagger
- * /users/rss/show/{id}:
+ * /users/show/{id}:
  *   get:
- *     summary: Renderiza la vista de detalle de un usuario (HTML)
- *     description: Ruta que renderiza una vista EJS con los detalles de un usuario específico
- *     tags: [Vistas - Users]
+ *     summary: Obtener un usuario por ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario
+ *         example: '507f1f77bcf86cd799439011'
+ *     responses:
+ *       200:
+ *         description: Usuario obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get('/show/:id', userController.getById)
 
 /**
  * @swagger
- * /users/rss/{id}:
+ * /users/{id}:
  *   put:
- *     summary: Actualiza un usuario y redirige a la vista de listado (HTML)
- *     description: Ruta que procesa el formulario de edición y redirige
- *     tags: [Vistas - Users]
+ *     summary: Actualizar un usuario existente
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario
+ *         example: '507f1f77bcf86cd799439011'
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               dni:
+ *                 type: string
+ *                 description: DNI del usuario (9 caracteres)
+ *                 example: '12345678a'
+ *               firstName:
+ *                 type: string
+ *                 description: Nombre del usuario
+ *                 example: 'Juan Carlos'
+ *               lastName:
+ *                 type: string
+ *                 description: Apellido del usuario
+ *                 example: 'Pérez García'
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Email del usuario
+ *                 example: 'juan.perez@example.com'
+ *               phone:
+ *                 type: string
+ *                 description: Teléfono del usuario
+ *                 example: '612345679'
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *                 description: Fecha de nacimiento
+ *                 example: '1990-05-15'
+ *               profile:
+ *                 type: string
+ *                 enum: [ADMINISTRADOR, PROFESOR, ALUMNO]
+ *                 description: Perfil del usuario
+ *                 example: 'PROFESOR'
+ *     responses:
+ *       200:
+ *         description: Usuario actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       400:
+ *         description: Datos inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.put('/:id', userController.editUser)
 
 /**
  * @swagger
- * /users/rss/{id}:
+ * /users/{id}:
  *   delete:
- *     summary: Elimina un usuario y redirige a la vista de listado (HTML)
- *     description: Ruta que procesa la eliminación de un usuario y redirige
- *     tags: [Vistas - Users]
+ *     summary: Eliminar un usuario
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario
+ *         example: '507f1f77bcf86cd799439011'
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Usuario eliminado exitosamente
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.delete('/:id', userController.deleteUser)
 

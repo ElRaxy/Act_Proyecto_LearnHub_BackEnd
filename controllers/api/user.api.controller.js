@@ -4,9 +4,10 @@ const userService = require('../../services/user.service')
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await userService.getAllUsers()
+    res.locals.tituloEJS = 'Listado de Usuarios'
     res.status(200).json(users)
   } catch (error) {
-    res.status(500).json({ error: 'Error obteniendo usuarios: ' + error.message })
+    res.status(500).json({ error: 'Error al obtener usuarios' })
   }
 }
 
@@ -17,10 +18,10 @@ exports.showNewUser = (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const newUser = await userService.create(req.body)
-    res.status(201).json(newUser)
+    const user = await userService.create(req.body)
+    res.status(201).json(user)
   } catch (error) {
-    res.status(500).json({ error: 'Error creando usuario: ' + error.message })
+    res.status(500).json({ error: error.message })
   }
 }
 
@@ -40,38 +41,26 @@ exports.showEditUser = async (req, res) => {
 // Actualizar usuario
 exports.editUser = async (req, res) => {
   try {
-    // Verificar que el usuario existe antes de actualizar
-    const existingUser = await userService.getById(req.params.id)
-    if (!existingUser) {
-      return res.status(404).json({ error: `Usuario con ID '${req.params.id}' no encontrado` })
-    }
-
     const updatedUser = await userService.update(req.params.id, req.body)
-    if (!updatedUser) {
-      return res.status(500).json({ error: 'Error al actualizar el usuario' })
-    }
+    if (!updatedUser)
+      return res.status(404).json({ error: 'Usuario no encontrado' })
+
     res.status(200).json(updatedUser)
   } catch (error) {
-    res.status(500).json({ error: 'Error actualizando usuario: ' + error.message })
+    res.status(500).json({ error: 'Error al actualizar usuario' })
   }
 }
 
 // Borrar usuario
 exports.deleteUser = async (req, res) => {
   try {
-    // Verificar que el usuario existe antes de eliminar
-    const existingUser = await userService.getById(req.params.id)
-    if (!existingUser) {
-      return res.status(404).json({ error: `Usuario con ID '${req.params.id}' no encontrado` })
-    }
-
     const deletedUser = await userService.delete(req.params.id)
-    if (!deletedUser) {
-      return res.status(500).json({ error: 'Error al eliminar el usuario' })
-    }
-    res.status(200).json({ message: 'Usuario eliminado exitosamente', user: deletedUser })
+    if (!deletedUser)
+      return res.status(404).json({ error: 'Usuario no encontrado' })
+
+    res.status(200).json(deletedUser)
   } catch (error) {
-    res.status(500).json({ error: 'Error eliminando usuario: ' + error.message })
+    res.status(500).json({ error: 'Error al eliminar usuario' })
   }
 }
 
@@ -79,11 +68,11 @@ exports.deleteUser = async (req, res) => {
 exports.getById = async (req, res) => {
   try {
     const user = await userService.getById(req.params.id)
-    if (!user) {
-      return res.status(404).json({ error: `Usuario con ID '${req.params.id}' no encontrado` })
-    }
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
+
+    res.locals.tituloEJS = 'Detalle Usuario'
     res.status(200).json(user)
   } catch (error) {
-    res.status(500).json({ error: 'Error obteniendo usuario: ' + error.message })
+    res.status(500).json({ error: 'Error al obtener usuario' })
   }
 }

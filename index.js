@@ -31,9 +31,6 @@ const path = require('path')
 const methodOverride = require('method-override')
 const cors = require('cors')
 
-// Configuración de Swagger
-app.use(process.env.SWAGGER_DOCS || '/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
-
 // ROUTES
 const courseRssRoutes = require('./routes/course.routes')
 const enrollmentRssRoutes = require('./routes/enrollment.routes')
@@ -73,6 +70,9 @@ app.use((req, res, next) => {
   res.locals.tituloEJS = 'LearnHub'
   next()
 })
+
+// Configuración de Swagger
+app.use(process.env.SWAGGER_DOCS || '/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
 
 //DEFINIR RUTAS
 //Raíz

@@ -19,7 +19,6 @@ const ejecutar = async () => {
 
   const courses = [
     {
-      _id: '507f1f77bcf86cd799439011',
       title: 'Curso de Desarrollo FrontEnd',
       description: 'Curso de Desarrollo FrontEnd',
       category: 'Desarrollo FrontEnd',
@@ -30,7 +29,6 @@ const ejecutar = async () => {
       updatedAt: new Date('2021-01-01'),
     },
     {
-      _id: '507f1f77bcf86cd799439012',
       title: 'Curso de Desarrollo BackEnd',
       description: 'Curso de Desarrollo BackEnd',
       category: 'Desarrollo BackEnd',
@@ -41,7 +39,6 @@ const ejecutar = async () => {
       updatedAt: new Date('2021-01-01'),
     },
     {
-      _id: '507f1f77bcf86cd799439013',
       title: 'Curso de AI y Machine Learning',
       description: 'Curso de AI y Machine Learning',
       category: 'AI y Machine Learning',
@@ -55,7 +52,6 @@ const ejecutar = async () => {
 
   const users = [
     {
-      _id: '507f1f77bcf86cd799439021',
       dni: '12345678d',
       firstName: 'Alex',
       lastName: 'Micro',
@@ -67,7 +63,6 @@ const ejecutar = async () => {
       profile: 'ADMINISTRADOR',
     },
     {
-      _id: '507f1f77bcf86cd799439022',
       dni: '12345678e',
       firstName: 'Alejandro',
       lastName: 'Puente',
