@@ -5,6 +5,8 @@ const swaggerUI = require('swagger-ui-express')
 const swaggerSpec = require('./swagger/swagger.js')
 const fs = require('fs')
 
+const logger = require('./utils/logger')
+
 // Códigos ANSI para colores en consola
 const COLORS = {
   reset: '\x1b[0m',
@@ -129,6 +131,7 @@ app.listen(port, async () => {
   ]
   console.log('\n' + banner.map(colorBannerLine).join('\n'))
   console.log(`\n${colorSuccess('✓')} ${colorSuccess('Servidor iniciado correctamente')}`)
+  logger.acceso.info('Servidor iniciado correctamente')
 
   try {
     // Conexión a MongoDB
