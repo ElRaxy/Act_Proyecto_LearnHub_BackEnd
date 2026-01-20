@@ -17,11 +17,6 @@ const usersSchema = new mongoose.Schema({
   },
   lastName: { type: String, required: true, trim: true },
   email: { type: String, required: true, unique: true, lowercase: true },
-  password: {
-    type: String,
-    required: true,
-    select: false, //JWT: No mostrar password en no entran en los find de la API
-  },
   phone: {
     type: String,
     required: true,
@@ -34,6 +29,11 @@ const usersSchema = new mongoose.Schema({
     required: true,
     enum: ['ADMINISTRADOR', 'PROFESOR', 'ALUMNO'],
     default: 'ALUMNO',
+  },
+  password: {
+    type: String,
+    required: true,
+    select: false, //JWT: No mostrar password en no entran en los find de la API
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },

@@ -101,6 +101,13 @@ exports.getById = async (req, res) => {
   }
 }
 
+// Mostrar Formulario de Login
+exports.showLogin = (req, res) => {
+  res.locals.tituloEJS = 'Login'
+  res.render('login', { baseUrlUsers })
+}
+
+
 // Registrar usuario
 exports.registerUser = wrapAsync(async (req, res, next) => {
   const usuarioCreado = await userService.create(req.body)

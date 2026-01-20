@@ -1,4 +1,6 @@
 const userService = require('../../services/user.service')
+const { wrapAsync } = require('../utils/functions')
+const AppError = require('../utils/AppError')
 
 // Listar todos los usuarios
 exports.getAllUsers = async (req, res) => {
@@ -7,7 +9,7 @@ exports.getAllUsers = async (req, res) => {
     res.locals.tituloEJS = 'Listado de Usuarios'
     res.status(200).json(users)
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener usuarios' })
+    next(new AppError('Error al obtener usuarios', 500)) //BAD REQUEST
   }
 }
 
@@ -21,7 +23,7 @@ exports.createUser = async (req, res) => {
     const user = await userService.create(req.body)
     res.status(201).json(user)
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    next(new AppError('Error al crear usuario', 500)) //BAD REQUEST
   }
 }
 
@@ -29,12 +31,12 @@ exports.createUser = async (req, res) => {
 exports.showEditUser = async (req, res) => {
   try {
     const user = await userService.getById(req.params.id)
-    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
+    if (!user) next(new AppError('Usuario no encontrado', 404)) //BAD REQUEST
 
     res.locals.tituloEJS = 'Editar Usuario'
     res.render('users/edit', { user, baseUrlUsers: '/api/v1/users' })
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener usuario para edición' })
+    next(new AppError('Error al obtener usuario para edición', 500)) //BAD REQUEST
   }
 }
 
@@ -47,7 +49,7 @@ exports.editUser = async (req, res) => {
 
     res.status(200).json(updatedUser)
   } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar usuario' })
+    next(new AppError('Error al actualizar usuario', 500)) //BAD REQUEST
   }
 }
 
@@ -60,7 +62,7 @@ exports.deleteUser = async (req, res) => {
 
     res.status(200).json(deletedUser)
   } catch (error) {
-    res.status(500).json({ error: 'Error al eliminar usuario' })
+    next(new AppError('Error al eliminar usuario', 500)) //BAD REQUEST
   }
 }
 
@@ -73,6 +75,36 @@ exports.getById = async (req, res) => {
     res.locals.tituloEJS = 'Detalle Usuario'
     res.status(200).json(user)
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener usuario' })
+    next(new AppError('Error al obtener usuario', 500)) //BAD REQUEST
   }
 }
+
+// Registrar usuario
+exports.registerUser = wrapAsync(async (req, res, next) => {
+  const usuarioCreado = await userService.create(req.body)
+  if (usuarioCreado) {
+    res.status(200).json(usuarioCreado)
+  } else {
+    next(new AppError('Error al registrar el usuario', 400)) //BAD REQUEST
+  }
+})
+
+exports.loginUser = wrapAsync(async (req, res, next) => {
+  const { username, password } = req.body
+  const userLogued = await userService.login(username, password)
+  if (userLogued) {
+    res.cookie('token', userLogued.token, {
+      sameSite: 'none',
+      secure: false,
+    })
+
+    res.status(200).json(userLogued)
+  } else {
+    next(new AppError('Usuario y/o contraseña incorrecta', 401))
+  }
+})
+
+exports.logoutUser = wrapAsync(async (req, res, next) => {
+  res.clearCookie('token')
+  res.status(200).json({ message: 'Se ha cerrado la sesión' })
+})

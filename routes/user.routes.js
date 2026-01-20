@@ -263,6 +263,7 @@ router.put('/:id', userController.editUser)
  */
 router.delete('/:id', userController.deleteUser)
 
-
+router.get('/login', userController.showLogin)
+router.get('/register', userController.showNewUser)
 
 module.exports = router
