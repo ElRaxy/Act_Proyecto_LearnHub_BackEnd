@@ -24,14 +24,6 @@ exports.getCourseById = async (req, res) => {
     }
 }
 
-// // FORM NEW (vista)
-// exports.showCreateForm = (req, res) => {
-//     res.locals.tituloEJS = 'Nuevo curso'
-//     // res.render('courses/new', {
-//     //     baseApi: baseUrlCourses
-//     // })
-// }
-
 // CREATE (acción)
 exports.createCourse = async (req, res) => {
     try {
@@ -41,16 +33,6 @@ exports.createCourse = async (req, res) => {
         res.status(500).json('Error creando curso: ' + error)
     }
 }
-
-// // FORM EDIT (vista)
-// exports.showEditForm = async (req, res) => {
-//     try {
-//         const course = await Course.findById(req.params.id)
-//         res.status(200).json(course)
-//     } catch (error) {
-//         res.status(500).json('Error obteniendo datos: ' + error)
-//     }
-// }
 
 // UPDATE (acción)
 exports.updateCourse = async (req, res) => {

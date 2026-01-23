@@ -7,7 +7,7 @@
     <div class="form-group">
       <label for="userId">Alumno</label>
       <select name="userId" id="userId" required>
-        <% 
+        <%
           const currentUserId = enrollment.userId ? (enrollment.userId._id ? enrollment.userId._id.toString() : enrollment.userId.toString()) : '';
         %>
         <% users.forEach(user => { %>
@@ -21,7 +21,7 @@
     <div class="form-group">
       <label for="courseId">Curso</label>
       <select name="courseId" id="courseId" required>
-        <% 
+        <%
           const currentCourseId = enrollment.courseId ? (enrollment.courseId._id ? enrollment.courseId._id.toString() : enrollment.courseId.toString()) : '';
         %>
         <% courses.forEach(course => { %>
@@ -50,6 +50,8 @@
       <label for="notes">Notas</label>
       <textarea name="notes" id="notes"><%= enrollment.notes ? enrollment.notes : '' %></textarea>
     </div>
+
+    <button href="/enrollments" class="btn btn-back" style="margin-top: 1.5rem;"><i class="fa-solid fa-arrow-left"></i> Volver</button>
 
     <button type="submit" class="btn btn-edit" style="margin-top: 1.5rem;">
       <i class="fa-solid fa-save"></i> Guardar Cambios
