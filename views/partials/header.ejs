@@ -20,9 +20,9 @@
       <a href="/courses/rss">Cursos</a>
       <a href="/enrollments/rss">Matrículas</a>
       <a href="/users/rss">Usuarios</a>
-      
+
       <% if (user) { %>
-        <span class="user-greeting">Hola, <%= user.email.split('@')[0] %></span>
+        <span class="user-greeting">Hola, <%= user.firstName %> <%= user.lastName %></span>
         <a href="/users/rss/logout" class="btn-logout">Cerrar sesión</a>
       <% } else { %>
         <a href="/users/rss/login">Login</a>
