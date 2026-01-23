@@ -8,3 +8,6 @@ exports.encryptPassword = async (password) => {
 exports.compareLogin = async (password, passwordHash) => {
   return await bcrypt.compare(password, passwordHash);
 };
+
+
+

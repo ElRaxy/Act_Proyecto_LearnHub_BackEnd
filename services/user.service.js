@@ -1,6 +1,18 @@
 const User = require("../models/user.model");
 const bcrypt = require("../utils/bcrypt");
 const jwt = require("jsonwebtoken");
+const { encryptPassword } = require("../utils/bcrypt");
+
+const validatePassword = (password = "") => {
+  return (
+    password.length >= 8 &&
+    /[A-Z]/.test(password) &&
+    /[a-z]/.test(password) &&
+    /\d/.test(password) &&
+    /[-_!@?]/.test(password)
+  );
+};
+
 
 // Traer todos los usuarios
 exports.getAllUsers = async () => await User.find().lean();
@@ -12,11 +24,18 @@ exports.getById = async (id) => await User.findById(id).lean();
 exports.create = async (data) => {
   const userData = { ...data };
   if (userData.password) {
+    if (!validatePassword(userData.password)) {
+      throw new Error("La contraseña no cumple los requisitos mínimos");
+    }
+
     userData.password = await bcrypt.encryptPassword(userData.password);
   }
   const newUser = new User(userData);
   return await newUser.save();
 };
+
+
+
 
 // Actualizar usuario
 exports.update = async (id, data) => {
