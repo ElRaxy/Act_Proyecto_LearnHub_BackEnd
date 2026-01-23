@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const usersSchema = new mongoose.Schema({
   dni: {
@@ -27,18 +27,19 @@ const usersSchema = new mongoose.Schema({
   profile: {
     type: String,
     required: true,
-    enum: ['ADMINISTRADOR', 'PROFESOR', 'ALUMNO'],
-    default: 'ALUMNO',
+    enum: ["ADMINISTRADOR", "PROFESOR", "ALUMNO"],
+    default: "ALUMNO",
   },
   password: {
     type: String,
     required: true,
+    minlength: 6, // Asegura que la contraseña tenga una longitud mínima
     select: false, //JWT: No mostrar password en no entran en los find de la API
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-})
+});
 
 // Usa exactamente "users"
 module.exports =
-  mongoose.models.User || mongoose.model('User', usersSchema, 'users')
+  mongoose.models.User || mongoose.model("User", usersSchema, "users");

@@ -43,12 +43,45 @@
       </select>
     </div>
 
-    <button href="/courses" class="btn btn-back" style="margin-top: 1.5rem;"><i class="fa-solid fa-arrow-left"></i> Volver</button>
-    
-    <button type="submit" class="btn btn-edit" style="margin-top: 1.5rem;">
-      <i class="fa-solid fa-save"></i> Guardar Cambios
-    </button>
+    <div class="form-group">
+      <label for="password">Contraseña (Dejar en blanco para no cambiar)</label>
+      <div class="password-container">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          minlength="6"
+          placeholder="Nueva contraseña (opcional)"
+        />
+        <button type="button" id="togglePassword" class="toggle-password-btn" title="Mostrar/Ocultar contraseña">
+          <i class="fa-solid fa-eye" id="eyeIcon"></i>
+        </button>
+      </div>
+      <small style="color: #bcd5ff; font-size: 0.8rem; margin-top: 5px; display: block;"> Mínimo 6 caracteres. </small>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-edit">
+        <i class="fa-solid fa-save"></i> Guardar Cambios
+      </button>
+      <div class="secondary-action">
+        <a href="<%= baseUrlUsers %>" class="btn-link">Volver al listado</a>
+      </div>
+    </div>
   </form>
 </div>
+
+<script>
+  const passwordInput = document.getElementById("password");
+  const togglePassword = document.getElementById("togglePassword");
+  const eyeIcon = document.getElementById("eyeIcon");
+
+  togglePassword.addEventListener("click", () => {
+    const isPassword = passwordInput.getAttribute("type") === "password";
+    passwordInput.setAttribute("type", isPassword ? "text" : "password");
+    eyeIcon.classList.toggle("fa-eye");
+    eyeIcon.classList.toggle("fa-eye-slash");
+  });
+</script>
 
 <%- include('../partials/footer') %>

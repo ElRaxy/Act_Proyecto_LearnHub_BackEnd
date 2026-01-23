@@ -1,35 +1,44 @@
-const User = require('../models/user.model')
-const bcrypt = require('../utils/bcrypt')
-const jwt = require('jsonwebtoken')
+const User = require("../models/user.model");
+const bcrypt = require("../utils/bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Traer todos los usuarios
-exports.getAllUsers = async () => await User.find().lean()
+exports.getAllUsers = async () => await User.find().lean();
 
 // Traer usuario por ID
-exports.getById = async id => await User.findById(id).lean()
+exports.getById = async (id) => await User.findById(id).lean();
 
 // Crear usuario
-exports.create = async data => {
-  const newUser = new User(data)
-  return await newUser.save()
-}
+exports.create = async (data) => {
+  const userData = { ...data };
+  if (userData.password) {
+    userData.password = await bcrypt.encryptPassword(userData.password);
+  }
+  const newUser = new User(userData);
+  return await newUser.save();
+};
 
 // Actualizar usuario
-exports.update = async (id, data) =>
-  await User.findByIdAndUpdate(id, data, { new: true })
+exports.update = async (id, data) => {
+  const userData = { ...data };
+  if (userData.password) {
+    userData.password = await bcrypt.encryptPassword(userData.password);
+  }
+  return await User.findByIdAndUpdate(id, userData, { new: true });
+};
 
 // Eliminar usuario
-exports.delete = async id => await User.findByIdAndDelete(id)
+exports.delete = async (id) => await User.findByIdAndDelete(id);
 
 //Login
 exports.login = async (emailParam, passwordParam) => {
-  let userFound = null
-  userFound = await User.findOne({ email: emailParam }).select('+password') //Excepcion para devolver password sin seleccionarlo
+  let userFound = null;
+  userFound = await User.findOne({ email: emailParam }).select("+password"); //Excepcion para devolver password sin seleccionarlo
   if (userFound) {
     const validado = await bcrypt.compareLogin(
       passwordParam,
-      userFound.password
-    )
+      userFound.password,
+    );
     if (validado) {
       //JWT: Crear un token
       const token = jwt.sign(
@@ -41,17 +50,17 @@ exports.login = async (emailParam, passwordParam) => {
         },
         process.env.JWT_SECRET,
         {
-          expiresIn: '1h', //.Token expirado en 1 hora
-        }
-      )
-      const user = userFound.toObject()
-      delete user.password
-      return { user, token }
+          expiresIn: "1h", //.Token expirado en 1 hora
+        },
+      );
+      const user = userFound.toObject();
+      delete user.password;
+      return { user, token };
       //JWT: Devolver el token
     } else {
-      return null
+      return null;
     }
   } else {
-    return null
+    return null;
   }
-}
+};

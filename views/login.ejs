@@ -1,5 +1,57 @@
 <%- include('partials/header') %>
 
+<div class="wrap fadeUp">
+  <h1>Iniciar Sesión</h1>
 
+  <form action="/users/rss/login" method="POST" class="user-form">
+    <label>
+      Email
+      <input type="email" name="email" required />
+    </label>
+
+    <label>
+      Contraseña
+      <div class="password-container">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          required
+          placeholder="Escribe tu contraseña"
+        />
+        <button
+          type="button"
+          id="togglePassword"
+          class="toggle-password-btn"
+          title="Mostrar/Ocultar contraseña"
+        >
+          <i class="fa-solid fa-eye" id="eyeIcon"></i>
+        </button>
+      </div>
+    </label>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-add">Entrar</button>
+      <div class="secondary-action">
+        <a href="/users/rss/register" class="btn-link"
+          >¿No tienes cuenta? Regístrate</a
+        >
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  const passwordInput = document.getElementById("password");
+  const togglePassword = document.getElementById("togglePassword");
+  const eyeIcon = document.getElementById("eyeIcon");
+
+  togglePassword.addEventListener("click", () => {
+    const isPassword = passwordInput.getAttribute("type") === "password";
+    passwordInput.setAttribute("type", isPassword ? "text" : "password");
+    eyeIcon.classList.toggle("fa-eye");
+    eyeIcon.classList.toggle("fa-eye-slash");
+  });
+</script>
 
 <%- include('partials/footer') %>
