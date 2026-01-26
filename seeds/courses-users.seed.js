@@ -1,7 +1,8 @@
-require('dotenv').config()
+require('dotenv').config({ path: '../.env' })
 const mongoose = require('mongoose')
 const coursesModel = require('../models/courses.model')
 const userModel = require('../models/user.model')
+const bcrypt = require('../utils/bcrypt')
 
 // conectar MongoDB (sin opciones deprecated)
 const conectarMongoDB = async () => {
@@ -59,7 +60,7 @@ const ejecutar = async () => {
       createdAt: new Date('2021-01-01'),
       updatedAt: new Date('2021-01-01'),
       profile: 'ADMINISTRADOR',
-      password: 'password123',
+      password: 'Password123!',
     },
     {
       dni: '12345678e',
@@ -71,7 +72,7 @@ const ejecutar = async () => {
       createdAt: new Date('2021-01-01'),
       updatedAt: new Date('2021-01-01'),
       profile: 'ALUMNO',
-      password: 'password123',
+      password: 'Password123!',
     },
     {
       dni: '12345678f',
@@ -83,7 +84,7 @@ const ejecutar = async () => {
       createdAt: new Date('2021-01-01'),
       updatedAt: new Date('2021-01-01'),
       profile: 'PROFESOR',
-      password: 'password123',
+      password: 'Password123!',
     },
     {
       dni: '12345678g',
@@ -95,7 +96,7 @@ const ejecutar = async () => {
       createdAt: new Date('2021-01-01'),
       updatedAt: new Date('2021-01-01'),
       profile: 'ALUMNO',
-      password: 'password123',
+      password: 'Password123!',
     },
     {
       dni: '12345678h',
@@ -107,7 +108,7 @@ const ejecutar = async () => {
       createdAt: new Date('2021-01-01'),
       updatedAt: new Date('2021-01-01'),
       profile: 'PROFESOR',
-      password: 'password123',
+      password: 'Password123!',
     },
     {
       dni: '12345678i',
@@ -119,7 +120,7 @@ const ejecutar = async () => {
       createdAt: new Date('2021-01-01'),
       updatedAt: new Date('2021-01-01'),
       profile: 'ALUMNO',
-      password: 'password123',
+      password: 'Password123!',
     },
     {
       dni: '12345678j',
@@ -131,7 +132,7 @@ const ejecutar = async () => {
       createdAt: new Date('2021-01-01'),
       updatedAt: new Date('2021-01-01'),
       profile: 'PROFESOR',
-      password: 'password123',
+      password: 'Password123!',
     },
     {
       dni: '12345678k',
@@ -143,7 +144,7 @@ const ejecutar = async () => {
       createdAt: new Date('2021-01-01'),
       updatedAt: new Date('2021-01-01'),
       profile: 'ALUMNO',
-      password: 'password123',
+      password: 'Password123!',
     },
     {
       dni: '12345678l',
@@ -155,7 +156,7 @@ const ejecutar = async () => {
       createdAt: new Date('2021-01-01'),
       updatedAt: new Date('2021-01-01'),
       profile: 'PROFESOR',
-      password: 'password123',
+      password: 'Password123!',
     },
     {
       dni: '12345678m',
@@ -167,9 +168,14 @@ const ejecutar = async () => {
       createdAt: new Date('2021-01-01'),
       updatedAt: new Date('2021-01-01'),
       profile: 'ALUMNO',
-      password: 'password123',
+      password: 'Password123!',
     },
   ]
+
+  // Hash passwords
+  for (let user of users) {
+    user.password = await bcrypt.encryptPassword(user.password)
+  }
 
   try {
     await userModel.insertMany(users)

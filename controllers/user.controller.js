@@ -29,7 +29,7 @@ exports.showRegister = (req, res) => {
 // Crear usuario (con auto-login)
 exports.createUser = async (req, res, next) => {
   try {
-    const newUser = await userService.create(req.body)
+    // const newUser = await userService.create(req.body)
 
     // Auto-login: Intentamos loguear al usuario recién creado
     const loginData = await userService.login(req.body.email, req.body.password)
