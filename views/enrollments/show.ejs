@@ -1,0 +1,55 @@
+<%- include('../partials/header') %>
+
+<div class="wrap">
+  <div class="detail-card">
+    <h1>Detalle de la Matrícula</h1>
+
+    <div class="table-container">
+      <table class="courses-table">
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <td><%= enrollment._id %></td>
+          </tr>
+          <tr>
+            <th>Alumno</th>
+            <td><%= enrollment.userId ? enrollment.userId.firstName + ' ' + enrollment.userId.lastName : 'Usuario eliminado' %></td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td><%= enrollment.userId ? enrollment.userId.email : '-' %></td>
+          </tr>
+          <tr>
+            <th>Curso</th>
+            <td><%= enrollment.courseId ? enrollment.courseId.title : 'Curso eliminado' %></td>
+          </tr>
+          <tr>
+            <th>Categoría</th>
+            <td><%= enrollment.courseId ? enrollment.courseId.category : '-' %></td>
+          </tr>
+          <tr>
+            <th>Fecha de matrícula</th>
+            <td><%= enrollment.enrollmentsDate ? enrollment.enrollmentsDate.toISOString().split('T')[0] : '-' %></td>
+          </tr>
+          <tr>
+            <th>Estado</th>
+            <td><%= enrollment.status ? enrollment.status : '-' %></td>
+          </tr>
+          <tr>
+            <th>Notas</th>
+            <td><%= enrollment.notes ? enrollment.notes : '-' %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <a href="<%= baseApi %>" class="btn btn-back">⬅ Volver</a>
+      <a href="<%= baseApi %>/<%= enrollment._id %>/edit" class="btn btn-edit">Editar</a>
+      <form action="<%= baseApi %>/<%= enrollment._id %>?_method=DELETE" method="POST" style="display: inline;">
+        <button class="btn btn-delete">Eliminar</button>
+      </form>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

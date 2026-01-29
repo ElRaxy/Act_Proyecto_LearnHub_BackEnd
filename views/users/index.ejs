@@ -1,0 +1,46 @@
+<%- include('../partials/header', { title: "Usuarios" }) %>
+
+<div class="wrap fadeUp" style="--d: 0.2s">
+  <h1>Usuarios</h1>
+
+  <div class="actions">
+    <a href="<%= baseUrlUsers %>/new" class="btn btn-add">Crear Nuevo Usuario</a>
+  </div>
+
+  <div class="table-container">
+    <table class="courses-table">
+      <thead>
+        <tr>
+          <th>DNI</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Perfil</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% users.forEach(user => { %>
+        <tr>
+          <td data-label="DNI"><%= user.dni %></td>
+          <td data-label="Nombre"><%= user.firstName %></td>
+          <td data-label="Apellido"><%= user.lastName %></td>
+          <td data-label="Perfil"><%= user.profile %></td>
+          <td data-label="Acciones">
+            <a href="<%= baseUrlUsers %>/show/<%= user._id %>" class="btn btn-edit">Ver</a>
+            <a href="<%= baseUrlUsers %>/edit/<%= user._id %>" class="btn btn-edit">Editar</a>
+
+            <form action="<%= baseUrlUsers %>/<%= user._id %>?_method=DELETE" method="POST" style="display: inline">
+              <button class="btn btn-delete">Borrar</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="alert" class="custom-alert" style="display: none"></div>
+</div>
+
+<%- include('../partials/footer') %>

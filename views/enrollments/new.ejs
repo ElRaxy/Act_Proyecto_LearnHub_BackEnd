@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+
+<div class="wrap">
+  <h1>Nueva Matricula</h1>
+
+  <form action="<%= baseApi %>" method="POST" class="form-card">
+
+    <div class="form-group">
+      <label>Usuario</label>
+      <select name="userId" required>
+        <option value="">-- Selecciona un usuario --</option>
+        <% users.forEach(user => { %>
+          <option value="<%= user._id %>"><%= user.firstName %> <%= user.lastName %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Curso</label>
+      <select name="courseId" required>
+        <option value="">-- Selecciona un curso --</option>
+        <% courses.forEach(course => { %>
+          <option value="<%= course._id %>"><%= course.title %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Fecha de matrícula</label>
+      <input type="date" name="enrollmentsDate" required value="<%= new Date().toISOString().split('T')[0] %>">
+    </div>
+
+    <div class="form-group">
+      <label>Estado</label>
+      <select name="status" required>
+        <option value="pendiente">Pendiente</option>
+        <option value="aprobado">Aprobado</option>
+        <option value="rechazado">Rechazado</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Notas</label>
+      <textarea name="notes" required></textarea>
+    </div>
+
+    <!-- <button href="/courses" class="btn btn-back" style="margin-top: 1.5rem;"><i class="fa-solid fa-arrow-left"></i> Volver</button> -->
+
+
+    <button class="btn btn-add" style="margin-top: 1.5rem;">
+      <i class="fa-solid fa-check"></i> Crear Matrícula
+    </button>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>
