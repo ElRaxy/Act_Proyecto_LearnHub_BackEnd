@@ -1,16 +1,20 @@
-require('dotenv').config()
-const morgan = require('morgan')
-const express = require('express')
-const app = express()
-const fs = require('fs')
-const ruta = process.env.LOGS_FOLDER
-const logsActivos = process.env.LOGS_ACTIVOS
+require("dotenv").config();
+const morgan = require("morgan");
+const fs = require("fs");
+const path = require("path");
+
+const logsFolder = process.env.LOGS_FOLDER || "./logs/";
+const logsActivos = process.env.LOGS_ACTIVOS === "true";
+
+// Asegurar que la carpeta de logs exista
+if (logsActivos && !fs.existsSync(logsFolder)) {
+  fs.mkdirSync(logsFolder, { recursive: true });
+}
 
 exports.usingMorgan = () => {
-  return morgan('combined', {
-    stream:
-      app.get('env') === 'development' && logsActivos === 'true'
-        ? fs.createWriteStream(ruta + 'access.log', { flags: 'a' })
-        : '', //append (insertar al final del archivo)
-  })
-}
+  const stream = logsActivos
+    ? fs.createWriteStream(path.join(logsFolder, "access.log"), { flags: "a" })
+    : process.stdout;
+
+  return morgan("combined", { stream });
+};

@@ -3,9 +3,11 @@
 <div class="wrap">
   <h1>Cursos disponibles</h1>
 
+  <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
   <div class="actions">
     <a href="<%= baseApi %>/new" class="btn btn-add">➕ Nuevo curso</a>
   </div>
+  <% } %>
 
   <div class="table-container">
     <table class="courses-table">
@@ -27,10 +29,12 @@
 
           <td data-label="Acciones">
             <a href="<%= baseApi %>/<%= c._id %>" class="btn btn-edit">Ver</a>
-            <a href="<%= baseApi %>/<%= c._id %>/edit" class="btn btn-edit"
-              >Editar</a
-            >
+            
+            <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
+            <a href="<%= baseApi %>/<%= c._id %>/edit" class="btn btn-edit">Editar</a>
+            <% } %>
 
+            <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
             <form
               action="<%= baseApi %>/<%= c._id %>?_method=DELETE"
               method="POST"
@@ -38,6 +42,7 @@
             >
               <button class="btn btn-delete">Eliminar</button>
             </form>
+            <% } %>
 
           </td>
         </tr>

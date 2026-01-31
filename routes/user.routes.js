@@ -1,8 +1,8 @@
-const express = require('express')
-const router = express.Router()
-const userController = require('../controllers/user.controller')
-const { verifyToken } = require('../middlewares/jwt.mw')
-
+const express = require("express");
+const router = express.Router();
+const userController = require("../controllers/user.controller");
+const { verifyToken } = require("../middlewares/jwt.mw");
+const { authorize } = require("../middlewares/role.mw");
 
 /**
  * @swagger
@@ -26,7 +26,12 @@ const { verifyToken } = require('../middlewares/jwt.mw')
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/', verifyToken, userController.getAllUsers)
+router.get(
+  "/",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR", "ALUMNO"),
+  userController.getAllUsers,
+);
 
 /**
  * @swagger
@@ -102,11 +107,21 @@ router.get('/', verifyToken, userController.getAllUsers)
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/', userController.createUser)
+router.post("/", userController.createUser);
 
 // Vistas (rutas específicas deben ir ANTES de las dinámicas)
-router.get('/new', userController.showNewUser)
-router.get('/edit/:id', verifyToken, userController.showEditUser)
+router.get(
+  "/new",
+  verifyToken,
+  authorize("ADMINISTRADOR"),
+  userController.showNewUser,
+);
+router.get(
+  "/edit/:id",
+  verifyToken,
+  authorize("ADMINISTRADOR"),
+  userController.showEditUser,
+);
 
 /**
  * @swagger
@@ -142,7 +157,12 @@ router.get('/edit/:id', verifyToken, userController.showEditUser)
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/show/:id', verifyToken, userController.getById)
+router.get(
+  "/show/:id",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR", "ALUMNO"),
+  userController.getById,
+);
 
 /**
  * @swagger
@@ -222,7 +242,12 @@ router.get('/show/:id', verifyToken, userController.getById)
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.put('/:id', verifyToken, userController.editUser)
+router.put(
+  "/:id",
+  verifyToken,
+  authorize("ADMINISTRADOR"),
+  userController.editUser,
+);
 
 /**
  * @swagger
@@ -262,12 +287,17 @@ router.put('/:id', verifyToken, userController.editUser)
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete('/:id', verifyToken, userController.deleteUser)
+router.delete(
+  "/:id",
+  verifyToken,
+  authorize("ADMINISTRADOR"),
+  userController.deleteUser,
+);
 
-router.get('/login', userController.showLogin)
-router.post('/login', userController.loginUser)
-router.get('/register', userController.showNewUser)
-router.post('/register', userController.registerUser)
-router.get('/logout', userController.logoutUser)
+router.get("/login", userController.showLogin);
+router.post("/login", userController.loginUser);
+router.get("/register", userController.showNewUser);
+router.post("/register", userController.registerUser);
+router.get("/logout", userController.logoutUser);
 
-module.exports = router
+module.exports = router;

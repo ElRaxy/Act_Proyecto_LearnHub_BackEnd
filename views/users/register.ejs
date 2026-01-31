@@ -4,7 +4,7 @@
         <h1>Registro de Usuario</h1>
 
         <div class="form-card">
-            <form action="/users/rss/register" method="POST">
+            <form action="/users/views/register" method="POST">
                 <div class="form-group">
                     <label for="firstName">Nombre</label>
                     <input type="text" name="firstName" id="firstName"
@@ -101,7 +101,7 @@
                     </div>
                     <small id="passwordHelp"
                         style="color: #bcd5ff; font-size: 0.8rem; margin-top: 0.3rem; display: block;">
-                        Mínimo 6 caracteres.
+                        Mínimo 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.
                     </small>
                     <% if (locals.errors?.password) { %>
                         <span class="error-message">
@@ -117,7 +117,7 @@
 
             <div class="form-footer">
                 <p>¿Ya tienes cuenta?</p>
-                <a href="/users/rss/login" class="btn btn-secondary">
+                <a href="/users/views/login" class="btn btn-secondary">
                     <i class="fa-solid fa-right-to-bracket"></i> Inicia sesión
                 </a>
             </div>
@@ -137,9 +137,10 @@
         // Simple client-side validation feedback
         password.addEventListener('input', function () {
             const help = document.getElementById('passwordHelp');
-            if (this.value.length < 6) {
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_!?,@#$%^&*()])[A-Za-z\d-_!?,@#$%^&*()]{8,}$/;
+            if (!passwordRegex.test(this.value)) {
                 help.style.color = '#ffb6b6';
-                help.textContent = 'Faltan ' + (6 - this.value.length) + ' caracteres.';
+                help.textContent = 'La contraseña no cumple los requisitos de complejidad.';
             } else {
                 help.style.color = '#a8c9ff';
                 help.textContent = 'Contraseña válida.';

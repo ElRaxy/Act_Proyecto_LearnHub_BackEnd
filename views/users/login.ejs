@@ -11,7 +11,7 @@
         </div>
         <% } %>
 
-          <form action="/users/rss/login" method="POST">
+          <form action="/users/views/login" method="POST">
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" name="email" id="email" class="<%= locals.errors?.email ? 'input-error' : '' %>"
@@ -44,7 +44,7 @@
 
           <div class="form-footer">
             <p>¿No tienes cuenta?</p>
-            <a href="/users/rss/register" class="btn btn-secondary">
+            <a href="/users/views/register" class="btn btn-secondary">
               <i class="fa-solid fa-user-plus"></i> Regístrate aquí
             </a>
           </div>

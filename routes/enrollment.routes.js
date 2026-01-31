@@ -1,6 +1,8 @@
-const express = require('express')
-const router = express.Router()
-const enrollmentController = require('../controllers/enrollment.controller')
+const express = require("express");
+const router = express.Router();
+const enrollmentController = require("../controllers/enrollment.controller");
+const { verifyToken } = require("../middlewares/jwt.mw");
+const { authorize } = require("../middlewares/role.mw");
 
 /**
  * @swagger
@@ -24,7 +26,12 @@ const enrollmentController = require('../controllers/enrollment.controller')
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/', enrollmentController.getAllEnrollments)
+router.get(
+  "/",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR", "ALUMNO"),
+  enrollmentController.getAllEnrollments,
+);
 
 /**
  * @swagger
@@ -86,10 +93,20 @@ router.get('/', enrollmentController.getAllEnrollments)
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/', enrollmentController.createEnrollment)
+router.post(
+  "/",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR"),
+  enrollmentController.createEnrollment,
+);
 
 // Vistas (rutas específicas deben ir ANTES de las dinámicas)
-router.get('/new', enrollmentController.showNewEnrollment)
+router.get(
+  "/new",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR"),
+  enrollmentController.showNewEnrollment,
+);
 
 /**
  * @swagger
@@ -125,7 +142,12 @@ router.get('/new', enrollmentController.showNewEnrollment)
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/:id', enrollmentController.getEnrollmentById)
+router.get(
+  "/:id",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR", "ALUMNO"),
+  enrollmentController.getEnrollmentById,
+);
 
 /**
  * @swagger
@@ -196,49 +218,25 @@ router.get('/:id', enrollmentController.getEnrollmentById)
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.put('/:id', enrollmentController.updateEnrollment)
-
-/**
- * @swagger
- * /enrollments/{id}:
- *   delete:
- *     summary: Eliminar una inscripción
- *     tags: [Enrollments]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID de la inscripción
- *         example: '507f1f77bcf86cd799439011'
- *     responses:
- *       200:
- *         description: Inscripción eliminada exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Inscripción eliminada exitosamente
- *       404:
- *         description: Inscripción no encontrada
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       500:
- *         description: Error del servidor
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- */
-router.delete('/:id', enrollmentController.deleteEnrollment)
+router.put(
+  "/:id",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR"),
+  enrollmentController.updateEnrollment,
+);
+router.delete(
+  "/:id",
+  verifyToken,
+  authorize("ADMINISTRADOR"),
+  enrollmentController.deleteEnrollment,
+);
 
 // Vistas (rutas específicas deben ir ANTES de las dinámicas)
-router.get('/:id/edit', enrollmentController.showEditEnrollment)
+router.get(
+  "/:id/edit",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR"),
+  enrollmentController.showEditEnrollment,
+);
 
-module.exports = router
+module.exports = router;

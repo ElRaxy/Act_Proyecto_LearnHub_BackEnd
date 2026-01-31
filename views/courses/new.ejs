@@ -1,4 +1,4 @@
-<%- include('../partials/header', { title: "Crear Curso" }) %>
+<%- include('../partials/header') %>
 
 <div class="wrap">
   <h1>Crear Curso</h1>
@@ -6,7 +6,7 @@
   <form action="<%= baseApi %>" method="POST" class="form-card">
     <div class="form-group">
       <label>Título</label>
-      <input type="text" name="title" required>
+      <input type="text" name="title" required />
     </div>
 
     <div class="form-group">
@@ -16,25 +16,28 @@
 
     <div class="form-group">
       <label>Categoría</label>
-      <input type="text" name="category" required>
+      <input type="text" name="category" required />
     </div>
 
     <div class="form-group">
       <label>Fecha de inicio</label>
-      <input type="date" name="startDate" required>
+      <input type="date" name="startDate" required />
     </div>
 
     <div class="form-group">
       <label>Fecha de fin</label>
-      <input type="date" name="endDate" required>
+      <input type="date" name="endDate" required />
     </div>
 
     <div class="form-group">
       <label>Ubicación</label>
-      <input type="text" name="location" required>
+      <input type="text" name="location" required />
     </div>
 
-    <button class="btn btn-add" style="margin-top: 1.5rem;">
+    <a href="<%= baseApi %>" class="btn btn-back" style="margin-top: 1.5rem">
+      <i class="fa-solid fa-arrow-left"></i> Volver
+    </a>
+    <button class="btn btn-add" style="margin-top: 1.5rem">
       <i class="fa-solid fa-check"></i> Crear
     </button>
   </form>

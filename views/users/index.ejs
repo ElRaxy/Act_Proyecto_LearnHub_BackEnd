@@ -1,11 +1,13 @@
-<%- include('../partials/header', { title: "Usuarios" }) %>
+<%- include('../partials/header') %>
 
 <div class="wrap fadeUp" style="--d: 0.2s">
   <h1>Usuarios</h1>
 
+  <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
   <div class="actions">
     <a href="<%= baseUrlUsers %>/new" class="btn btn-add">Crear Nuevo Usuario</a>
   </div>
+  <% } %>
 
   <div class="table-container">
     <table class="courses-table">
@@ -20,19 +22,22 @@
       </thead>
 
       <tbody>
-        <% users.forEach(user => { %>
+        <% users.forEach(userItem => { %>
         <tr>
-          <td data-label="DNI"><%= user.dni %></td>
-          <td data-label="Nombre"><%= user.firstName %></td>
-          <td data-label="Apellido"><%= user.lastName %></td>
-          <td data-label="Perfil"><%= user.profile %></td>
+          <td data-label="DNI"><%= userItem.dni %></td>
+          <td data-label="Nombre"><%= userItem.firstName %></td>
+          <td data-label="Apellido"><%= userItem.lastName %></td>
+          <td data-label="Perfil"><%= userItem.profile %></td>
           <td data-label="Acciones">
-            <a href="<%= baseUrlUsers %>/show/<%= user._id %>" class="btn btn-edit">Ver</a>
-            <a href="<%= baseUrlUsers %>/edit/<%= user._id %>" class="btn btn-edit">Editar</a>
+            <a href="<%= baseUrlUsers %>/show/<%= userItem._id %>" class="btn btn-edit">Ver</a>
+            
+            <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
+            <a href="<%= baseUrlUsers %>/edit/<%= userItem._id %>" class="btn btn-edit">Editar</a>
 
-            <form action="<%= baseUrlUsers %>/<%= user._id %>?_method=DELETE" method="POST" style="display: inline">
+            <form action="<%= baseUrlUsers %>/<%= userItem._id %>?_method=DELETE" method="POST" style="display: inline">
               <button class="btn btn-delete">Borrar</button>
             </form>
+            <% } %>
           </td>
         </tr>
         <% }) %>
