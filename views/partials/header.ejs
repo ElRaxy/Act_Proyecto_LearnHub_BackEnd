@@ -28,7 +28,7 @@
         <a href="/">Inicio</a>
         <a href="/courses/views">Cursos</a>
         <a href="/enrollments/views">Matrículas</a>
-        <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
+        <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
         <a href="/users/views">Usuarios</a>
         <% } %>
       </nav>

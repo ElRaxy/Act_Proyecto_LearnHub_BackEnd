@@ -12,7 +12,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const morgan = require("morgan");
 const { usingMorgan } = require("./middlewares/morgan.mw");
-const { loadUser } = require("./middlewares/jwt.mw");
+const { loadUser, verifyToken } = require("./middlewares/jwt.mw");
 const { errorHandler } = require("./middlewares/errorHandler.mw");
 const AppError = require("./utils/AppError");
 
@@ -65,6 +65,7 @@ app.use(cors());
 app.use(cookieParser());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.set("json spaces", 2);
 app.use(express.static(path.join(__dirname, "public")));
 //Para poder leer datos (request body) en métodos POST
 app.use(express.urlencoded({ extended: true }));
@@ -104,7 +105,7 @@ app.use(
 
 //DEFINIR RUTAS
 // Raíz
-app.get("/", (req, res) => {
+app.get("/", verifyToken, (req, res) => {
   res.render("home");
 });
 
@@ -118,36 +119,13 @@ app.use(baseUrlUsersRSS, userRssRoutes); // renderiza Vistas EJS
 app.use(baseUrlCoursesRSS, courseRssRoutes);
 app.use(baseUrlEnrollmentsRSS, enrollmentRssRoutes);
 
-//Rutas por defecto
-//Si no se especifica ninguna ruta, redirigir a el index.html
-app.get(/.*/, (req, res) => {
-  // res.sendFile(path.join(__dirname, 'public', 'index.html'))
-  res.status(404).json("Ruta no encontrada");
+// 404 Handler - Si ninguna ruta coincide
+app.use((req, res, next) => {
+  next(new AppError(`La ruta '${req.originalUrl}' no existe`, 404));
 });
 
-// Middleware global de errores avanzada
+// Middleware global de errores avanzado
 app.use(errorHandler);
-
-app.use((err, req, res, next) => {
-  const status = err.status || 500;
-  const message = err.message || "Fallo interno";
-
-  // Si es API (JSON)
-  if (req.originalUrl.startsWith("/api")) {
-    return res.status(status).json({
-      status: "error",
-      message,
-      stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
-    });
-  }
-
-  // Si es Vista (Render)
-  res.status(status).render("error", {
-    status,
-    message,
-    source: err.source || "Sistema",
-  });
-});
 
 //LEVANTAR EL SERVER
 app.listen(port, async () => {

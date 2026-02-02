@@ -3,7 +3,7 @@
 <div class="wrap fadeUp" style="--d: 0.2s">
   <h1>Usuarios</h1>
 
-  <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
+  <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
   <div class="actions">
     <a href="<%= baseUrlUsers %>/new" class="btn btn-add">Crear Nuevo Usuario</a>
   </div>
@@ -31,9 +31,11 @@
           <td data-label="Acciones">
             <a href="<%= baseUrlUsers %>/show/<%= userItem._id %>" class="btn btn-edit">Ver</a>
             
-            <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
+            <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
             <a href="<%= baseUrlUsers %>/edit/<%= userItem._id %>" class="btn btn-edit">Editar</a>
+            <% } %>
 
+            <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
             <form action="<%= baseUrlUsers %>/<%= userItem._id %>?_method=DELETE" method="POST" style="display: inline">
               <button class="btn btn-delete">Borrar</button>
             </form>

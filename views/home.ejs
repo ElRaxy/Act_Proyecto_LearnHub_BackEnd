@@ -11,7 +11,7 @@
       <span>Cursos</span>
     </a>
 
-    <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
+    <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
     <a href="/users/views" class="item" style="--d: 0.12s">
       <div class="iconFrame"><i class="fa-solid fa-users"></i></div>
       <span>Usuarios</span>

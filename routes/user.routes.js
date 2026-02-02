@@ -107,19 +107,24 @@ router.get(
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/", userController.createUser);
+router.post(
+  "/",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR"),
+  userController.createUser,
+);
 
 // Vistas (rutas específicas deben ir ANTES de las dinámicas)
 router.get(
   "/new",
   verifyToken,
-  authorize("ADMINISTRADOR"),
+  authorize("ADMINISTRADOR", "PROFESOR"),
   userController.showNewUser,
 );
 router.get(
   "/edit/:id",
   verifyToken,
-  authorize("ADMINISTRADOR"),
+  authorize("ADMINISTRADOR", "PROFESOR"),
   userController.showEditUser,
 );
 
@@ -245,7 +250,7 @@ router.get(
 router.put(
   "/:id",
   verifyToken,
-  authorize("ADMINISTRADOR"),
+  authorize("ADMINISTRADOR", "PROFESOR"),
   userController.editUser,
 );
 

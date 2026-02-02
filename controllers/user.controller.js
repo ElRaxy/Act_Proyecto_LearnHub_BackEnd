@@ -135,24 +135,36 @@ exports.getById = wrapAsync(async (req, res, next) => {
   res.locals.tituloEJS = "Detalle Usuario";
   res.render("users/show", { user, baseUrlUsers });
 });
-
 exports.registerUser = wrapAsync(async (req, res, next) => {
   try {
-    const newUser = await userService.create(req.body);
+    const newUserDoc = await userService.create(req.body);
+
     // Auto-login after registration
-    const { token } = await userService.login(
+    const loginData = await userService.login(
       req.body.email,
       req.body.password,
     );
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: false,
-      maxAge: 30 * 60 * 1000, // 30 minutos
-    });
+    if (loginData) {
+      const { token, user } = loginData;
 
-    res.redirect(baseUrlUsers);
+      // Asegurar que guardamos en cookie Y sesión
+      res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: false,
+        path: "/",
+        maxAge: 30 * 60 * 1000,
+      });
+
+      req.session.token = token;
+      req.session.user = user;
+
+      // Importante: Guardar explícitamente la sesión antes del redirect si es necesario
+      // aunque express-session suele hacerlo al final de la petición
+    }
+
+    return res.redirect(baseUrlUsers);
   } catch (error) {
     const errors = {};
 
@@ -205,6 +217,7 @@ exports.loginUser = wrapAsync(async (req, res, next) => {
   try {
     const userLogued = await userService.login(email, password);
     if (userLogued) {
+      // Guardar token en cookie para persistencia
       res.cookie("token", userLogued.token, {
         httpOnly: true,
         sameSite: "lax",
@@ -212,6 +225,10 @@ exports.loginUser = wrapAsync(async (req, res, next) => {
         path: "/",
         maxAge: 30 * 60 * 1000, // 30 minutos
       });
+      // Guardar en sesión para cumplir requerimiento de express-session
+      req.session.token = userLogued.token;
+      req.session.user = userLogued.user;
+
       res.redirect(baseUrlUsers);
     } else {
       res.render("users/login", {
