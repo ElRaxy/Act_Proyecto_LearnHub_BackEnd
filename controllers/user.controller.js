@@ -233,14 +233,14 @@ exports.loginUser = wrapAsync(async (req, res, next) => {
     } else {
       res.render("users/login", {
         baseUrlUsers,
-        error: "Usuario y/o contraseña incorrecta",
+        errors: { general: "Usuario y/o contraseña incorrecta" },
         email, // To keep email field filled
       });
     }
   } catch (error) {
     res.render("users/login", {
       baseUrlUsers,
-      error: "Error al intentar iniciar sesión",
+      errors: { general: "Error al intentar iniciar sesión" },
       email,
     });
   }

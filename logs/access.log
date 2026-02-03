@@ -4,3 +4,6 @@
 [2/2/2026, 11:45:50] GET /api/v2/sfdgsdgdsgsddsgsdf 404 1011 - 17.077 ms
 [2/2/2026, 11:45:54] GET /api/v2/sfdgsdgdsgsddsgsdf 404 1011 - 2.130 ms
 [2/2/2026, 11:47:11] GET /api/v2/sfdgsdgdsgsddsgsdf 404 157 - 17.383 ms
+[3/2/2026, 19:27:29] GET /users/views 302 47 - 5.794 ms
+[3/2/2026, 19:27:29] GET /users/views/login 200 3957 - 31.292 ms
+[3/2/2026, 19:27:33] POST /users/views/login 200 4109 - 124.602 ms
