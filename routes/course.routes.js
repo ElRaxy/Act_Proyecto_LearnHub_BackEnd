@@ -1,75 +1,240 @@
-const express = require('express')
-const router = express.Router()
-const courseController = require('../controllers/course.controller')
+const express = require("express");
+const router = express.Router();
+const courseController = require("../controllers/course.controller");
+const { verifyToken } = require("../middlewares/jwt.mw");
+const { authorize } = require("../middlewares/role.mw");
 
 /**
  * @swagger
- * /courses/rss:
+ * /courses:
  *   get:
- *     summary: Renderiza la vista con el listado de cursos (HTML)
- *     description: Ruta que renderiza una vista EJS con todos los cursos
- *     tags: [Vistas - Courses]
+ *     summary: Obtener todos los cursos
+ *     tags: [Courses]
+ *     responses:
+ *       200:
+ *         description: Lista de cursos obtenida exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Course'
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
-router.get('/', courseController.getAllCourses)
+router.get(
+  "/",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR", "ALUMNO"),
+  courseController.getAllCourses,
+);
 
 /**
  * @swagger
- * /courses/rss:
+ * /courses:
  *   post:
- *     summary: Crea un nuevo curso y redirige a la vista de listado (HTML)
- *     description: Ruta que procesa el formulario de creación y redirige
- *     tags: [Vistas - Courses]
+ *     summary: Crear un nuevo curso
+ *     tags: [Courses]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - description
+ *               - category
+ *               - startDate
+ *               - endDate
+ *               - location
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: Introducción a JavaScript
+ *               description:
+ *                 type: string
+ *                 example: Curso completo de JavaScript desde cero
+ *               category:
+ *                 type: string
+ *                 example: Programación
+ *               startDate:
+ *                 type: string
+ *                 format: date-time
+ *                 example: '2024-01-15T09:00:00.000Z'
+ *               endDate:
+ *                 type: string
+ *                 format: date-time
+ *                 example: '2024-03-15T18:00:00.000Z'
+ *               location:
+ *                 type: string
+ *                 example: Aula 101
+ *     responses:
+ *       201:
+ *         description: Curso creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Course'
+ *       400:
+ *         description: Datos inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
-router.post('/', courseController.createCourse)
+router.post(
+  "/",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR"),
+  courseController.createCourse,
+);
+
+// Vistas (rutas específicas deben ir ANTES de las dinámicas)
+router.get(
+  "/new",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR"),
+  courseController.showCreateForm,
+);
 
 /**
  * @swagger
- * /courses/rss/new:
+ * /courses/{id}:
  *   get:
- *     summary: Renderiza el formulario de creación de curso (HTML)
- *     description: Ruta que renderiza una vista EJS con el formulario para crear un nuevo curso
- *     tags: [Vistas - Courses]
+ *     summary: Obtener un curso por ID
+ *     tags: [Courses]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del curso
+ *         example: '507f1f77bcf86cd799439011'
+ *     responses:
+ *       200:
+ *         description: Curso obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Course'
+ *       404:
+ *         description: Curso no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
-router.get('/new', courseController.showCreateForm)
+router.get(
+  "/:id",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR", "ALUMNO"),
+  courseController.getCourseById,
+);
 
 /**
  * @swagger
- * /courses/rss/{id}:
- *   get:
- *     summary: Renderiza la vista de detalle de un curso (HTML)
- *     description: Ruta que renderiza una vista EJS con los detalles de un curso específico
- *     tags: [Vistas - Courses]
- */
-router.get('/:id', courseController.getCourseById)
-
-/**
- * @swagger
- * /courses/rss/{id}:
+ * /courses/{id}:
  *   patch:
- *     summary: Actualiza un curso y redirige a la vista de listado (HTML)
- *     description: Ruta que procesa el formulario de edición y redirige
- *     tags: [Vistas - Courses]
+ *     summary: Actualizar un curso existente
+ *     tags: [Courses]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del curso
+ *         example: '507f1f77bcf86cd799439011'
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: Introducción a JavaScript Avanzado
+ *               description:
+ *                 type: string
+ *                 example: Curso completo de JavaScript avanzado
+ *               category:
+ *                 type: string
+ *                 example: Programación Avanzada
+ *               startDate:
+ *                 type: string
+ *                 format: date-time
+ *                 example: '2024-02-01T09:00:00.000Z'
+ *               endDate:
+ *                 type: string
+ *                 format: date-time
+ *                 example: '2024-04-01T18:00:00.000Z'
+ *               location:
+ *                 type: string
+ *                 example: Aula 201
+ *     responses:
+ *       200:
+ *         description: Curso actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Course'
+ *       404:
+ *         description: Curso no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       400:
+ *         description: Datos inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
-router.patch('/:id', courseController.updateCourse)
+router.patch(
+  "/:id",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR"),
+  courseController.updateCourse,
+);
+router.delete(
+  "/:id",
+  verifyToken,
+  authorize("ADMINISTRADOR"),
+  courseController.deleteCourse,
+);
 
-/**
- * @swagger
- * /courses/rss/{id}:
- *   delete:
- *     summary: Elimina un curso y redirige a la vista de listado (HTML)
- *     description: Ruta que procesa la eliminación de un curso y redirige
- *     tags: [Vistas - Courses]
- */
-router.delete('/:id', courseController.deleteCourse)
+// Vistas (rutas específicas deben ir ANTES de las dinámicas)
+router.get(
+  "/:id/edit",
+  verifyToken,
+  authorize("ADMINISTRADOR", "PROFESOR"),
+  courseController.showEditForm,
+);
 
-/**
- * @swagger
- * /courses/rss/{id}/edit:
- *   get:
- *     summary: Renderiza el formulario de edición de curso (HTML)
- *     description: Ruta que renderiza una vista EJS con el formulario para editar un curso existente
- *     tags: [Vistas - Courses]
- */
-router.get('/:id/edit', courseController.showEditForm)
-
-module.exports = router
+module.exports = router;

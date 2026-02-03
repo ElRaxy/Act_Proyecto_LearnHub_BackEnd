@@ -1,12 +1,16 @@
-<%- include('../partials/header', { title: "Editar Curso" }) %>
+<%- include('../partials/header') %>
 
 <div class="wrap">
   <h1>Editar Curso</h1>
 
-  <form action="<%= baseApi %>/<%= course._id %>?_method=PATCH" method="POST" class="form-card">
+  <form
+    action="<%= baseApi %>/<%= course._id %>?_method=PATCH"
+    method="POST"
+    class="form-card"
+  >
     <div class="form-group">
       <label>Título</label>
-      <input type="text" name="title" value="<%= course.title %>" required>
+      <input type="text" name="title" value="<%= course.title %>" required />
     </div>
 
     <div class="form-group">
@@ -16,32 +20,51 @@
 
     <div class="form-group">
       <label>Categoría</label>
-      <input type="text" name="category" value="<%= course.category %>" required>
+      <input
+        type="text"
+        name="category"
+        value="<%= course.category %>"
+        required
+      />
     </div>
 
     <div class="form-group">
       <label>Fecha de inicio</label>
-      <input type="date" name="startDate" value="<%= course.startDate.toISOString().substring(0,10) %>" required>
+      <input
+        type="date"
+        name="startDate"
+        value="<%= course.startDate.toISOString().substring(0,10) %>"
+        required
+      />
     </div>
 
     <div class="form-group">
       <label>Fecha de fin</label>
-      <input type="date" name="endDate" value="<%= course.endDate.toISOString().substring(0,10) %>" required>
+      <input
+        type="date"
+        name="endDate"
+        value="<%= course.endDate.toISOString().substring(0,10) %>"
+        required
+      />
     </div>
 
     <div class="form-group">
       <label>Ubicación</label>
-      <input type="text" name="location" value="<%= course.location %>" required>
+      <input
+        type="text"
+        name="location"
+        value="<%= course.location %>"
+        required
+      />
     </div>
 
-    <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-      <button class="btn btn-edit" type="submit">
-        <i class="fa-solid fa-save"></i> Guardar Cambios
-      </button>
-      <a href="<%= baseApi %>" class="btn btn-back">
-        <i class="fa-solid fa-times"></i> Cancelar
-      </a>
-    </div>
+    <a href="<%= baseApi %>" class="btn btn-back" style="margin-top: 1.5rem"
+      ><i class="fa-solid fa-arrow-left"></i> Volver</a
+    >
+
+    <button class="btn btn-edit" style="margin-top: 1.5rem">
+      <i class="fa-solid fa-save"></i> Guardar Cambios
+    </button>
   </form>
 </div>
 

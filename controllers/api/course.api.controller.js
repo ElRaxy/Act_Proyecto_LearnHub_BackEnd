@@ -1,79 +1,61 @@
-const courseService = require("../../services/course.service")
+const Course = require("../../models/courses.model");
+const courseService = require("../../services/course.service");
+const baseUrlCourses = `/api/${process.env.API_VERSION}/courses`;
 
 // GET ALL COURSES (vista)
-exports.getAllCourses = async (req, res) => {
-    try {
-        // const courses = await Course.find()
-        const courses = await courseService.getAllCourses()
-        res.status(200).json(courses)
-    } catch (error) {
-        res.status(500).json({ error: 'Error obteniendo cursos: ' + error.message })
-    }
-}
+// GET ALL COURSES (vista)
+exports.getAllCourses = async (req, res, next) => {
+  try {
+    // const courses = await Course.find()
+    const courses = await courseService.getAllCourses();
+    res.status(200).json(courses);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // GET BY ID (vista)
-exports.getCourseById = async (req, res) => {
-    try {
-        // const course = await Course.findById(req.params.id)
-        const course = await courseService.getCourseById(req.params.id)
-        if (!course) {
-            return res.status(404).json({ error: `Curso con ID '${req.params.id}' no encontrado` })
-        }
-        res.status(200).json(course)
-    } catch (error) {
-        res.status(500).json({ error: 'Error obteniendo curso: ' + error.message })
-    }
-}
-
+exports.getCourseById = async (req, res, next) => {
+  try {
+    // const course = await Course.findById(req.params.id)
+    const course = await courseService.getCourseById(req.params.id);
+    res.status(200).json(course);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // CREATE (acción)
-exports.createCourse = async (req, res) => {
-    try {
-        const newCourse = await courseService.createCourse(req.body)
-        res.status(201).json(newCourse)
-    } catch (error) {
-        res.status(500).json({ error: 'Error creando curso: ' + error.message })
-    }
-}
-
+exports.createCourse = async (req, res, next) => {
+  try {
+    await courseService.createCourse(req.body);
+    res.status(201).json(req.body);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // UPDATE (acción)
-exports.updateCourse = async (req, res) => {
-    try {
-        // Verificar que el curso existe antes de actualizar
-        const existingCourse = await courseService.getCourseById(req.params.id)
-        if (!existingCourse) {
-            return res.status(404).json({ error: `Curso con ID '${req.params.id}' no encontrado` })
-        }
-        
-        const updatedCourse = await courseService.updateCourse(req.params.id, req.body)
-        if (!updatedCourse) {
-            return res.status(500).json({ error: 'Error al actualizar el curso' })
-        }
-        // res.redirect(`${baseUrlCourses}/${req.params.id}`)
-        res.status(200).json(updatedCourse)
-    } catch (error) {
-        res.status(500).json({ error: 'Error actualizando curso: ' + error.message })
-    }
-}
+exports.updateCourse = async (req, res, next) => {
+  try {
+    const updatedCourse = await courseService.updateCourse(
+      req.params.id,
+      req.body,
+    );
+    // res.redirect(`${baseUrlCourses}/${req.params.id}`)
+    res.status(200).json(updatedCourse);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // DELETE (acción)
-exports.deleteCourse = async (req, res) => {
-    try {
-        // Verificar que el curso existe antes de eliminar
-        const existingCourse = await courseService.getCourseById(req.params.id)
-        if (!existingCourse) {
-            return res.status(404).json({ error: `Curso con ID '${req.params.id}' no encontrado` })
-        }
-        
-        const courseDeleted = await courseService.deleteCourse(req.params.id)
-        if (!courseDeleted) {
-            return res.status(500).json({ error: 'Error al eliminar el curso' })
-        }
-        res.status(200).json({ message: 'Curso eliminado exitosamente', course: courseDeleted })
-       // res.redirect(baseUrlCourses)
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ error: 'Error eliminando curso: ' + error.message })
-    }
-}
+exports.deleteCourse = async (req, res, next) => {
+  try {
+    const courseDeleted = await courseService.deleteCourse(req.params.id);
+    res.status(200).json(courseDeleted);
+    // res.redirect(baseUrlCourses)
+  } catch (error) {
+    next(error);
+  }
+};
