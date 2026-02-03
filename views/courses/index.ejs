@@ -5,7 +5,7 @@
 
   <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
   <div class="actions">
-    <a href="<%= baseApi %>/new" class="btn btn-add">➕ Nuevo curso</a>
+    <a href="<%= baseApi %>/new" class="btn btn-add">Crear nuevo curso</a>
   </div>
   <% } %>
 
@@ -29,7 +29,7 @@
 
           <td data-label="Acciones">
             <a href="<%= baseApi %>/<%= c._id %>" class="btn btn-edit">Ver</a>
-            
+
             <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
             <a href="<%= baseApi %>/<%= c._id %>/edit" class="btn btn-edit">Editar</a>
             <% } %>

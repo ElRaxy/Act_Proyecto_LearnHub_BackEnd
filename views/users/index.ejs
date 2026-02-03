@@ -5,7 +5,7 @@
 
   <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
   <div class="actions">
-    <a href="<%= baseUrlUsers %>/new" class="btn btn-add">Crear Nuevo Usuario</a>
+    <a href="<%= baseUrlUsers %>/new" class="btn btn-add">Crear nuevo usuario</a>
   </div>
   <% } %>
 
@@ -30,7 +30,7 @@
           <td data-label="Perfil"><%= userItem.profile %></td>
           <td data-label="Acciones">
             <a href="<%= baseUrlUsers %>/show/<%= userItem._id %>" class="btn btn-edit">Ver</a>
-            
+
             <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
             <a href="<%= baseUrlUsers %>/edit/<%= userItem._id %>" class="btn btn-edit">Editar</a>
             <% } %>
