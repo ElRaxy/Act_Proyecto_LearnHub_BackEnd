@@ -1,8 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const courseController = require("../controllers/course.controller");
-const { verifyToken } = require("../middlewares/jwt.mw");
-const { authorize } = require("../middlewares/role.mw");
+const express = require('express')
+const router = express.Router()
+const courseController = require('../controllers/course.controller')
+const { verifyToken } = require('../middlewares/jwt.mw')
+const { authorize } = require('../middlewares/role.mw')
 
 /**
  * @swagger
@@ -27,11 +27,11 @@ const { authorize } = require("../middlewares/role.mw");
  *               $ref: '#/components/schemas/Error'
  */
 router.get(
-  "/",
+  '/',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR", "ALUMNO"),
-  courseController.getAllCourses,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR', 'ALUMNO'),
+  courseController.getAllCourses
+)
 
 /**
  * @swagger
@@ -94,19 +94,19 @@ router.get(
  *               $ref: '#/components/schemas/Error'
  */
 router.post(
-  "/",
+  '/',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR"),
-  courseController.createCourse,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  courseController.createCourse
+)
 
 // Vistas (rutas específicas deben ir ANTES de las dinámicas)
 router.get(
-  "/new",
+  '/new',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR"),
-  courseController.showCreateForm,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  courseController.showCreateForm
+)
 
 /**
  * @swagger
@@ -143,11 +143,11 @@ router.get(
  *               $ref: '#/components/schemas/Error'
  */
 router.get(
-  "/:id",
+  '/:id',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR", "ALUMNO"),
-  courseController.getCourseById,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR', 'ALUMNO'),
+  courseController.getCourseById
+)
 
 /**
  * @swagger
@@ -217,24 +217,24 @@ router.get(
  *               $ref: '#/components/schemas/Error'
  */
 router.patch(
-  "/:id",
+  '/:id',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR"),
-  courseController.updateCourse,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  courseController.updateCourse
+)
 router.delete(
-  "/:id",
+  '/:id',
   verifyToken,
-  authorize("ADMINISTRADOR"),
-  courseController.deleteCourse,
-);
+  authorize('ADMINISTRADOR'),
+  courseController.deleteCourse
+)
 
 // Vistas (rutas específicas deben ir ANTES de las dinámicas)
 router.get(
-  "/:id/edit",
+  '/:id/edit',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR"),
-  courseController.showEditForm,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  courseController.showEditForm
+)
 
-module.exports = router;
+module.exports = router

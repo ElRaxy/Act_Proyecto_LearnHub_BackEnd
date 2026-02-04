@@ -1,8 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const enrollmentController = require("../controllers/enrollment.controller");
-const { verifyToken } = require("../middlewares/jwt.mw");
-const { authorize } = require("../middlewares/role.mw");
+const express = require('express')
+const router = express.Router()
+const enrollmentController = require('../controllers/enrollment.controller')
+const { verifyToken } = require('../middlewares/jwt.mw')
+const { authorize } = require('../middlewares/role.mw')
 
 /**
  * @swagger
@@ -27,11 +27,11 @@ const { authorize } = require("../middlewares/role.mw");
  *               $ref: '#/components/schemas/Error'
  */
 router.get(
-  "/",
+  '/',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR", "ALUMNO"),
-  enrollmentController.getAllEnrollments,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR', 'ALUMNO'),
+  enrollmentController.getAllEnrollments
+)
 
 /**
  * @swagger
@@ -94,19 +94,19 @@ router.get(
  *               $ref: '#/components/schemas/Error'
  */
 router.post(
-  "/",
+  '/',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR"),
-  enrollmentController.createEnrollment,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  enrollmentController.createEnrollment
+)
 
 // Vistas (rutas específicas deben ir ANTES de las dinámicas)
 router.get(
-  "/new",
+  '/new',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR"),
-  enrollmentController.showNewEnrollment,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  enrollmentController.showNewEnrollment
+)
 
 /**
  * @swagger
@@ -143,11 +143,11 @@ router.get(
  *               $ref: '#/components/schemas/Error'
  */
 router.get(
-  "/:id",
+  '/:id',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR", "ALUMNO"),
-  enrollmentController.getEnrollmentById,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR', 'ALUMNO'),
+  enrollmentController.getEnrollmentById
+)
 
 /**
  * @swagger
@@ -219,24 +219,24 @@ router.get(
  *               $ref: '#/components/schemas/Error'
  */
 router.put(
-  "/:id",
+  '/:id',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR"),
-  enrollmentController.updateEnrollment,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  enrollmentController.updateEnrollment
+)
 router.delete(
-  "/:id",
+  '/:id',
   verifyToken,
-  authorize("ADMINISTRADOR"),
-  enrollmentController.deleteEnrollment,
-);
+  authorize('ADMINISTRADOR'),
+  enrollmentController.deleteEnrollment
+)
 
 // Vistas (rutas específicas deben ir ANTES de las dinámicas)
 router.get(
-  "/:id/edit",
+  '/:id/edit',
   verifyToken,
-  authorize("ADMINISTRADOR", "PROFESOR"),
-  enrollmentController.showEditEnrollment,
-);
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  enrollmentController.showEditEnrollment
+)
 
-module.exports = router;
+module.exports = router
