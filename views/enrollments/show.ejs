@@ -45,7 +45,7 @@
 
     <div class="actions">
       <a href="<%= baseApi %>" class="btn btn-back">⬅ Volver</a>
-      
+
       <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
       <a href="<%= baseApi %>/<%= enrollment._id %>/edit" class="btn btn-edit">Editar</a>
       <% } %>

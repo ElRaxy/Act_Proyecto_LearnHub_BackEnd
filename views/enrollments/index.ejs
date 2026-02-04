@@ -33,7 +33,7 @@
           </td>
           <td data-label="Acciones">
             <a href="<%= baseApi %>/<%= enrollment._id %>" class="btn btn-edit">Ver</a>
-            
+
             <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
             <a href="<%= baseApi %>/<%= enrollment._id %>/edit" class="btn btn-edit">Editar</a>
             <% } %>
