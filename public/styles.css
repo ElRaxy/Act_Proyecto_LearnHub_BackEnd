@@ -12,7 +12,9 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   color: white;
   display: flex;
@@ -57,7 +59,9 @@ header {
   top: 0;
   left: 0;
   z-index: 100;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 header h2 {
@@ -65,7 +69,9 @@ header h2 {
   font-weight: 700;
   letter-spacing: 1px;
   font-size: 1.5rem;
-  text-shadow: 0 2px 10px rgba(219, 233, 255, 0.3), 0 0 20px rgba(70, 120, 255, 0.2);
+  text-shadow:
+    0 2px 10px rgba(219, 233, 255, 0.3),
+    0 0 20px rgba(70, 120, 255, 0.2);
   background: linear-gradient(135deg, #dbe9ff, #a8c9ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -90,11 +96,15 @@ header nav a {
 }
 
 header nav a::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(120, 160, 255, 0.1), rgba(70, 120, 255, 0.05));
+  background: linear-gradient(
+    135deg,
+    rgba(120, 160, 255, 0.1),
+    rgba(70, 120, 255, 0.05)
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -158,17 +168,28 @@ header nav a:hover::before {
 ======================================== */
 footer {
   width: 100%;
-  background: linear-gradient(135deg, rgba(20, 25, 40, 0.8), rgba(15, 20, 35, 0.75));
+  background: linear-gradient(
+    135deg,
+    rgba(20, 25, 40, 0.8),
+    rgba(15, 20, 35, 0.75)
+  );
   backdrop-filter: blur(12px) saturate(180%);
   padding: 1.2rem;
   text-align: center;
   color: #b8cbff;
   border-top: 2px solid;
-  border-image: linear-gradient(90deg, transparent, rgba(120, 160, 255, 0.4), transparent) 1;
+  border-image: linear-gradient(
+      90deg,
+      transparent,
+      rgba(120, 160, 255, 0.4),
+      transparent
+    )
+    1;
   position: fixed;
   bottom: 0;
   left: 0;
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5),
+  box-shadow:
+    0 -8px 32px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(120, 160, 255, 0.1) inset;
   font-size: 0.9rem;
   text-shadow: 0 1px 5px rgba(184, 203, 255, 0.2);
@@ -284,13 +305,18 @@ h1 {
 .courses-table {
   width: 100%;
   border-collapse: collapse;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
   backdrop-filter: blur(16px) saturate(180%);
   border-radius: 12px;
   overflow: hidden;
   color: white;
   border: 1px solid rgba(120, 160, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
     0 0 0 1px rgba(120, 160, 255, 0.1) inset;
 }
 
@@ -302,7 +328,6 @@ h1 {
 }
 
 @media (max-width: 1024px) {
-
   .courses-table th,
   .courses-table td {
     padding: 0.7rem 0.8rem;
@@ -311,7 +336,11 @@ h1 {
 }
 
 .courses-table thead {
-  background: linear-gradient(135deg, rgba(70, 120, 255, 0.4), rgba(100, 150, 255, 0.3));
+  background: linear-gradient(
+    135deg,
+    rgba(70, 120, 255, 0.4),
+    rgba(100, 150, 255, 0.3)
+  );
   box-shadow: 0 2px 10px rgba(70, 120, 255, 0.2);
 }
 
@@ -328,13 +357,17 @@ h1 {
 }
 
 .courses-table tbody tr:hover {
-  background: linear-gradient(90deg, rgba(70, 120, 255, 0.15), rgba(100, 150, 255, 0.1));
+  background: linear-gradient(
+    90deg,
+    rgba(70, 120, 255, 0.15),
+    rgba(100, 150, 255, 0.1)
+  );
   transform: scale(1.01);
   box-shadow: 0 4px 15px rgba(70, 120, 255, 0.2);
 }
 
 .courses-table td[data-label]::before {
-  content: attr(data-label) ': ';
+  content: attr(data-label) ": ";
   font-weight: 600;
   display: none;
 }
@@ -474,7 +507,8 @@ h1 {
 .btn-add {
   background: linear-gradient(135deg, #4d8fff, #6ba0ff);
   color: white;
-  box-shadow: 0 6px 25px rgba(70, 120, 255, 0.4),
+  box-shadow:
+    0 6px 25px rgba(70, 120, 255, 0.4),
     0 0 0 1px rgba(255, 255, 255, 0.1) inset,
     0 2px 10px rgba(70, 120, 255, 0.3);
   position: relative;
@@ -482,20 +516,26 @@ h1 {
 }
 
 .btn-add::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
 .btn-add:hover {
   background: linear-gradient(135deg, #6ba0ff, #7ab4ff);
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(70, 120, 255, 0.5),
+  box-shadow:
+    0 8px 30px rgba(70, 120, 255, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.2) inset,
     0 4px 15px rgba(70, 120, 255, 0.4);
 }
@@ -505,7 +545,6 @@ h1 {
 }
 
 @media (max-width: 768px) {
-
   .btn-add:hover,
   .btn-edit:hover,
   .btn-delete:hover,
@@ -515,7 +554,6 @@ h1 {
 }
 
 @media (hover: none) {
-
   .btn-add:hover,
   .btn-edit:hover,
   .btn-delete:hover,
@@ -526,54 +564,84 @@ h1 {
 
 /* EDITAR */
 .btn-edit {
-  background: linear-gradient(135deg, rgba(120, 160, 255, 0.3), rgba(100, 140, 255, 0.25));
+  background: linear-gradient(
+    135deg,
+    rgba(120, 160, 255, 0.3),
+    rgba(100, 140, 255, 0.25)
+  );
   color: #bcd5ff;
   border: 1px solid rgba(120, 160, 255, 0.3);
-  box-shadow: 0 4px 15px rgba(120, 160, 255, 0.2),
+  box-shadow:
+    0 4px 15px rgba(120, 160, 255, 0.2),
     0 0 0 1px rgba(120, 160, 255, 0.1) inset;
   text-shadow: 0 1px 3px rgba(188, 213, 255, 0.3);
 }
 
 .btn-edit:hover {
-  background: linear-gradient(135deg, rgba(120, 160, 255, 0.45), rgba(100, 140, 255, 0.4));
+  background: linear-gradient(
+    135deg,
+    rgba(120, 160, 255, 0.45),
+    rgba(100, 140, 255, 0.4)
+  );
   border-color: rgba(120, 160, 255, 0.5);
-  box-shadow: 0 6px 20px rgba(120, 160, 255, 0.3),
+  box-shadow:
+    0 6px 20px rgba(120, 160, 255, 0.3),
     0 0 0 1px rgba(120, 160, 255, 0.2) inset;
   text-shadow: 0 0 10px rgba(188, 213, 255, 0.5);
 }
 
 /* BORRAR */
 .btn-delete {
-  background: linear-gradient(135deg, rgba(255, 80, 80, 0.3), rgba(255, 100, 100, 0.25));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 80, 80, 0.3),
+    rgba(255, 100, 100, 0.25)
+  );
   color: #ffb6b6;
   border: 1px solid rgba(255, 80, 80, 0.3);
-  box-shadow: 0 4px 15px rgba(255, 80, 80, 0.2),
+  box-shadow:
+    0 4px 15px rgba(255, 80, 80, 0.2),
     0 0 0 1px rgba(255, 80, 80, 0.1) inset;
   text-shadow: 0 1px 3px rgba(255, 182, 182, 0.3);
 }
 
 .btn-delete:hover {
-  background: linear-gradient(135deg, rgba(255, 80, 80, 0.5), rgba(255, 100, 100, 0.45));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 80, 80, 0.5),
+    rgba(255, 100, 100, 0.45)
+  );
   border-color: rgba(255, 80, 80, 0.5);
-  box-shadow: 0 6px 20px rgba(255, 80, 80, 0.3),
+  box-shadow:
+    0 6px 20px rgba(255, 80, 80, 0.3),
     0 0 0 1px rgba(255, 80, 80, 0.2) inset;
   text-shadow: 0 0 10px rgba(255, 182, 182, 0.5);
 }
 
 /* VOLVER */
 .btn-back {
-  background: linear-gradient(135deg, rgba(100, 100, 100, 0.3), rgba(80, 80, 80, 0.25));
+  background: linear-gradient(
+    135deg,
+    rgba(100, 100, 100, 0.3),
+    rgba(80, 80, 80, 0.25)
+  );
   color: #ddd;
   border: 1px solid rgba(100, 100, 100, 0.3);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.2),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
   text-shadow: 0 1px 3px rgba(221, 221, 221, 0.2);
 }
 
 .btn-back:hover {
-  background: linear-gradient(135deg, rgba(100, 100, 100, 0.5), rgba(80, 80, 80, 0.45));
+  background: linear-gradient(
+    135deg,
+    rgba(100, 100, 100, 0.5),
+    rgba(80, 80, 80, 0.45)
+  );
   border-color: rgba(100, 100, 100, 0.5);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3),
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.1) inset;
   text-shadow: 0 0 8px rgba(221, 221, 221, 0.4);
 }
@@ -611,7 +679,8 @@ h1 {
   padding: 1.5rem;
   border-radius: 14px;
   border: 1px solid rgba(120, 160, 255, 0.2);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.1),
     0 0 0 1px rgba(120, 160, 255, 0.1) inset;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -619,13 +688,18 @@ h1 {
 }
 
 .course-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(120, 160, 255, 0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(120, 160, 255, 0.1),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -635,7 +709,8 @@ h1 {
 
 .course-card:hover {
   transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15),
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.15),
     0 0 0 1px rgba(120, 160, 255, 0.3) inset,
     0 4px 20px rgba(70, 120, 255, 0.2);
   border-color: rgba(120, 160, 255, 0.4);
@@ -681,11 +756,21 @@ h1 {
 }
 
 .actions {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: center;
+  width: 100%;
+}
+
+.actions .btn {
+  width: 100%;
+  max-width: 300px;
+}
+
+.secondary-action {
+  margin-top: 0.5rem;
 }
 
 @media (max-width: 768px) {
@@ -714,13 +799,18 @@ h1 {
 
 .course-detail-card,
 .detail-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.06)
+  );
   backdrop-filter: blur(20px) saturate(180%);
   padding: 2rem 2.5rem;
   border-radius: 16px;
   max-width: 700px;
   margin: 2rem auto;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(120, 160, 255, 0.2) inset,
     0 4px 20px rgba(70, 120, 255, 0.15);
   color: white;
@@ -744,7 +834,8 @@ h1 {
   font-size: 2rem;
   color: #dbe9ff;
   word-wrap: break-word;
-  text-shadow: 0 2px 15px rgba(219, 233, 255, 0.3),
+  text-shadow:
+    0 2px 15px rgba(219, 233, 255, 0.3),
     0 0 25px rgba(70, 120, 255, 0.2);
   background: linear-gradient(135deg, #dbe9ff, #a8c9ff);
   -webkit-background-clip: text;
@@ -763,7 +854,6 @@ h1 {
 }
 
 @media (max-width: 1024px) {
-
   .course-detail-card,
   .detail-card {
     max-width: 90%;
@@ -824,7 +914,6 @@ h1 {
 }
 
 @media (max-width: 768px) {
-
   .detail-card .courses-table th,
   .course-detail-card .courses-table th {
     width: auto;
@@ -842,13 +931,18 @@ h1 {
 
 .form-card,
 .user-form {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.06)
+  );
   backdrop-filter: blur(20px) saturate(180%);
   padding: 2rem;
   border-radius: 16px;
   max-width: 700px;
   margin: 0 auto;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(120, 160, 255, 0.2) inset,
     0 4px 20px rgba(70, 120, 255, 0.15);
   width: 100%;
@@ -864,7 +958,6 @@ h1 {
 }
 
 @media (max-width: 1024px) {
-
   .form-card,
   .user-form {
     max-width: 90%;
@@ -879,7 +972,7 @@ h1 {
 }
 
 .form-group label,
-.user-form>label {
+.user-form > label {
   display: block;
   color: #dbe9ff;
   font-weight: 600;
@@ -913,7 +1006,6 @@ h1 {
 }
 
 @media (max-width: 768px) {
-
   .form-group input,
   .form-group textarea,
   .form-group select,
@@ -926,7 +1018,6 @@ h1 {
 }
 
 @media (max-width: 480px) {
-
   .form-group input,
   .form-group textarea,
   .form-group select,
@@ -944,7 +1035,8 @@ h1 {
 .user-form input:focus,
 .user-form textarea:focus,
 .user-form select:focus {
-  box-shadow: 0 0 0 3px rgba(70, 120, 255, 0.3),
+  box-shadow:
+    0 0 0 3px rgba(70, 120, 255, 0.3),
     0 4px 15px rgba(70, 120, 255, 0.2),
     0 0 0 1px rgba(120, 160, 255, 0.4) inset;
   transform: translateY(-1px);
@@ -982,7 +1074,6 @@ h1 {
 ======================================== */
 
 @media (max-width: 768px) {
-
   .course-detail-card,
   .detail-card {
     padding: 1.5rem;
@@ -1005,13 +1096,12 @@ h1 {
   }
 
   .form-group label,
-  .user-form>label {
+  .user-form > label {
     font-size: 0.95rem;
   }
 }
 
 @media (max-width: 480px) {
-
   .course-detail-card,
   .detail-card {
     padding: 1.2rem;
@@ -1043,7 +1133,7 @@ h1 {
   }
 
   .form-group label,
-  .user-form>label {
+  .user-form > label {
     font-size: 0.9rem;
     margin-bottom: 0.4rem;
   }
@@ -1068,7 +1158,6 @@ h1 {
   }
 }
 
-
 /* ========================================
    VISTA DE ERRORES
 ======================================== */
@@ -1088,7 +1177,9 @@ h1 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 2px 12px rgba(219, 233, 255, 0.3), 0 0 20px rgba(70, 120, 255, 0.2);
+  text-shadow:
+    0 2px 12px rgba(219, 233, 255, 0.3),
+    0 0 20px rgba(70, 120, 255, 0.2);
 }
 
 .error-box {
@@ -1135,4 +1226,58 @@ h1 {
   .error-box {
     padding: 1rem;
   }
+}
+
+/* Password Visibility Toggle Styles */
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  padding-right: 45px !important; /* Espacio para el icono */
+  width: 100%;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 5px;
+  top: 0;
+  height: 100%;
+  width: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4d8fff;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  outline: none;
+  margin: 0;
+  line-height: 1;
+}
+
+.toggle-password-btn:hover {
+  color: #7babff;
+  transform: scale(1.1);
+}
+
+/* Secondary Button Link Style */
+.btn-link {
+  color: #bcd5ff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+}
+
+.btn-link:hover {
+  color: #4d8fff;
+  text-shadow: 0 0 8px rgba(77, 143, 255, 0.4);
 }

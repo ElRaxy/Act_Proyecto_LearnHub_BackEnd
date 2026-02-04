@@ -31,4 +31,9 @@ router.delete(
   userApiController.deleteUser
 )
 
-module.exports = router
+// Auth API (añadiendo por si acaso se quieren usar por separado)
+router.post("/login", userApiController.loginUser);
+router.post("/register", userApiController.registerUser);
+router.get("/logout", userApiController.logoutUser);
+
+module.exports = router;
