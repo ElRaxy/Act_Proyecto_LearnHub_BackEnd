@@ -119,6 +119,78 @@ header nav a:hover::before {
   opacity: 1;
 }
 
+/* USER INFO IN HEADER */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.user-greeting {
+  font-size: 0.9rem;
+  color: #bcd5ff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.2;
+}
+
+.user-greeting strong {
+  color: #dbe9ff;
+  font-size: 1rem;
+}
+
+.btn-login,
+.btn-register,
+.btn-logout {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-login {
+  background: rgba(120, 160, 255, 0.1);
+  color: #7ab4ff;
+  border: 1px solid rgba(120, 160, 255, 0.3);
+}
+
+.btn-login:hover {
+  background: rgba(120, 160, 255, 0.2);
+  color: #a8c9ff;
+}
+
+.btn-register,
+.btn-logout {
+  background: linear-gradient(135deg, #4d8fff, #6ba0ff);
+  color: white;
+  box-shadow: 0 4px 12px rgba(70, 120, 255, 0.3);
+}
+
+.btn-logout {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 80, 80, 0.6),
+    rgba(255, 100, 100, 0.5)
+  );
+  box-shadow: 0 4px 12px rgba(255, 80, 80, 0.2);
+}
+
+.btn-register:hover,
+.btn-logout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(70, 120, 255, 0.4);
+}
+
+.btn-logout:hover {
+  box-shadow: 0 6px 15px rgba(255, 80, 80, 0.3);
+}
+
 @media (max-width: 768px) {
   header {
     padding: 0.8rem 1rem;
@@ -756,21 +828,11 @@ h1 {
 }
 
 .actions {
-  margin-top: 2.5rem;
+  margin-top: 2rem;
   display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  align-items: center;
-  width: 100%;
-}
-
-.actions .btn {
-  width: 100%;
-  max-width: 300px;
-}
-
-.secondary-action {
-  margin-top: 0.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 @media (max-width: 768px) {
@@ -1228,56 +1290,147 @@ h1 {
   }
 }
 
-/* Password Visibility Toggle Styles */
-.password-container {
-  position: relative;
-  display: flex;
-  align-items: center;
+/* ========================================
+   FORMULARIOS (LOGIN / REGISTER)
+======================================== */
+.form-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
+  backdrop-filter: blur(16px);
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(120, 160, 255, 0.2);
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.password-container input {
-  padding-right: 45px !important; /* Espacio para el icono */
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #a8c9ff;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(120, 160, 255, 0.3);
+  background: rgba(15, 23, 42, 0.6);
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4d8fff;
+  box-shadow: 0 0 10px rgba(77, 143, 255, 0.3);
+}
+
+/* Password Toggle */
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #7ab4ff;
+  transition: color 0.3s ease;
+  z-index: 10;
+}
+
+.toggle-password:hover {
+  color: #a8c9ff;
+}
+
+/* Inline Alerts */
+.alert-inline {
+  background: rgba(255, 80, 80, 0.1);
+  color: #ffb6b6;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 80, 80, 0.2);
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Secondary Button (for links) */
+.btn-secondary {
+  background: transparent;
+  color: #7ab4ff;
+  border: 1px solid rgba(120, 160, 255, 0.3);
+  margin-top: 1rem;
   width: 100%;
 }
 
-.toggle-password-btn {
-  position: absolute;
-  right: 5px;
-  top: 0;
-  height: 100%;
-  width: 40px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #4d8fff;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  z-index: 10;
-  outline: none;
-  margin: 0;
-  line-height: 1;
+.btn-secondary:hover {
+  background: rgba(120, 160, 255, 0.1);
+  border-color: #7ab4ff;
+  color: #a8c9ff;
 }
 
-.toggle-password-btn:hover {
-  color: #7babff;
-  transform: scale(1.1);
+.form-footer {
+  margin-top: 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(120, 160, 255, 0.1);
+  padding-top: 1.5rem;
 }
 
-/* Secondary Button Link Style */
-.btn-link {
+.form-footer p {
   color: #bcd5ff;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  display: inline-block;
-  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
 }
 
-.btn-link:hover {
-  color: #4d8fff;
-  text-shadow: 0 0 8px rgba(77, 143, 255, 0.4);
+/* ========================================
+   VALIDATION ERRORS
+======================================== */
+/* Error message below inputs */
+.error-message {
+  display: block;
+  color: #ffb6b6;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Input with error state */
+.input-error {
+  border-color: rgba(255, 80, 80, 0.6) !important;
+  background: rgba(255, 80, 80, 0.05) !important;
+}
+
+.input-error:focus {
+  border-color: rgba(255, 80, 80, 0.8) !important;
+  box-shadow: 0 0 10px rgba(255, 80, 80, 0.3) !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

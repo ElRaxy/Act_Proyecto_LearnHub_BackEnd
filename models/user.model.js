@@ -33,8 +33,7 @@ const usersSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 8, // Asegura que la contraseña tenga una longitud mínima
-    select: false, //JWT: No mostrar password en no entran en los find de la API
+    select: false,
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },

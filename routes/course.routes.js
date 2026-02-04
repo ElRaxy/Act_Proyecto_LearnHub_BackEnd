@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const courseController = require('../controllers/course.controller')
+const { verifyToken } = require('../middlewares/jwt.mw')
+const { authorize } = require('../middlewares/role.mw')
 
 /**
  * @swagger
@@ -24,7 +26,12 @@ const courseController = require('../controllers/course.controller')
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/', courseController.getAllCourses)
+router.get(
+  '/',
+  verifyToken,
+  authorize('ADMINISTRADOR', 'PROFESOR', 'ALUMNO'),
+  courseController.getAllCourses
+)
 
 /**
  * @swagger
@@ -86,10 +93,20 @@ router.get('/', courseController.getAllCourses)
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/', courseController.createCourse)
+router.post(
+  '/',
+  verifyToken,
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  courseController.createCourse
+)
 
 // Vistas (rutas específicas deben ir ANTES de las dinámicas)
-router.get('/new', courseController.showCreateForm)
+router.get(
+  '/new',
+  verifyToken,
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  courseController.showCreateForm
+)
 
 /**
  * @swagger
@@ -125,7 +142,12 @@ router.get('/new', courseController.showCreateForm)
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/:id', courseController.getCourseById)
+router.get(
+  '/:id',
+  verifyToken,
+  authorize('ADMINISTRADOR', 'PROFESOR', 'ALUMNO'),
+  courseController.getCourseById
+)
 
 /**
  * @swagger
@@ -194,49 +216,25 @@ router.get('/:id', courseController.getCourseById)
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.patch('/:id', courseController.updateCourse)
-
-/**
- * @swagger
- * /courses/{id}:
- *   delete:
- *     summary: Eliminar un curso
- *     tags: [Courses]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID del curso
- *         example: '507f1f77bcf86cd799439011'
- *     responses:
- *       200:
- *         description: Curso eliminado exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Curso eliminado exitosamente
- *       404:
- *         description: Curso no encontrado
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       500:
- *         description: Error del servidor
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- */
-router.delete('/:id', courseController.deleteCourse)
+router.patch(
+  '/:id',
+  verifyToken,
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  courseController.updateCourse
+)
+router.delete(
+  '/:id',
+  verifyToken,
+  authorize('ADMINISTRADOR'),
+  courseController.deleteCourse
+)
 
 // Vistas (rutas específicas deben ir ANTES de las dinámicas)
-router.get('/:id/edit', courseController.showEditForm)
+router.get(
+  '/:id/edit',
+  verifyToken,
+  authorize('ADMINISTRADOR', 'PROFESOR'),
+  courseController.showEditForm
+)
 
 module.exports = router

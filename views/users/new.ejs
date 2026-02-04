@@ -6,96 +6,111 @@
   <form action="<%= baseUrlUsers %>" method="POST" class="form-card">
     <div class="form-group">
       <label for="firstName">Nombre</label>
-      <input type="text" name="firstName" id="firstName" required />
+      <input type="text" name="firstName" id="firstName" class="<%= locals.errors?.firstName ? 'input-error' : '' %>" value="<%= locals.formData?.firstName || '' %>" required />
+      <% if (locals.errors?.firstName) { %>
+        <span class="error-message"><%= locals.errors.firstName %></span>
+      <% } %>
     </div>
 
     <div class="form-group">
       <label for="lastName">Apellido</label>
-      <input type="text" name="lastName" id="lastName" required />
+      <input type="text" name="lastName" id="lastName" class="<%= locals.errors?.lastName ? 'input-error' : '' %>" value="<%= locals.formData?.lastName || '' %>" required />
+      <% if (locals.errors?.lastName) { %>
+        <span class="error-message"><%= locals.errors.lastName %></span>
+      <% } %>
     </div>
 
     <div class="form-group">
       <label for="email">Email</label>
-      <input type="email" name="email" id="email" required />
+      <input type="email" name="email" id="email" class="<%= locals.errors?.email ? 'input-error' : '' %>" value="<%= locals.formData?.email || '' %>" required />
+      <% if (locals.errors?.email) { %>
+        <span class="error-message"><%= locals.errors.email %></span>
+      <% } %>
     </div>
 
     <div class="form-group">
       <label for="dni">DNI</label>
-      <input type="text" name="dni" id="dni" required />
+      <input type="text" name="dni" id="dni" class="<%= locals.errors?.dni ? 'input-error' : '' %>" value="<%= locals.formData?.dni || '' %>" required />
+      <% if (locals.errors?.dni) { %>
+        <span class="error-message"><%= locals.errors.dni %></span>
+      <% } %>
     </div>
 
     <div class="form-group">
       <label for="phone">Teléfono</label>
-      <input type="text" name="phone" id="phone" required />
+      <input type="text" name="phone" id="phone" class="<%= locals.errors?.phone ? 'input-error' : '' %>" value="<%= locals.formData?.phone || '' %>" required />
+      <% if (locals.errors?.phone) { %>
+        <span class="error-message"><%= locals.errors.phone %></span>
+      <% } %>
     </div>
 
     <div class="form-group">
       <label for="birthDate">Fecha de Nacimiento</label>
-      <input type="date" name="birthDate" id="birthDate" required />
-    </div>
-
-    <div class="form-group">
-      <label for="profile">Perfil</label>
-      <select name="profile" id="profile" required>
-        <option value="ADMINISTRADOR">Administrador</option>
-        <option value="PROFESOR">Profesor</option>
-        <option value="ALUMNO">Alumno</option>
-      </select>
+      <input type="date" name="birthDate" id="birthDate" class="<%= locals.errors?.birthDate ? 'input-error' : '' %>" value="<%= locals.formData?.birthDate || '' %>" required />
+      <% if (locals.errors?.birthDate) { %>
+        <span class="error-message"><%= locals.errors.birthDate %></span>
+      <% } %>
     </div>
 
     <div class="form-group">
       <label for="password">Contraseña</label>
-      <div class="password-container">
-        <input
-          type="password"
-          name="password"
-          id="password"
-          required
-          minlength="6"
-          placeholder="Escribe la contraseña"
-        />
-        <button
-          type="button"
-          id="togglePassword"
-          class="toggle-password-btn"
-          title="Mostrar/Ocultar contraseña"
-        >
-          <i class="fa-solid fa-eye" id="eyeIcon"></i>
-        </button>
+      <div class="password-wrapper">
+        <input type="password" name="password" id="password" class="<%= locals.errors?.password ? 'input-error' : '' %>" required />
+        <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
       </div>
       <small
+        id="passwordHelp"
         style="
-          color: #bcd5ff;
+          color: #64748b;
           font-size: 0.8rem;
-          margin-top: 5px;
+          margin-top: 0.3rem;
           display: block;
         "
       >
-        Mínimo 6 caracteres.
+        Mínimo 8 caracteres, una mayúscula, una minúscula, un número y un
+        carácter especial.
       </small>
+      <% if (locals.errors?.password) { %>
+        <span class="error-message"><%= locals.errors.password %></span>
+      <% } %>
     </div>
 
-    <div class="actions">
-      <button type="submit" class="btn btn-add">
-        <i class="fa-solid fa-check"></i> Crear Usuario
-      </button>
-      <div class="secondary-action">
-        <a href="<%= baseUrlUsers %>" class="btn-link">Volver al listado</a>
-      </div>
-    </div>
+    <a
+      href="<%= baseUrlUsers %>"
+      class="btn btn-back"
+      style="margin-top: 1.5rem"
+    >
+      <i class="fa-solid fa-arrow-left"></i> Volver
+    </a>
+    <button type="submit" class="btn btn-add" style="margin-top: 1.5rem">
+      <i class="fa-solid fa-check"></i> Crear Usuario
+    </button>
   </form>
 </div>
 
 <script>
-  const passwordInput = document.getElementById("password");
-  const togglePassword = document.getElementById("togglePassword");
-  const eyeIcon = document.getElementById("eyeIcon");
+  const togglePassword = document.querySelector("#togglePassword");
+  const password = document.querySelector("#password");
 
-  togglePassword.addEventListener("click", () => {
-    const isPassword = passwordInput.getAttribute("type") === "password";
-    passwordInput.setAttribute("type", isPassword ? "text" : "password");
-    eyeIcon.classList.toggle("fa-eye");
-    eyeIcon.classList.toggle("fa-eye-slash");
+  togglePassword.addEventListener("click", function (e) {
+    const type =
+      password.getAttribute("type") === "password" ? "text" : "password";
+    password.setAttribute("type", type);
+    this.classList.toggle("fa-eye-slash");
+  });
+
+  password.addEventListener("input", function () {
+    const help = document.getElementById("passwordHelp");
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_!?,@#$%^&*()])[A-Za-z\d-_!?,@#$%^&*()]{8,}$/;
+    if (!passwordRegex.test(this.value)) {
+      help.style.color = "#ef4444";
+      help.textContent =
+        "La contraseña no cumple los requisitos de complejidad.";
+    } else {
+      help.style.color = "#10b981";
+      help.textContent = "Contraseña válida.";
+    }
   });
 </script>
 

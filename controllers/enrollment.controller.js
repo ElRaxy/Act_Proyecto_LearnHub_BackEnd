@@ -1,14 +1,17 @@
 const enrollmentService = require('../services/enrollment.service')
 const userService = require('../services/user.service')
 const courseService = require('../services/course.service')
-const baseUrlEnrollments = `/enrollments/rss`
+const baseUrlEnrollments = `/enrollments/views`
 
 // Listar todas las matrículas
 exports.getAllEnrollments = async (req, res) => {
   try {
     const enrollments = await enrollmentService.getAllEnrollments()
     res.locals.tituloEJS = 'Matriculas'
-    res.render('enrollments/index', { enrollments, baseApi: baseUrlEnrollments })
+    res.render('enrollments/index', {
+      enrollments,
+      baseApi: baseUrlEnrollments,
+    })
   } catch (error) {
     console.error(error)
     res.status(500).send('No se pudieron listar las matriculas')
@@ -21,7 +24,11 @@ exports.showNewEnrollment = async (req, res) => {
     const users = await userService.getAllUsers()
     const courses = await courseService.getAllCourses()
     res.locals.tituloEJS = 'Nueva Matricula'
-    res.render('enrollments/new', { baseApi: baseUrlEnrollments, users, courses })
+    res.render('enrollments/new', {
+      baseApi: baseUrlEnrollments,
+      users,
+      courses,
+    })
   } catch (error) {
     console.error(error)
     res.status(500).send('Error al cargar la vista de nueva matrícula')
@@ -32,7 +39,9 @@ exports.showNewEnrollment = async (req, res) => {
 exports.createEnrollment = async (req, res, next) => {
   try {
     // Verificamos si el usuario ya tiene matrícula
-    const existingEnrollment = await enrollmentService.getEnrollmentByUserId(req.body.userId)
+    const existingEnrollment = await enrollmentService.getEnrollmentByUserId(
+      req.body.userId
+    )
     if (existingEnrollment) {
       const error = new Error(`El usuario ya tiene una matrícula activa`)
       error.status = 400
@@ -70,7 +79,7 @@ exports.showEditEnrollment = async (req, res) => {
       enrollment,
       baseApi: baseUrlEnrollments,
       users,
-      courses
+      courses,
     })
   } catch (error) {
     console.error(error)
@@ -90,7 +99,7 @@ exports.getEnrollmentById = async (req, res) => {
     res.locals.tituloEJS = 'Detalle de la Matricula'
     res.render('enrollments/show', {
       enrollment,
-      baseApi: baseUrlEnrollments
+      baseApi: baseUrlEnrollments,
     })
   } catch (error) {
     console.error(error)
@@ -104,22 +113,32 @@ exports.updateEnrollment = async (req, res, next) => {
     // Verificar que la matrícula existe
     const enrollment = await enrollmentService.getEnrollmentById(req.params.id)
     if (!enrollment) {
-      const error = new Error(`Matrícula con ID '${req.params.id}' no encontrada`)
+      const error = new Error(
+        `Matrícula con ID '${req.params.id}' no encontrada`
+      )
       error.status = 404
       error.source = 'Actualizar matrícula'
       return next(error)
     }
 
     // Verificamos si el usuario ya tiene otra matrícula distinta a la que estamos editando
-    const existingEnrollment = await enrollmentService.getEnrollmentByUserId(req.body.userId)
-    if (existingEnrollment && existingEnrollment._id.toString() !== req.params.id) {
+    const existingEnrollment = await enrollmentService.getEnrollmentByUserId(
+      req.body.userId
+    )
+    if (
+      existingEnrollment &&
+      existingEnrollment._id.toString() !== req.params.id
+    ) {
       const error = new Error(`El usuario ya tiene una matrícula activa`)
       error.status = 400
       error.source = 'Actualizar matrícula'
       return next(error)
     }
 
-    const updatedEnrollment = await enrollmentService.updateEnrollment(req.params.id, req.body)
+    const updatedEnrollment = await enrollmentService.updateEnrollment(
+      req.params.id,
+      req.body
+    )
     if (!updatedEnrollment) {
       const error = new Error(`Error al actualizar la matrícula`)
       error.status = 500
@@ -140,6 +159,6 @@ exports.deleteEnrollment = async (req, res) => {
     res.redirect(baseUrlEnrollments)
   } catch (error) {
     console.error(error)
-    res.status(500).send('Error al eliminar la matricula')
+    next(new AppError('Error al eliminar la matricula', 500))
   }
 }

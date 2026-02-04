@@ -1,19 +1,19 @@
 const Course = require('../models/courses.model')
-const baseUrlCourses = `/courses/rss`
+const baseUrlCourses = `/courses/views`
 
 // GET ALL COURSES (vista)
 exports.getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find()
 
-        res.locals.tituloEJS = 'Cursos disponibles'
-        res.render('courses/index', {
-            courses,
-            baseApi: baseUrlCourses
-        })
-    } catch (error) {
-        res.status(500).send('Error obteniendo cursos: ' + error)
-    }
+    res.locals.tituloEJS = 'Cursos disponibles'
+    res.render('courses/index', {
+      courses,
+      baseApi: baseUrlCourses,
+    })
+  } catch (error) {
+    next(new AppError('Error obteniendo cursos: ' + error, 500))
+  }
 }
 
 // GET BY ID (vista)
@@ -21,22 +21,22 @@ exports.getCourseById = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id)
 
-        res.locals.tituloEJS = course.title
-        res.render('courses/show', {
-            course,
-            baseApi: baseUrlCourses
-        })
-    } catch (error) {
-        res.status(500).send('Error obteniendo curso: ' + error)
-    }
+    res.locals.tituloEJS = course.title
+    res.render('courses/show', {
+      course,
+      baseApi: baseUrlCourses,
+    })
+  } catch (error) {
+    next(new AppError('Error obteniendo curso: ' + error, 500))
+  }
 }
 
 // FORM NEW (vista)
 exports.showCreateForm = (req, res) => {
-    res.locals.tituloEJS = 'Nuevo curso'
-    res.render('courses/new', {
-        baseApi: baseUrlCourses
-    })
+  res.locals.tituloEJS = 'Nuevo curso'
+  res.render('courses/new', {
+    baseApi: baseUrlCourses,
+  })
 }
 
 // CREATE (acción)
@@ -54,14 +54,14 @@ exports.showEditForm = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id)
 
-        res.locals.tituloEJS = 'Editar curso'
-        res.render('courses/edit', {
-            course,
-            baseApi: baseUrlCourses
-        })
-    } catch (error) {
-        res.status(500).send('Error obteniendo datos: ' + error)
-    }
+    res.locals.tituloEJS = 'Editar curso'
+    res.render('courses/edit', {
+      course,
+      baseApi: baseUrlCourses,
+    })
+  } catch (error) {
+    res.status(500).send('Error obteniendo datos: ' + error)
+  }
 }
 
 // UPDATE (acción)

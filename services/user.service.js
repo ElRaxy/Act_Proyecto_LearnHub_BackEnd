@@ -1,17 +1,6 @@
 const User = require('../models/user.model')
 const bcrypt = require('../utils/bcrypt')
 const jwt = require('jsonwebtoken')
-const { encryptPassword } = require('../utils/bcrypt')
-
-const validatePassword = (password = '') => {
-  return (
-    password.length >= 8 &&
-    /[A-Z]/.test(password) &&
-    /[a-z]/.test(password) &&
-    /\d/.test(password) &&
-    /[-_!@?]/.test(password)
-  )
-}
 
 // Traer todos los usuarios
 exports.getAllUsers = async () => await User.find().lean()
@@ -21,34 +10,34 @@ exports.getById = async id => await User.findById(id).lean()
 
 // Crear usuario
 exports.create = async data => {
-  const userData = { ...data }
-  if (userData.password) {
-    if (!validatePassword(userData.password)) {
-      throw new Error('La contraseña no cumple los requisitos mínimos')
-    }
-
-    userData.password = await bcrypt.encryptPassword(userData.password)
+  // Validación de contraseña: 8+ caracteres, Mayus, Minus, Número, Especial
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_!?,@#$%^&*()])[A-Za-z\d-_!?,@#$%^&*()]{8,}$/
+  if (!passwordRegex.test(data.password)) {
+    const error = new Error(
+      'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial (-_!?,@...)'
+    )
+    error.status = 400
+    throw error
   }
-  const newUser = new User(userData)
+
+  data.password = await bcrypt.hashPassword(data.password)
+  const newUser = new User(data)
   return await newUser.save()
 }
 
 // Actualizar usuario
-exports.update = async (id, data) => {
-  const userData = { ...data }
-  if (userData.password) {
-    userData.password = await bcrypt.encryptPassword(userData.password)
-  }
-  return await User.findByIdAndUpdate(id, userData, { new: true })
-}
+exports.update = async (id, data) =>
+  await User.findByIdAndUpdate(id, data, { new: true })
 
 // Eliminar usuario
 exports.delete = async id => await User.findByIdAndDelete(id)
 
 //Login
 exports.login = async (emailParam, passwordParam) => {
-  let userFound = null
-  userFound = await User.findOne({ email: emailParam }).select('+password') //Excepcion para devolver password sin seleccionarlo
+  const userFound = await User.findOne({ email: emailParam }).select(
+    '+password'
+  )
   if (userFound) {
     const validado = await bcrypt.compareLogin(
       passwordParam,
@@ -62,6 +51,8 @@ exports.login = async (emailParam, passwordParam) => {
           id: userFound._id,
           email: userFound.email,
           profile: userFound.profile,
+          firstName: userFound.firstName,
+          lastName: userFound.lastName,
         },
         process.env.JWT_SECRET,
         {

@@ -20,12 +20,15 @@
 
     <div class="actions">
       <a href="<%= baseUrlUsers %>" class="btn btn-back">⬅ Volver</a>
-      
-      <% if (locals.user && locals.user.profile === 'ADMINISTRADOR') { %>
-        <a href="<%= baseUrlUsers %>/edit/<%= user._id %>" class="btn btn-edit">Editar</a>
-        <form action="<%= baseUrlUsers %>/<%= user._id %>?_method=DELETE" method="POST" style="display: inline;">
-          <button class="btn btn-delete">Eliminar</button>
-        </form>
+
+      <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
+      <a href="<%= baseUrlUsers %>/edit/<%= user._id %>" class="btn btn-edit">Editar</a>
+      <% } %>
+
+      <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
+      <form action="<%= baseUrlUsers %>/<%= user._id %>?_method=DELETE" method="POST" style="display: inline;">
+        <button class="btn btn-delete">Eliminar</button>
+      </form>
       <% } %>
     </div>
   </div>

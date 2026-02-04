@@ -1,62 +1,66 @@
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
-const AppError = require("../utils/AppError");
+const jwt = require('jsonwebtoken')
+const appError = require('../utils/AppError')
 
-exports.verifyToken = (req, res, next) => {
-  let token = null;
+// Carga el usuario en locals sin bloquear la petición si no hay token
+exports.loadUser = (req, res, next) => {
+  let token = null
 
-  // 1. Buscar token en el header Authorization (API)
   if (
     req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
+    req.headers.authorization.startsWith('Bearer')
   ) {
-    token = req.headers.authorization.split(" ")[1];
+    token = req.headers.authorization.split(' ')[1]
+  } else if (req.cookies && req.cookies.token) {
+    token = req.cookies.token
   }
 
-  // 2. Buscar token en cookies (Vistas RSS)
-  if (!token && req.cookies && req.cookies.token) {
-    token = req.cookies.token;
-  }
-
-  // Si no hay token...
-  if (!token) {
-    // Si la ruta empieza por /api, devolvemos error JSON 401
-    if (req.originalUrl.startsWith("/api")) {
-      return next(new AppError("No se ha proporcionado un token", 401));
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      req.user = decoded
+      res.locals.currentUser = decoded
+    } catch (error) {
+      res.locals.currentUser = null
     }
-    // Si es una vista, redirigimos al login
-    return res.redirect("/users/rss/login");
+  } else {
+    res.locals.currentUser = null
+  }
+  next()
+}
+
+exports.verifyToken = (req, res, next) => {
+  if (req.user) {
+    res.locals.currentUser = req.user
+    return next()
+  }
+
+  let token = null
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1]
+  } else if (req.cookies && req.cookies.token) {
+    token = req.cookies.token
+  }
+
+  if (!token) {
+    if (req.originalUrl.includes('/views')) {
+      return res.redirect('/users/views/login')
+    }
+    return next(new appError('No se ha proporcionado un token', 401))
   }
 
   try {
-    // Validar el token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; //. payload --> req.user
-    res.locals.user = decoded; // Disponible en EJS
-    next(); //.TODO OK -> next()
+    let decoded = jwt.verify(token, process.env.JWT_SECRET)
+    req.user = decoded
+    res.locals.currentUser = decoded
+    next()
   } catch (error) {
-    if (req.originalUrl.startsWith("/api")) {
-      return next(new AppError("Token inválido o expirado", 401));
+    if (req.originalUrl.includes('/views')) {
+      res.clearCookie('token')
+      return res.redirect('/users/views/login')
     }
-    res.clearCookie("token");
-    res.redirect("/users/rss/login");
+    next(new appError('Token inválido o expirado', 401))
   }
-};
-
-exports.isAdmin = (req, res, next) => {
-  if (req.user && req.user.profile === "ADMINISTRADOR") {
-    return next();
-  }
-
-  const error = new AppError(
-    "No tienes permisos de administrador para realizar esta acción",
-    403,
-  );
-  error.source = "Autorización";
-
-  if (req.originalUrl.startsWith("/api")) {
-    return next(error);
-  }
-
-  next(error); // El middleware global de errores manejará el renderizado
-};
+}

@@ -45,10 +45,16 @@
 
     <div class="actions">
       <a href="<%= baseApi %>" class="btn btn-back">⬅ Volver</a>
+
+      <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
       <a href="<%= baseApi %>/<%= enrollment._id %>/edit" class="btn btn-edit">Editar</a>
+      <% } %>
+
+      <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
       <form action="<%= baseApi %>/<%= enrollment._id %>?_method=DELETE" method="POST" style="display: inline;">
         <button class="btn btn-delete">Eliminar</button>
       </form>
+      <% } %>
     </div>
   </div>
 </div>

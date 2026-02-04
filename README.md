@@ -2,12 +2,12 @@
 
 ## 🧑‍🤝‍🧑 Integrantes del grupo
 
-| Nombre completo  | Rol asumido en el grupo (opcional) |
-| ---------------- | ---------------------------------- |
-| Alejandro Puente | Desarrollador Full Stack           |
-| Alex Mico        | Desarrollador Full Stack           |
-| Sergio Martinez  | Desarrollador Full Stack           |
-| Jacbo Perez      | Desarrollador Full Stack           |
+| Nombre completo  | Rol asumido en el grupo (opcional)  |
+| ---------------  | ----------------------------------- |
+| Alejandro Puente | Desarrollador Full Stack            |
+| Alex Mico        | Desarrollador Full Stack            |
+| Sergio Martinez  | Desarrollador Full Stack            |
+| Jacbo Perez      | Desarrollador Full Stack            |
 
 ---
 
@@ -58,10 +58,10 @@ Resultado de `git shortlog --summary --numbered --all`:
   - Hizo las vistas de Users.
   - Desplego la maquina Linux Mint con la base de datos MongoDB.
   - Hizo user.api.controller.js y pruebas con un REST Client de users.
-
+ 
 - **Sergio**:
   - Hizo courses.api.controller.js y pruebas con un REST Client de courses.
-
+ 
 - **Jacob**:
   - Hizo enrollments.api.controller.js y pruebas con un REST Client de enrollments.
 
@@ -70,7 +70,6 @@ Resultado de `git shortlog --summary --numbered --all`:
   - Crear los partials de header y footer.
   - Crear el seeds.
   - Crear las rutas /api/ para hacer el swagger UI.
-
 ---
 
 ## 🧪 Testeo y pruebas
@@ -95,3 +94,4 @@ Resultado de `git shortlog --summary --numbered --all`:
 - Inicio del proyecto: 10/11/2025
 - Primer merge a develop: 11/10/2025
 - Finalización: 31/12/2025
+
