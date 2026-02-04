@@ -20,7 +20,7 @@
 
     <div class="actions">
       <a href="<%= baseUrlUsers %>" class="btn btn-back">⬅ Volver</a>
-      
+
       <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
       <a href="<%= baseUrlUsers %>/edit/<%= user._id %>" class="btn btn-edit">Editar</a>
       <% } %>
