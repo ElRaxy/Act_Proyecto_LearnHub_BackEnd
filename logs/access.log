@@ -93,3 +93,13 @@
 [6/2/2026, 16:19:24] POST /users/views/login 200 3960 - 144.578 ms
 [6/2/2026, 16:19:31] POST /users/views/login 302 41 - 208.320 ms
 [6/2/2026, 16:19:31] GET /users/views 200 8631 - 140.097 ms
+[6/2/2026, 16:24:57] GET /enrollments/views 200 3518 - 324.241 ms
+[6/2/2026, 16:25:06] GET /enrollments/views/69838a94757c0a2296982418 200 3706 - 262.788 ms
+[6/2/2026, 16:25:08] GET /enrollments/views/69838a94757c0a2296982418/edit 200 5055 - 1287.497 ms
+[6/2/2026, 16:25:38] PUT /enrollments/views/69838a94757c0a2296982418?_method=PUT 302 47 - 512.252 ms
+[6/2/2026, 16:25:38] GET /enrollments/views 200 3530 - 277.212 ms
+[6/2/2026, 16:30:10] GET /enrollments/views 200 3530 - 341.987 ms
+[6/2/2026, 16:30:12] GET /enrollments/views/69838a94757c0a2296982418 200 3733 - 251.088 ms
+[6/2/2026, 16:30:14] GET /enrollments/views/69838a94757c0a2296982418/edit 200 5060 - 493.087 ms
+[6/2/2026, 16:30:26] PUT /enrollments/views/69838a94757c0a2296982418?_method=PUT 302 47 - 503.525 ms
+[6/2/2026, 16:30:26] GET /enrollments/views 200 3530 - 260.965 ms
