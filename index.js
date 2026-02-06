@@ -8,6 +8,8 @@ const express = require('express')
 const methodOverride = require('method-override')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const fs = require('fs')
+const https = require('https')
 const session = require('express-session')
 const { usingMorgan } = require('./middlewares/morgan.mw')
 const { loadUser, verifyToken } = require('./middlewares/jwt.mw')
@@ -58,7 +60,30 @@ const baseUrlEnrollmentsRSS = `/enrollments/views`
 const mongodbConfig = require('./utils/mongodb.config')
 
 //SETUP - MIDDLEWARES
-app.use(cors())
+const whiteList = [
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'https://localhost:5173',
+  'https://127.0.0.1:5173',
+  'https://localhost:3010',
+  'https://127.0.0.1:3010',
+]
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    console.log(origin)
+    if (whiteList.includes(origin) || !origin) {
+      callback(null, true)
+    } else {
+      callback(new AppError('No pasarás!', 403))
+    }
+  },
+  credentials: true, //Envío COOKIES desde el BackEnd al FrontEnd
+}
+
+app.use(cors(corsOptions))
 app.use(cookieParser())
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
@@ -69,6 +94,12 @@ app.use(express.urlencoded({ extended: true }))
 //Leer datos JSON en request body POST
 app.use(express.json())
 app.use(methodOverride('_method'))
+
+// Configuración de HTTPS
+const httpsOptions = {
+  key: fs.readFileSync(path.join(__dirname, 'certs/localhost-2daw-2526.key')),
+  cert: fs.readFileSync(path.join(__dirname, 'certs/localhost-2daw-2526.crt')),
+}
 
 // Configuración de Morgan (Logs de consola y archivo)
 const morganMiddlewares = usingMorgan()
@@ -87,7 +118,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // Cambiar a true si es HTTPS
+      secure: true, // Cambiar a false si es HTTP
       maxAge: 30 * 60 * 1000, // 30 minutos (igual que el token)
     },
   })
@@ -132,7 +163,7 @@ app.use((req, res, next) => {
 app.use(errorHandler)
 
 //LEVANTAR EL SERVER
-app.listen(port, async () => {
+https.createServer(httpsOptions, app).listen(port, async () => {
   // Banner inicial con título y URLs del servidor y Swagger
   const topLine = '┌─────────────────────────────────────────────────────┐'
   const innerWidth = topLine.length - 2 // ancho sin las barras verticales
@@ -144,8 +175,8 @@ app.listen(port, async () => {
     topLine,
     `│${' '.repeat(titlePadding)}${title}${' '.repeat(titleRightPadding)}│`,
     `│${'─'.repeat(innerWidth)}│`,
-    `│  Servidor: http://localhost:${port}${' '.repeat(innerWidth - 0 - `  Servidor: http://localhost:${port}`.length)}│`,
-    `│  Swagger : http://localhost:${port}${process.env.SWAGGER_DOCS}${' '.repeat(innerWidth - 0 - `  Swagger : http://localhost:${port}${process.env.SWAGGER_DOCS}`.length)}│`,
+    `│  Servidor: https://localhost:${port}${' '.repeat(innerWidth - 0 - `  Servidor: https://localhost:${port}`.length)}│`,
+    `│  Swagger : https://localhost:${port}${process.env.SWAGGER_DOCS}${' '.repeat(innerWidth - 0 - `  Swagger : https://localhost:${port}${process.env.SWAGGER_DOCS}`.length)}│`,
     '└─────────────────────────────────────────────────────┘',
   ]
   console.log('\n' + banner.map(colorBannerLine).join('\n'))
@@ -175,12 +206,3 @@ app.listen(port, async () => {
     process.exit(0)
   }
 })
-
-// Limpiar consola cada 50 segundos y mostrar URLs principales
-// Limpiar consola cada 50 segundos y mostrar URLs principales (Opcional, desactivo para no borrar logs de Morgan)
-/*
-setInterval(() => {
-  console.clear()
-  ...
-}, 50000)
-*/
