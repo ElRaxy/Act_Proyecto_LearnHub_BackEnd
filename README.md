@@ -2,29 +2,29 @@
 
 ## 🧑‍🤝‍🧑 Integrantes del grupo
 
-| Nombre completo  | Rol asumido en el grupo (opcional)  |
-| ---------------  | ----------------------------------- |
-| Alejandro Puente | Desarrollador Full Stack            |
-| Alex Mico        | Desarrollador Full Stack            |
-| Sergio Martinez  | Desarrollador Full Stack            |
-| Jacbo Perez      | Desarrollador Full Stack            |
+| Nombre completo     | Rol asumido en el grupo |
+| ------------------- | ----------------------- |
+| Alejandro Puente    | Desarrollador Full Stack |
+| Alex Mico           | Desarrollador Full Stack |
+| Sergio Martínez     | Desarrollador Full Stack |
+| Jacob Pérez         | Desarrollador Full Stack |
 
 ---
 
 ## 🔀 Ramas utilizadas
 
-- main: rama principal
-- devAlejandro: rama de desarrollador 1
-- devAlex: rama de desarrollador 2
-- devSergio: rama de desarrollador 3
-- devJacob: rama de desarrollador 4
+- `main`: rama principal
+- `devAlejandro`: rama del desarrollador 1
+- `devAlex`: rama del desarrollador 2
+- `devSergio`: rama del desarrollador 3
+- `devJacob`: rama del desarrollador 4
 
 ---
 
 ## 📌 Estrategia de trabajo con Git
 
-- Cada alumno ha trabajado en su propia rama dev...
-- Se resolvieron conflictos manualmente en multiples ocasiones, documentadas en los commits.
+- Cada alumno ha trabajado en su propia rama de desarrollo (`dev...`).
+- Se resolvieron conflictos de merge manualmente en varias ocasiones, debidamente documentados en los commits.
 
 ---
 
@@ -33,12 +33,13 @@
 Resultado de `git shortlog --summary --numbered --all`:
 
 ```
-65  Alex Mico
-28  blanck-2024
-21  Alejandro Puente
- 4  JacobDawProyecto
- 4  sergiowin
- 2  Martinez1991Sergio
+ 84  Alex Mico
+ 30  blanck-2024
+ 21  Alejandro Puente
+  9  Alex
+  6  JacobDawProyecto
+  4  Martinez1991Sergio
+  4  sergiowin
 ```
 
 ---
@@ -47,51 +48,60 @@ Resultado de `git shortlog --summary --numbered --all`:
 
 - **Alex**:
   - Creó la estructura base del proyecto.
-  - Hizo los Models-Services-Controllers de Courses y Enrollments.
-  - Hizo las vistas de Courses y Enrollments.
-  - Realizó el archivo .env
-  - Hizo el archivo swagger.js
+  - Desarrolló los modelos, servicios y controladores de Courses y Enrollments.
+  - Implementó las vistas de Courses y Enrollments.
+  - Configuró el archivo `.env`.
+  - Implementó la documentación Swagger (`swagger.js`).
+  - Desarrolló el sistema de autenticación con JWT.
+  - Implementó el sistema de sesiones con `cookie-parser`.
+  - Implementó el sistema de autorización con perfiles diferenciados y protección de rutas.
 
 - **Alejandro**:
   - Creó la hoja de estilos CSS.
-  - Creo los Models-Services-Controllers de Users.
-  - Hizo las vistas de Users.
-  - Desplego la maquina Linux Mint con la base de datos MongoDB.
-  - Hizo user.api.controller.js y pruebas con un REST Client de users.
+  - Desarrolló los modelos, servicios y controladores de Users.
+  - Implementó las vistas de Users.
+  - Desplegó la máquina con Linux Mint y configuró la base de datos MongoDB.
+  - Desarrolló `user.api.controller.js` y realizó pruebas con un cliente REST para usuarios.
+  - Implementó logs enriquecidos de acceso y errores con Morgan.
+  - Implementó el sistema de autorización con perfiles diferenciados y protección de rutas.
  
 - **Sergio**:
-  - Hizo courses.api.controller.js y pruebas con un REST Client de courses.
+  - Desarrolló `courses.api.controller.js` y realizó pruebas con un cliente REST para cursos.
+  - Implementó el manejo avanzado de errores.
+  - Configuró CORS básico.
  
 - **Jacob**:
-  - Hizo enrollments.api.controller.js y pruebas con un REST Client de enrollments.
+  - Desarrolló `enrollments.api.controller.js` y realizó pruebas con un cliente REST para inscripciones.
+  - Implementó el cifrado de contraseñas en la base de datos.
 
 - **Todos**:
-  - Hacer el index JS.
-  - Crear los partials de header y footer.
-  - Crear el seeds.
-  - Crear las rutas /api/ para hacer el swagger UI.
+  - Desarrollaron el archivo `index.js`.
+  - Crearon los parciales (`partials`) de header y footer.
+  - Crearon los seeds de la base de datos.
+  - Crearon las rutas API (`/api/`) para la documentación con Swagger UI.
+  - Documentaron todas las pruebas realizadas en la aplicación.
+
 ---
 
 ## 🧪 Testeo y pruebas
 
-- Todas la funcionalidad ha sido probada.
-- No se han usado tests automatizados en esta fase, pero se considera para la siguiente entrega.
+- Toda la funcionalidad ha sido probada y validada.
+- No se han utilizado tests automatizados en esta fase, pero está previsto para futuras entregas.
 
 ---
 
 ## 🧠 Lecciones aprendidas
 
-- La importancia de trabajar con ramas separadas.
-- Cómo resolver conflictos de merge con VS Code.
-- Resolver errores en las vistas EJS.
-- Resolver errores en los JSON.
-- Aprender a usar GitHub.
+- La importancia de trabajar con ramas separadas para evitar conflictos.
+- Resolución de conflictos de merge mediante VS Code.
+- Depuración de errores en vistas EJS.
+- Validación y corrección de JSON.
+- Uso de GitHub como plataforma de control de versiones.
 
 ---
 
 ## 📅 Fechas clave
 
 - Inicio del proyecto: 10/11/2025
-- Primer merge a develop: 11/10/2025
-- Finalización: 31/12/2025
-
+- Primer merge a main: 11/10/2025
+- Finalización: 05/02/2026
