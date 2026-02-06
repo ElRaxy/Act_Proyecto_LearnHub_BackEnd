@@ -1,6 +1,1 @@
-[2026-02-02 11:42:19] [ERROR] error - Error Handler(500): Cannot destructure property 'email' of 'req.body' as it is undefined.
-[2026-02-02 11:42:30] [ERROR] error - Error Handler(404): La ruta '/api/v2/sfdgsdgdsgsddsgsdf' no existe
-[2026-02-02 11:44:55] [ERROR] error - Error Handler(404): La ruta '/api/v2/sfdgsdgdsgsddsgsdf' no existe
-[2026-02-02 11:45:50] [ERROR] error - Error Handler(404): La ruta '/api/v2/sfdgsdgdsgsddsgsdf' no existe
-[2026-02-02 11:45:54] [ERROR] error - Error Handler(404): La ruta '/api/v2/sfdgsdgdsgsddsgsdf' no existe
-[2026-02-02 11:47:10] [ERROR] error - Error Handler(404): La ruta '/api/v2/sfdgsdgdsgsddsgsdf' no existe
+[2026-02-06 16:17:42] [ERROR] error - Error Handler(403): No pasarás!
