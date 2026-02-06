@@ -14,5 +14,6 @@ exports.deleteCourse = async id =>
 
 exports.getAllCoursesByUser = async id =>
   await coursesModel.find({ userId: id }).lean()
+
 exports.getAllCoursesByEnrollment = async id =>
   await coursesModel.find({ enrollmentsId: id }).lean()
