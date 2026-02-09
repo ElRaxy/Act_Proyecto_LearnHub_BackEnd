@@ -136,6 +136,7 @@ exports.getById = wrapAsync(async (req, res, next) => {
   res.render('users/show', { user, baseUrlUsers })
 })
 exports.registerUser = wrapAsync(async (req, res, next) => {
+  const isProd = process.env.NODE_ENV === 'production'
   try {
     const newUserDoc = await userService.create(req.body)
 
@@ -148,8 +149,8 @@ exports.registerUser = wrapAsync(async (req, res, next) => {
       // Asegurar que guardamos en cookie Y sesión
       res.cookie('token', token, {
         httpOnly: true,
-        sameSite: 'lax',
-        secure: false,
+        sameSite: isProd ? 'none' : 'lax',
+        secure: isProd,
         path: '/',
         maxAge: 30 * 60 * 1000,
       })
@@ -210,6 +211,7 @@ exports.registerUser = wrapAsync(async (req, res, next) => {
 })
 
 exports.loginUser = wrapAsync(async (req, res, next) => {
+  const isProd = process.env.NODE_ENV === 'production'
   const { email, password } = req.body
   try {
     const userLogued = await userService.login(email, password)
@@ -217,8 +219,8 @@ exports.loginUser = wrapAsync(async (req, res, next) => {
       // Guardar token en cookie para persistencia
       res.cookie('token', userLogued.token, {
         httpOnly: true,
-        sameSite: 'lax',
-        secure: false,
+        sameSite: isProd ? 'none' : 'lax',
+        secure: isProd,
         path: '/',
         maxAge: 30 * 60 * 1000, // 30 minutos
       })

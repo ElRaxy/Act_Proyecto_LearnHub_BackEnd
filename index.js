@@ -1,169 +1,25 @@
 //REQUIRES / IMPORTS
 require('dotenv').config()
 
-const swaggerUI = require('swagger-ui-express')
-const swaggerSpec = require('./swagger/swagger.js')
-const path = require('path')
-const express = require('express')
-const methodOverride = require('method-override')
-const cors = require('cors')
-const cookieParser = require('cookie-parser')
-const fs = require('fs')
-const https = require('https')
-const session = require('express-session')
-const { usingMorgan } = require('./middlewares/morgan.mw')
-const { loadUser, verifyToken } = require('./middlewares/jwt.mw')
-const { errorHandler } = require('./middlewares/errorHandler.mw')
-const AppError = require('./utils/AppError')
+const http = require('http')
+const app = require('./app')
+const mongodbConfig = require('./utils/mongodb.config')
 
 // Códigos ANSI para colores en consola
 const COLORS = {
   reset: '\x1b[0m',
-  fgWhite: '\x1b[37m',
-  fgBrightWhite: '\x1b[97m',
-  fgBlue: '\x1b[34m',
   fgBrightBlue: '\x1b[94m',
-  fgGreen: '\x1b[32m',
   fgBrightGreen: '\x1b[92m',
-  fgRed: '\x1b[31m',
   fgBrightRed: '\x1b[91m',
-  fgCyan: '\x1b[36m',
-  fgBrightCyan: '\x1b[96m',
 }
 
 const colorBannerLine = line => `${COLORS.fgBrightBlue}${line}${COLORS.reset}`
 const colorSuccess = text => `${COLORS.fgBrightGreen}${text}${COLORS.reset}`
 const colorError = text => `${COLORS.fgBrightRed}${text}${COLORS.reset}`
 
-const port = process.env.PORT || process.env.PUERTO
-const app = express()
+const port = process.env.PORT || process.env.PUERTO || 3000
 
-// ROUTES
-const courseRssRoutes = require('./routes/course.routes')
-const enrollmentRssRoutes = require('./routes/enrollment.routes')
-const userRssRoutes = require('./routes/user.routes')
-
-const courseApiRoutes = require('./routes/api/course.api.routes.js')
-const enrollmentApiRoutes = require('./routes/api/enrollment.api.routes.js')
-const userApiRoutes = require('./routes/api/user.api.routes.js')
-
-// BASE URLS
-const baseUrlAPICourses = `/api/${process.env.API_VERSION}/courses`
-const baseUrlAPIEnrollments = `/api/${process.env.API_VERSION}/enrollments`
-const baseUrlAPIUsers = `/api/${process.env.API_VERSION}/users`
-
-const baseUrlUsersRSS = `/users/views`
-const baseUrlCoursesRSS = `/courses/views`
-const baseUrlEnrollmentsRSS = `/enrollments/views`
-
-//CONFIGURACIÓN - MONGODB
-const mongodbConfig = require('./utils/mongodb.config')
-
-//SETUP - MIDDLEWARES
-const whiteList = [
-  'http://localhost:5500',
-  'http://127.0.0.1:5500',
-  'http://localhost:5173',
-  'http://127.0.0.1:5173',
-  'https://localhost:5173',
-  'https://127.0.0.1:5173',
-  'https://localhost:3010',
-  'https://127.0.0.1:3010',
-]
-
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (origin) console.log('ORIGIN:', origin)
-    if (whiteList.includes(origin) || !origin) {
-      callback(null, true)
-    } else {
-      callback(new AppError('No pasarás!', 403))
-    }
-  },
-  credentials: true, //Envío COOKIES desde el BackEnd al FrontEnd
-}
-
-app.use(cors(corsOptions))
-app.use(cookieParser())
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
-app.set('json spaces', 2)
-app.use(express.static(path.join(__dirname, 'public')))
-//Para poder leer datos (request body) en métodos POST
-app.use(express.urlencoded({ extended: true }))
-//Leer datos JSON en request body POST
-app.use(express.json())
-app.use(methodOverride('_method'))
-
-// Configuración de HTTPS
-const httpsOptions = {
-  key: fs.readFileSync(path.join(__dirname, 'certs/localhost-2daw-2526.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'certs/localhost-2daw-2526.crt')),
-}
-
-// Configuración de Morgan (Logs de consola y archivo)
-const morganMiddlewares = usingMorgan()
-if (Array.isArray(morganMiddlewares)) {
-  morganMiddlewares.forEach(mw => app.use(mw))
-} else {
-  app.use(morganMiddlewares)
-}
-
-// Configuración de Sesión
-app.use(
-  session({
-    secret:
-      process.env.SESSION_SECRET ||
-      'ajkldfŋæßðđæ€@łgalñ{[½~[7|@#~|@#~@|~kd|@#~124',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: true, // Cambiar a false si es HTTP
-      maxAge: 30 * 60 * 1000, // 30 minutos (igual que el token)
-    },
-  })
-)
-
-//MIDDLEWARE para configurar VARIABLES GLOBALES en vistas EJS
-app.use(loadUser)
-app.use((req, res, next) => {
-  res.locals.tituloEJS = 'LearnHub'
-  next()
-})
-
-// Configuración de Swagger
-app.use(
-  process.env.SWAGGER_DOCS || '/api-docs',
-  swaggerUI.serve,
-  swaggerUI.setup(swaggerSpec)
-)
-
-//DEFINIR RUTAS
-// Raíz
-app.get('/', verifyToken, (req, res) => {
-  res.render('home')
-})
-
-// API
-app.use(baseUrlAPIUsers, userApiRoutes) // devuelven JSON
-app.use(baseUrlAPICourses, courseApiRoutes)
-app.use(baseUrlAPIEnrollments, enrollmentApiRoutes)
-
-// VISTAS
-app.use(baseUrlUsersRSS, userRssRoutes) // renderiza Vistas EJS
-app.use(baseUrlCoursesRSS, courseRssRoutes)
-app.use(baseUrlEnrollmentsRSS, enrollmentRssRoutes)
-
-// 404 Handler - Si ninguna ruta coincide
-app.use((req, res, next) => {
-  next(new AppError(`La ruta '${req.originalUrl}' no existe`, 404))
-})
-
-// Middleware global de errores avanzado
-app.use(errorHandler)
-
-//LEVANTAR EL SERVER
-https.createServer(httpsOptions, app).listen(port, async () => {
+http.createServer(app).listen(port, async () => {
   // Banner inicial con título y URLs del servidor y Swagger
   const topLine = '┌─────────────────────────────────────────────────────┐'
   const innerWidth = topLine.length - 2 // ancho sin las barras verticales
@@ -171,12 +27,14 @@ https.createServer(httpsOptions, app).listen(port, async () => {
   const titlePadding = Math.floor((innerWidth - title.length) / 2)
   const titleRightPadding = innerWidth - titlePadding - title.length
 
+  const baseSwagger = process.env.SWAGGER_DOCS || '/api-docs'
+
   const banner = [
     topLine,
     `│${' '.repeat(titlePadding)}${title}${' '.repeat(titleRightPadding)}│`,
     `│${'─'.repeat(innerWidth)}│`,
-    `│  Servidor: https://localhost:${port}${' '.repeat(innerWidth - 0 - `  Servidor: https://localhost:${port}`.length)}│`,
-    `│  Swagger : https://localhost:${port}${process.env.SWAGGER_DOCS}${' '.repeat(innerWidth - 0 - `  Swagger : https://localhost:${port}${process.env.SWAGGER_DOCS}`.length)}│`,
+    `│  Servidor: http://localhost:${port}${' '.repeat(innerWidth - 0 - `  Servidor: http://localhost:${port}`.length)}│`,
+    `│  Swagger : http://localhost:${port}${baseSwagger}${' '.repeat(innerWidth - 0 - `  Swagger : http://localhost:${port}${baseSwagger}`.length)}│`,
     '└─────────────────────────────────────────────────────┘',
   ]
   console.log('\n' + banner.map(colorBannerLine).join('\n'))
