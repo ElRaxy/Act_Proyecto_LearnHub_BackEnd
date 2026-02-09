@@ -1,1 +1,4 @@
 [2026-02-06 16:17:42] [ERROR] error - Error Handler(403): No pasarás!
+[2026-02-06 17:01:16] [ERROR] error - Error Handler(401): No se ha proporcionado un token
+[2026-02-06 17:02:18] [ERROR] error - Error Handler(401): No se ha proporcionado un token
+[2026-02-06 17:05:51] [ERROR] error - Error Handler(400): Unexpected token 'n', "null" is not valid JSON
