@@ -74,4 +74,3 @@ exports.usingMorgan = () => {
   morgan.format('console-format', consoleFormat)
   return morgan(consoleFormat)
 }
-n

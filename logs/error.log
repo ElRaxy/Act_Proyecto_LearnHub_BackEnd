@@ -1,1 +1,3 @@
-[2026-02-06 16:17:42] [ERROR] error - Error Handler(403): No pasarás!
+[2026-02-09 20:27:10] [ERROR] error - Error Handler(500): next is not defined
+[2026-02-09 20:27:19] [ERROR] error - Error Handler(500): next is not defined
+[2026-02-09 20:49:24] [ERROR] error - Error Handler(401): Usuario y/o contraseña incorrecta
