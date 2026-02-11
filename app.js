@@ -16,6 +16,7 @@ const AppError = require('./utils/AppError')
 
 const app = express()
 const isProd = process.env.NODE_ENV === 'production'
+const apiVersion = process.env.API_VERSION || 'v1'
 
 // ROUTES
 const courseRssRoutes = require('./routes/course.routes')
@@ -27,9 +28,9 @@ const enrollmentApiRoutes = require('./routes/api/enrollment.api.routes.js')
 const userApiRoutes = require('./routes/api/user.api.routes.js')
 
 // BASE URLS
-const baseUrlAPICourses = `/api/${process.env.API_VERSION}/courses`
-const baseUrlAPIEnrollments = `/api/${process.env.API_VERSION}/enrollments`
-const baseUrlAPIUsers = `/api/${process.env.API_VERSION}/users`
+const baseUrlAPICourses = `/api/${apiVersion}/courses`
+const baseUrlAPIEnrollments = `/api/${apiVersion}/enrollments`
+const baseUrlAPIUsers = `/api/${apiVersion}/users`
 
 const baseUrlUsersRSS = `/users/views`
 const baseUrlCoursesRSS = `/courses/views`

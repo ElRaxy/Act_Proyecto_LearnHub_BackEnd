@@ -1,7 +1,8 @@
 const enrollmentService = require('../../services/enrollment.service')
 const userService = require('../../services/user.service')
 const courseService = require('../../services/course.service')
-const baseUrlEnrollments = `/api/${process.env.API_VERSION}/enrollments`
+const apiVersion = process.env.API_VERSION || 'v1'
+const baseUrlEnrollments = `/api/${apiVersion}/enrollments`
 
 // Listar todas las matrículas
 exports.getAllEnrollments = async (req, res) => {
