@@ -1,7 +1,7 @@
 const enrollmentService = require('../../services/enrollment.service')
 const userService = require('../../services/user.service')
 const courseService = require('../../services/course.service')
-const apiVersion = process.env.API_VERSION || 'v1'
+const apiVersion = process.env.API_VERSION || 'v2'
 const baseUrlEnrollments = `/api/${apiVersion}/enrollments`
 
 // Listar todas las matrículas

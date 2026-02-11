@@ -20,7 +20,7 @@ const options = {
         description: 'Servidor local de desarrollo',
         variables: {
           version: {
-            default: process.env.API_VERSION || 'v1',
+            default: process.env.API_VERSION || 'v2',
             description: 'Versión de la API',
           },
         },

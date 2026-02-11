@@ -1,6 +1,6 @@
 const Course = require('../../models/courses.model')
 const courseService = require('../../services/course.service')
-const apiVersion = process.env.API_VERSION || 'v1'
+const apiVersion = process.env.API_VERSION || 'v2'
 const baseUrlCourses = `/api/${apiVersion}/courses`
 
 // GET ALL COURSES (vista)

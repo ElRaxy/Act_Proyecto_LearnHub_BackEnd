@@ -16,7 +16,7 @@ const AppError = require('./utils/AppError')
 
 const app = express()
 const isProd = process.env.NODE_ENV === 'production'
-const apiVersion = process.env.API_VERSION || 'v1'
+const apiVersion = process.env.API_VERSION || 'v2'
 
 // ROUTES
 const courseRssRoutes = require('./routes/course.routes')
