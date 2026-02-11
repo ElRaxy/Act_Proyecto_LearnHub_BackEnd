@@ -63,13 +63,14 @@ exports.registerUser = wrapAsync(async (req, res, next) => {
 });
 
 exports.loginUser = wrapAsync(async (req, res, next) => {
+  const isProd = process.env.NODE_ENV === "production";
   const { email, password } = req.body;
   const userLogued = await userService.login(email, password);
   if (userLogued) {
     res.cookie("token", userLogued.token, {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
+      sameSite: isProd ? "none" : "lax",
+      secure: isProd,
       maxAge: 30 * 60 * 1000, // 30 minutos
     });
 

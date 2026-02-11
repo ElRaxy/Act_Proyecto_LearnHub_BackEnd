@@ -4,7 +4,8 @@ const fs = require('fs')
 const path = require('path')
 
 const logsFolder = process.env.LOGS_FOLDER || './logs/'
-const logsActivos = process.env.LOGS_ACTIVOS === 'true'
+const runningOnVercel = process.env.VERCEL === '1'
+const logsActivos = process.env.LOGS_ACTIVOS === 'true' && !runningOnVercel
 
 // Asegurar que la carpeta de logs exista
 if (logsActivos && !fs.existsSync(logsFolder)) {
