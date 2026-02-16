@@ -37,9 +37,39 @@ const baseUrlCoursesRSS = `/courses/views`
 const baseUrlEnrollmentsRSS = `/enrollments/views`
 
 //SETUP - MIDDLEWARES
+const parseCsv = csv =>
+  (csv || '')
+    .split(',')
+    .map(value => value.trim())
+    .filter(Boolean)
+
+const parseRegexSource = regexValue => {
+  const value = (regexValue || '').trim()
+  if (!value) return ''
+
+  const hasSlashWrapper =
+    value.startsWith('/') && value.lastIndexOf('/') > value.indexOf('/')
+  if (!hasSlashWrapper) return value
+
+  return value.slice(1, value.lastIndexOf('/'))
+}
+
 const extraOrigins = []
+extraOrigins.push(...parseCsv(process.env.FRONTEND_URLS))
 if (process.env.FRONTEND_URL) extraOrigins.push(process.env.FRONTEND_URL)
 if (process.env.VERCEL_URL) extraOrigins.push(`https://${process.env.VERCEL_URL}`)
+
+const defaultPreviewRegex = '^https://learn-hub-[a-z0-9-]+\\.vercel\\.app$'
+const previewRegexSource =
+  parseRegexSource(process.env.FRONTEND_PREVIEW_REGEX) || defaultPreviewRegex
+
+let previewOriginRegex = null
+try {
+  previewOriginRegex = new RegExp(previewRegexSource)
+} catch (error) {
+  console.error('FRONTEND_PREVIEW_REGEX invalido. Usando valor por defecto.')
+  previewOriginRegex = new RegExp(defaultPreviewRegex)
+}
 
 const whiteList = [
   'http://localhost:5500',
@@ -52,13 +82,15 @@ const whiteList = [
   'https://127.0.0.1:5173',
   'https://localhost:3010',
   'https://127.0.0.1:3010',
-  ...extraOrigins,
+  ...extraOrigins.map(origin => origin && origin.trim()),
 ].filter(Boolean)
 
 const corsOptions = {
   origin: (origin, callback) => {
     if (origin) console.log('ORIGIN:', origin)
-    if (whiteList.includes(origin) || !origin) {
+    const isAllowedPreviewOrigin =
+      typeof origin === 'string' && previewOriginRegex.test(origin)
+    if (whiteList.includes(origin) || isAllowedPreviewOrigin || !origin) {
       callback(null, true)
     } else {
       callback(new AppError('No pasarás!', 403))
@@ -68,6 +100,7 @@ const corsOptions = {
 }
 
 app.set('trust proxy', 1)
+app.options(/.*/, cors(corsOptions))
 app.use(cors(corsOptions))
 app.use(cookieParser())
 app.set('views', path.join(__dirname, 'views'))
