@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+
+<div class="wrap">
+  <h1>Editar Usuario</h1>
+
+  <form action="<%= baseUrlUsers %>/<%= user._id %>?_method=PUT" method="POST" class="form-card">
+    <div class="form-group">
+      <label for="firstName">Nombre</label>
+      <input type="text" name="firstName" id="firstName" value="<%= user.firstName %>" required />
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Apellido</label>
+      <input type="text" name="lastName" id="lastName" value="<%= user.lastName %>" required />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" value="<%= user.email %>" required />
+    </div>
+
+    <div class="form-group">
+      <label for="dni">DNI</label>
+      <input type="text" name="dni" id="dni" value="<%= user.dni %>" required />
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Teléfono</label>
+      <input type="text" name="phone" id="phone" value="<%= user.phone %>" required />
+    </div>
+
+    <div class="form-group">
+      <label for="birthDate">Fecha de Nacimiento</label>
+      <input type="date" name="birthDate" id="birthDate" value="<%= user.birthDate.toISOString().split('T')[0] %>" required />
+    </div>
+
+    <div class="form-group">
+      <label for="profile">Perfil</label>
+      <select name="profile" id="profile" required>
+        <option value="ADMINISTRADOR" <%= user.profile === 'ADMINISTRADOR' ? 'selected' : '' %>>Administrador</option>
+        <option value="PROFESOR" <%= user.profile === 'PROFESOR' ? 'selected' : '' %>>Profesor</option>
+        <option value="ALUMNO" <%= user.profile === 'ALUMNO' ? 'selected' : '' %>>Alumno</option>
+      </select>
+    </div>
+
+    <a href="<%= baseUrlUsers %>" class="btn btn-back" style="margin-top: 1.5rem;"><i class="fa-solid fa-arrow-left"></i> Volver</a>
+
+    <button type="submit" class="btn btn-edit" style="margin-top: 1.5rem;">
+      <i class="fa-solid fa-save"></i> Guardar Cambios
+    </button>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

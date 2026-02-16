@@ -1,0 +1,52 @@
+<footer>
+  <p>© <%= new Date().getFullYear() %> LearnHub – Alex & Alejandro & Sergio & Jacob</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  // Intercepta todos los botones de eliminar
+  document.querySelectorAll('.btn-delete').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault()
+
+      const form = btn.closest('form')
+
+      if (!form) return
+
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        background: '#0f172a',
+        color: '#dbe9ff',
+        confirmButtonColor: '#4d8fff',
+        iconColor: '#4d8fff',
+        customClass: {
+          cancelButton: 'swal2-cancel-btn'
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit()
+        }
+      })
+    })
+  })
+</script>
+
+<style>
+  .swal2-cancel-btn {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #4d8fff !important;
+  }
+
+  .swal2-cancel-btn:hover {
+    background-color: #f0f4ff !important;
+  }
+</style>
+
+</body>
+</html>

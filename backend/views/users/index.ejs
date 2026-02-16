@@ -1,0 +1,53 @@
+<%- include('../partials/header') %>
+
+<div class="wrap fadeUp" style="--d: 0.2s">
+  <h1>Usuarios</h1>
+
+  <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
+  <div class="actions">
+    <a href="<%= baseUrlUsers %>/new" class="btn btn-add">Crear nuevo usuario</a>
+  </div>
+  <% } %>
+
+  <div class="table-container">
+    <table class="courses-table">
+      <thead>
+        <tr>
+          <th>DNI</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Perfil</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% users.forEach(userItem => { %>
+        <tr>
+          <td data-label="DNI"><%= userItem.dni %></td>
+          <td data-label="Nombre"><%= userItem.firstName %></td>
+          <td data-label="Apellido"><%= userItem.lastName %></td>
+          <td data-label="Perfil"><%= userItem.profile %></td>
+          <td data-label="Acciones">
+            <a href="<%= baseUrlUsers %>/show/<%= userItem._id %>" class="btn btn-edit">Ver</a>
+
+            <% if (locals.currentUser && (locals.currentUser.profile === 'ADMINISTRADOR' || locals.currentUser.profile === 'PROFESOR')) { %>
+            <a href="<%= baseUrlUsers %>/edit/<%= userItem._id %>" class="btn btn-edit">Editar</a>
+            <% } %>
+
+            <% if (locals.currentUser && locals.currentUser.profile === 'ADMINISTRADOR') { %>
+            <form action="<%= baseUrlUsers %>/<%= userItem._id %>?_method=DELETE" method="POST" style="display: inline">
+              <button class="btn btn-delete">Borrar</button>
+            </form>
+            <% } %>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="alert" class="custom-alert" style="display: none"></div>
+</div>
+
+<%- include('../partials/footer') %>
