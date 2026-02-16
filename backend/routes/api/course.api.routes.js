@@ -7,8 +7,6 @@ const { authorize } = require('../../middlewares/role.mw')
 // API JSON
 router.get(
   '/',
-  verifyToken,
-  authorize('ADMINISTRADOR', 'PROFESOR', 'ALUMNO'),
   courseApiController.getAllCourses
 )
 router.post(
@@ -19,8 +17,6 @@ router.post(
 )
 router.get(
   '/show/:id',
-  verifyToken,
-  authorize('ADMINISTRADOR', 'PROFESOR', 'ALUMNO'),
   courseApiController.getCourseById
 )
 router.put(

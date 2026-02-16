@@ -1,4 +1,5 @@
-require('dotenv').config()
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const mongoose = require('mongoose')
 const coursesModel = require('../models/courses.model')
 const userModel = require('../models/user.model')
@@ -7,6 +8,11 @@ const bcrypt = require('../utils/bcrypt')
 
 // conectar MongoDB (sin opciones deprecated)
 const conectarMongoDB = async () => {
+  if (!process.env.MONGODB_CONSTRING) {
+    throw new Error(
+      'MONGODB_CONSTRING no está definida. Revisa backend-learnhub/.env'
+    )
+  }
   return mongoose.connect(process.env.MONGODB_CONSTRING)
 }
 
